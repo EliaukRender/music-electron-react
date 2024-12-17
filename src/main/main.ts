@@ -18,7 +18,7 @@ import {
 } from 'electron-extension-installer';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-import { windowMessageHandler } from './modules/windowMessage';
+import { windowUIHandler } from './ipcMain/windowUIHandler';
 
 class AppUpdater {
   constructor() {
@@ -74,13 +74,14 @@ const createWindow = async () => {
   };
 
   mainWindow = new BrowserWindow({
-    show: false,
-    width: 1024,
-    height: 728,
+    width: 1200,
+    height: 800,
     frame: false, // 隐藏窗口的工具栏
-    transparent: true, // 设置窗口透明，可以让背景显示为透明
+    transparent: false, // 窗口是否透明
     icon: getAssetPath('icon.png'),
+    fullscreen: false,
     webPreferences: {
+      nodeIntegration: true,
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
@@ -89,6 +90,7 @@ const createWindow = async () => {
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 
+  // ready-to-show事件后显示窗口将没有视觉闪烁
   mainWindow.on('ready-to-show', () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
@@ -132,9 +134,13 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(() => {
-    createWindow();
-
-    windowMessageHandler();
+    createWindow()
+      .then(() => {
+        windowUIHandler(mainWindow!);
+      })
+      .catch((err) => {
+        console.log('createWindow error!', err);
+      });
 
     app.on('activate', () => {
       if (mainWindow === null) createWindow();

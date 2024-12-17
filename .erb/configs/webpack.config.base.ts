@@ -40,7 +40,7 @@ const configuration: webpack.Configuration = {
   },
 
   /**
-   * Determine the array of extensions that should be used to resolve modules.
+   * Determine the array of extensions that should be used to resolve ipcMain.
    */
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],

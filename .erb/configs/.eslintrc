@@ -2,6 +2,12 @@
   "rules": {
     "no-console": "off",
     "global-require": "off",
-    "import/no-dynamic-require": "off"
+    "import/no-dynamic-require": "off",
+    /* 只有一个export时允许不允许导出 */
+    "import/prefer-default-export": "off",
+    /* 没使用的变量不报错 */
+    "@typescript-eslint/no-unused-vars": "off",
+    /* button按钮不定义type类型 */
+    "react/button-has-type": "off"
   }
 }

@@ -1,17 +1,33 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css';
-import { maxAppWindow } from './ipcRenderer/windowMessage';
+import React from 'react';
+import windowUIEmitter from './ipcRenderer/windowUIEmitter';
 
 function HOME() {
   return (
     <div>
       <button
+        type="button"
         onClick={() => {
-          maxAppWindow();
+          windowUIEmitter.maxApp();
         }}
       >
-        max app
+        max
       </button>
+      <button
+        onClick={() => {
+          windowUIEmitter.minApp();
+        }}
+      >
+        min
+      </button>
+      <button
+        onClick={() => {
+          windowUIEmitter.fullApp();
+        }}
+      >
+        full
+      </button>
+      <div style={{ fontSize: '100px' }}>music</div>
     </div>
   );
 }
