@@ -1,25 +1,18 @@
-## Install
+## 安装依赖
 ```bash
 yarn install
 ```
 **Having issues installing? See our [debugging guide](https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/400)**
 
-## Starting Development
-
-Start the app in the `dev` environment:
-
+## 开发调试
 ```bash
-npm start
+yarn start  #开发环境
 ```
 
-## Packaging for Production
-
-To package apps for the local platform:
-
+## 构建打包
 ```bash
-npm run package
+yarn  #生产环境
 ```
 
-## 官方文档
-
-See our [docs and guides here](https://electron-react-boilerplate.js.org/docs/installation)
+## 模板官方文档
+https://electron-react-boilerplate.js.org/docs/installation

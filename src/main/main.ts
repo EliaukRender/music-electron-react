@@ -9,15 +9,16 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import MenuBuilder from './menu';
-import { resolveHtmlPath } from './util';
 import {
   installExtension,
   REACT_DEVELOPER_TOOLS,
 } from 'electron-extension-installer';
+import MenuBuilder from './menu';
+import { resolveHtmlPath } from './util';
+import { windowMessageHandler } from './modules/windowMessage';
 
 class AppUpdater {
   constructor() {
@@ -28,12 +29,6 @@ class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
-
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
-});
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -62,6 +57,9 @@ const installExtensions = async () => {
   }
 };
 
+/**
+ * @description: 创建窗口实例
+ */
 const createWindow = async () => {
   if (isDebug) {
     await installExtensions();
@@ -79,6 +77,8 @@ const createWindow = async () => {
     show: false,
     width: 1024,
     height: 728,
+    frame: false, // 隐藏窗口的工具栏
+    transparent: true, // 设置窗口透明，可以让背景显示为透明
     icon: getAssetPath('icon.png'),
     webPreferences: {
       preload: app.isPackaged
@@ -121,7 +121,6 @@ const createWindow = async () => {
 /**
  * Add event listeners...
  */
-
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
@@ -134,9 +133,10 @@ app
   .whenReady()
   .then(() => {
     createWindow();
+
+    windowMessageHandler();
+
     app.on('activate', () => {
-      // On macOS it's common to re-create a window in the app when the
-      // dock icon is clicked and there are no other windows open.
       if (mainWindow === null) createWindow();
     });
   })
