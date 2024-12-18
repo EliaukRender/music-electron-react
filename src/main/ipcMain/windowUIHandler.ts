@@ -20,7 +20,12 @@ export const windowUIHandler = (mainWindow: BrowserWindow) => {
       console.error('窗口不存在');
       return;
     }
-    mainWindow.maximize();
+    const isMax = mainWindow.isMaximized();
+    if (isMax) {
+      mainWindow.restore();
+    } else {
+      mainWindow.maximize();
+    }
   });
 
   // 最小化
@@ -29,6 +34,15 @@ export const windowUIHandler = (mainWindow: BrowserWindow) => {
       console.error('窗口不存在');
       return;
     }
-    mainWindow.unmaximize();
+    mainWindow.minimize();
+  });
+
+  // 最小化
+  ipcMain.on(WindowUIEvent.CLOSE_APP, (event, data) => {
+    if (!mainWindow) {
+      console.error('窗口不存在');
+      return;
+    }
+    mainWindow.close();
   });
 };

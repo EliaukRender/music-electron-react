@@ -77,8 +77,8 @@ const createWindow = async () => {
     width: 1200,
     height: 800,
     frame: false, // 隐藏窗口的工具栏
-    transparent: false, // 窗口是否透明
-    icon: getAssetPath('icon.png'),
+    transparent: true, // 窗口是否透明
+    icon: getAssetPath('user-icon.png'),
     fullscreen: false,
     webPreferences: {
       nodeIntegration: true,

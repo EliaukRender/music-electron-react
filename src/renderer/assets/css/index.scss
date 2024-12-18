@@ -1,1 +1,25 @@
+/*
+    统一管理导入项目的css
+ */
 @use "./reset.scss";
+@import "../iconfont/iconfont.css";
+
+
+/*
+    自定义字体
+*/
+@font-face {
+  font-family: 'Alimama';
+  src: local('Alimama'), url(../fonts/AlimamaFangYuanTiVF-Thin.ttf) format('truetype');
+  /* 可以根据需要添加更多的字体格式，如 woff、woff2 */
+}
+
+/*
+    iconfont默认字体大小24px
+*/
+.iconfont {
+  font-size: 24px;
+  color: #666666;
+  line-height: 24px;
+}
+

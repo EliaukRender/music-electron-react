@@ -9,6 +9,16 @@
     /* 没使用的变量不报错 */
     "@typescript-eslint/no-unused-vars": "off",
     /* button按钮不定义type类型 */
-    "react/button-has-type": "off"
+    "react/button-has-type": "off",
+    /* 标签允许不需要自闭合 */
+    "react/self-closing-comp": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "react/function-component-definition": [
+      "error",
+      {
+        "named": "function-declaration", // 强制使用函数声明
+        "unnamed": "arrow-function"     // 允许使用箭头函数（对于匿名函数）
+      }
+    ]
   }
 }

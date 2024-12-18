@@ -25,5 +25,11 @@ yarn start  #开发环境
 yarn package #生产环境
 ```
 
-## 4、模板官方文档
+## 4、常用指令
+```bash
+# 重置git代理
+git config --global --get http.proxy
+git config --global --get https.proxy
+```
+## 5、模板官方文档
 https://electron-react-boilerplate.js.org/docs/installation

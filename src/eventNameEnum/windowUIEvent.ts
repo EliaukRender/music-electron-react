@@ -5,6 +5,7 @@ enum WindowUIEvent {
   MAX_APP = 'max_app',
   MIN_APP = 'min_app',
   FULL_APP = 'full_app',
+  CLOSE_APP = 'close_app',
 }
 
 export default WindowUIEvent;

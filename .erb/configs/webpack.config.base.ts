@@ -46,7 +46,9 @@ const configuration: webpack.Configuration = {
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
     modules: [webpackPaths.srcPath, 'node_modules'],
     // There is no need to add aliases here, the paths in tsconfig get mirrored
-    plugins: [new TsconfigPathsPlugins()],
+    plugins: [
+      new TsconfigPathsPlugins(),
+    ] /* 这个插件让tsconfig中配置路径的别名即能被webpack解析 */,
   },
 
   plugins: [

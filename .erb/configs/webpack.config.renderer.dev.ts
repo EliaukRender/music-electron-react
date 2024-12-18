@@ -128,7 +128,7 @@ const configuration: webpack.Configuration = {
     new webpack.NoEmitOnErrorsPlugin(),
 
     /**
-     * Create global constants which can be configured at compile time.
+     * Create global constant which can be configured at compile time.
      *
      * Useful for allowing different behaviour between development builds and
      * release builds
