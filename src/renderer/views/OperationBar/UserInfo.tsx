@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { UserInfoStyles } from '@/renderer/views/Layout/components/styles/UserInfoStyles';
+import { UserInfoStyles } from '@/renderer/views/OperationBar/styles/UserInfoStyles';
 
 /**
  * @description: 用户个人信息

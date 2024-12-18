@@ -6,7 +6,6 @@ import WindowUIEvent from '../../eventNameEnum/windowUIEvent';
  */
 export default {
   dragApp: (data: WindowPositionType) => {
-    console.log('data', data);
     window.electron.ipcRenderer.sendMessage(WindowUIEvent.DRAG_APP, data);
   },
 };

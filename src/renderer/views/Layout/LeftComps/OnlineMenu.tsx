@@ -1,4 +1,4 @@
-import MenuItem from '@/renderer/views/Layout/components/MenuItem';
+import MenuItem from '@/renderer/views/components/MenuItem/MenuItem';
 import { MenuItemType } from '@/renderer/views/Layout/types';
 import { OnlineMenuStyles } from '@/renderer/views/Layout/LeftComps/styles/OnlineMenuStyles';
 

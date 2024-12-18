@@ -4,6 +4,10 @@
 import { BrowserWindow, ipcMain } from 'electron';
 import WindowUIEvent from '../../eventNameEnum/windowUIEvent';
 
+const uiStateData = {
+  isFullScreen: false, // 主窗口的全屏状态
+};
+
 export const windowUIHandler = (mainWindow: BrowserWindow) => {
   // 全屏切换
   ipcMain.on(WindowUIEvent.FULL_APP, (event, data) => {
@@ -11,13 +15,21 @@ export const windowUIHandler = (mainWindow: BrowserWindow) => {
       console.error('窗口不存在');
       return;
     }
-    const isFull = mainWindow.isFullScreen();
-    console.log('isFull', isFull);
-    mainWindow.setFullScreen(!isFull);
+    mainWindow.setFullScreen(!uiStateData.isFullScreen);
+  });
+
+  // 主窗口进入全屏
+  mainWindow.on('enter-full-screen', () => {
+    uiStateData.isFullScreen = true;
+  });
+
+  // 主窗口退出全屏
+  mainWindow.on('leave-full-screen', () => {
+    uiStateData.isFullScreen = false;
   });
 
   // 最大化
-  ipcMain.on(WindowUIEvent.MAX_APP, (event, data) => {
+  ipcMain.handle(WindowUIEvent.MAX_APP, (event, data) => {
     if (!mainWindow) {
       console.error('窗口不存在');
       return;
@@ -26,9 +38,10 @@ export const windowUIHandler = (mainWindow: BrowserWindow) => {
     console.log('isMax', isMax);
     if (isMax) {
       mainWindow.unmaximize();
-    } else {
-      mainWindow.maximize();
+      return false;
     }
+    mainWindow.maximize();
+    return true;
   });
 
   // 最小化
@@ -40,7 +53,7 @@ export const windowUIHandler = (mainWindow: BrowserWindow) => {
     mainWindow.minimize();
   });
 
-  // 最小化
+  // 关闭APP
   ipcMain.on(WindowUIEvent.CLOSE_APP, (event, data) => {
     if (!mainWindow) {
       console.error('窗口不存在');

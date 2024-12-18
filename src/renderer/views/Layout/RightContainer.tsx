@@ -1,4 +1,4 @@
-import OperationBar from '@/renderer/views/Layout/components/OperationBar/OperationBar';
+import OperationBar from '@/renderer/views/OperationBar/OperationBar';
 import { RightContainerStyles } from './styles/RightContainerStyles';
 
 /**

@@ -6,6 +6,10 @@ export const LogoInfoStyles = styled.div`
   align-items: center;
   padding-bottom: 25px;
 
+  .img {
+    width: 36px;
+  }
+
   .title {
     margin-left: 10px;
     font-size: 22px;

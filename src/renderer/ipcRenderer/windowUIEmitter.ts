@@ -5,8 +5,16 @@ import WindowUIEvent from '../../eventNameEnum/windowUIEvent';
  */
 export default {
   // 最大化app窗口
-  maxApp: () => {
-    window.electron.ipcRenderer.sendMessage(WindowUIEvent.MAX_APP);
+  maxApp: async (): Promise<boolean> => {
+    try {
+      const res = await window.electron.ipcRenderer.invoke(
+        WindowUIEvent.MAX_APP,
+      );
+      return res as boolean;
+    } catch (e) {
+      console.error('maxApp error!', e);
+      return false;
+    }
   },
 
   // 最小化app窗口
@@ -19,7 +27,7 @@ export default {
     window.electron.ipcRenderer.sendMessage(WindowUIEvent.FULL_APP);
   },
 
-  // 关闭窗口
+  // 关闭APP
   closeApp: () => {
     window.electron.ipcRenderer.sendMessage(WindowUIEvent.CLOSE_APP);
   },

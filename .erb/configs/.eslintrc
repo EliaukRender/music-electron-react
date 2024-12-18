@@ -14,12 +14,9 @@
     "react/self-closing-comp": "off",
     "jsx-a11y/click-events-have-key-events": "off",
     "no-use-before-define": "off",
-    "react/function-component-definition": [
-      "error",
-      {
-        "named": "function-declaration", // 强制使用函数声明
-        "unnamed": "arrow-function"     // 允许使用箭头函数（对于匿名函数）
-      }
-    ]
+    "consistent-return": "off",
+    "import/order": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "react/function-component-definition": "off"
   }
 }

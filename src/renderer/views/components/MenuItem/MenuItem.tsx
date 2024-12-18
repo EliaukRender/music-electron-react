@@ -1,4 +1,4 @@
-import { MenuItemStyles } from '@/renderer/views/Layout/components/styles/MenuItemStyles';
+import { MenuItemStyles } from '@/renderer/views/components/MenuItem/MenuItemStyles';
 import React, { memo } from 'react';
 import { MenuItemType } from '@/renderer/views/Layout/types';
 import classNames from 'classnames';
