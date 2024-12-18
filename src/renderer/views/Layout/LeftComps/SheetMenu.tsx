@@ -11,7 +11,7 @@ const sheetMenuList: MenuItemType[] = [
   { id: '004', name: '喜欢', icon: 'icon-home' },
   { id: '005', name: '睡觉', icon: 'icon-video' },
   { id: '006', name: '运动', icon: 'icon-shijie' },
-  { id: '006', name: '热歌', icon: 'icon-shijie' },
+  { id: '007', name: '热歌', icon: 'icon-shijie' },
 ];
 
 function SheetMenu() {

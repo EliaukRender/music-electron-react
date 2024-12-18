@@ -19,6 +19,7 @@ import {
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import { windowUIHandler } from './ipcMain/windowUIHandler';
+import { updatePositionHandler } from '@/main/ipcMain/updatePositionHandler';
 
 class AppUpdater {
   constructor() {
@@ -78,7 +79,7 @@ const createWindow = async () => {
     height: 800,
     frame: false, // 隐藏窗口的工具栏
     transparent: true, // 窗口是否透明
-    icon: getAssetPath('user-icon.png'),
+    icon: getAssetPath('icon.png'),
     fullscreen: false,
     webPreferences: {
       nodeIntegration: true,
@@ -137,6 +138,7 @@ app
     createWindow()
       .then(() => {
         windowUIHandler(mainWindow!);
+        updatePositionHandler(mainWindow!);
       })
       .catch((err) => {
         console.log('createWindow error!', err);

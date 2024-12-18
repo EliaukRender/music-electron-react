@@ -11,7 +11,9 @@ export const windowUIHandler = (mainWindow: BrowserWindow) => {
       console.error('窗口不存在');
       return;
     }
-    mainWindow.setFullScreen(!mainWindow.isFullScreen());
+    const isFull = mainWindow.isFullScreen();
+    console.log('isFull', isFull);
+    mainWindow.setFullScreen(!isFull);
   });
 
   // 最大化
@@ -21,8 +23,9 @@ export const windowUIHandler = (mainWindow: BrowserWindow) => {
       return;
     }
     const isMax = mainWindow.isMaximized();
+    console.log('isMax', isMax);
     if (isMax) {
-      mainWindow.restore();
+      mainWindow.unmaximize();
     } else {
       mainWindow.maximize();
     }
