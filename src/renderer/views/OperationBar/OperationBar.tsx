@@ -1,9 +1,10 @@
 import React, { memo, useEffect, useRef } from 'react';
 import { OperationBarStyles } from '@/renderer/views/OperationBar/styles/OperationBarStyles';
-import NavigateSearch from '@/renderer/views/OperationBar/NavigateSearch';
+import Search from '@/renderer/views/OperationBar/Search';
 import UserInfo from '@/renderer/views/OperationBar/UserInfo';
 import Tools from '@/renderer/views/OperationBar/Tools';
 import updatePositionEmitter from '@/renderer/ipcRenderer/updatePositionEmitter';
+import Navigation from '@/renderer/views/OperationBar/Navigation';
 
 /**
  * @description: 顶部操作栏区域
@@ -54,9 +55,14 @@ const OperationBar: React.FC = () => {
 
   return (
     <OperationBarStyles ref={barRef}>
-      <NavigateSearch></NavigateSearch>
-      <UserInfo></UserInfo>
-      <Tools></Tools>
+      <div className="bar-left">
+        <Navigation></Navigation>
+        <Search></Search>
+      </div>
+      <div className="bar-right">
+        <UserInfo></UserInfo>
+        <Tools></Tools>
+      </div>
     </OperationBarStyles>
   );
 };

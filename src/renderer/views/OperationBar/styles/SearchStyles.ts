@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const NavigateSearchStyles = styled.div`
+export const SearchStyles = styled.div`
   flex: 1;
   display: flex;
   align-items: center;

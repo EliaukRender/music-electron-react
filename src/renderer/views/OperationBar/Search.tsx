@@ -1,14 +1,16 @@
 import React, { memo, useRef, useState } from 'react';
-import { NavigateSearchStyles } from '@/renderer/views/OperationBar/styles/NavigateSearchStyles';
+import { SearchStyles } from '@/renderer/views/OperationBar/styles/SearchStyles';
 import classNames from 'classnames';
+import { usePreventDefault } from '@/renderer/hooks/usePreventDefault';
 
 /**
  * @description: 页面跳转按钮、 音乐搜索框
  */
-const NavigateSearch: React.FC = () => {
+const Search: React.FC = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isFocus, setIsFocus] = useState(false);
   const [keyWord, setKeyWord] = useState('');
+  const { elementRef } = usePreventDefault();
 
   const handleInputClick = () => {
     inputRef.current?.focus();
@@ -30,9 +32,14 @@ const NavigateSearch: React.FC = () => {
   };
 
   return (
-    <NavigateSearchStyles>
-      <i className="iconfont icon-zuojiantou"></i>
-      <i className="iconfont icon-youjiantou"></i>
+    <SearchStyles
+      ref={elementRef}
+      onMouseDown={(event) => {
+        console.log('down');
+        event.preventDefault();
+        event.stopPropagation();
+      }}
+    >
       <div className="input-box">
         <input
           type="text"
@@ -51,8 +58,8 @@ const NavigateSearch: React.FC = () => {
           )}
         ></i>
       </div>
-    </NavigateSearchStyles>
+    </SearchStyles>
   );
 };
 
-export default memo(NavigateSearch);
+export default memo(Search);
