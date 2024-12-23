@@ -1,5 +1,5 @@
 import { LogoInfoStyles } from './styles/LogoInfoStyles';
-import { useUpdateWindowPosition } from '@/renderer/hooks/useDragPosition';
+import { useUpdateWindowPosition } from '@/renderer/hooks/useUpdateWindowPosition';
 
 /**
  * @description: Logo区域

@@ -7,7 +7,7 @@ import ChangeTheme from '@/renderer/views/OperationBar/windowTools/ChangeTheme';
 import MinScreen from '@/renderer/views/OperationBar/windowTools/MinScreen';
 import MaxScreen from '@/renderer/views/OperationBar/windowTools/MaxScreen';
 import CloseApp from '@/renderer/views/OperationBar/windowTools/CloseApp';
-import { useUpdateWindowPosition } from '@/renderer/hooks/useDragPosition';
+import { useUpdateWindowPosition } from '@/renderer/hooks/useUpdateWindowPosition';
 
 /**
  * @description: 顶部操作栏区域
