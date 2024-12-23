@@ -9,8 +9,11 @@ import { LeftAsideStyles } from './styles/LeftAsideStyles';
 export default function LeftAside() {
   return (
     <LeftAsideStyles>
+      {/* logo */}
       <LogoInfo></LogoInfo>
+      {/* 在线音乐 */}
       <OnlineMenu></OnlineMenu>
+      {/* 我的歌单 */}
       <SheetMenu></SheetMenu>
     </LeftAsideStyles>
   );

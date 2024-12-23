@@ -7,8 +7,8 @@
   "glyphs": [
     {
       "icon_id": "4251780",
-      "name": "最小化",
-      "font_class": "zuixiaohua1",
+      "name": "miniApp",
+      "font_class": "mini-app",
       "unicode": "e656",
       "unicode_decimal": 58966
     },
@@ -162,7 +162,7 @@
     {
       "icon_id": "10156384",
       "name": "最大化",
-      "font_class": "exitfullscreen",
+      "font_class": "zuidahua1",
       "unicode": "e653",
       "unicode_decimal": 58963
     },

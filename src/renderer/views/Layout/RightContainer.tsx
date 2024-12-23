@@ -8,6 +8,7 @@ export default function LeftAside() {
   return (
     <RightContainerStyles>
       <div className="container">
+        {/* 顶部操作区域 */}
         <OperationBar></OperationBar>
         <div style={{ flex: 1 }}></div>
       </div>

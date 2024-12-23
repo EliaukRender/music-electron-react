@@ -15,6 +15,6 @@ export const LogoInfoStyles = styled.div`
     font-size: 22px;
     font-weight: 600;
     font-family: Alimama;
-    color: #333333;
+    color: ${({ theme }) => theme.textColor.normal};
   }
 `;

@@ -16,10 +16,14 @@ export const MenuItemStyles = styled.div`
   }
 
   &:hover {
-    background-color: #e4e4e4;
+    background-color: ${({ theme }) => theme.bgcColor.hover};
   }
 
   .active {
-    background-color: #dddddd;
+    background-color: ${({ theme }) => theme.bgcColor.active};
+  }
+
+  .iconfont {
+    color: ${({ theme }) => theme.textColor.light};
   }
 `;

@@ -14,6 +14,6 @@ export const RightContainerStyles = styled.div`
 
     //padding: 10px 20px 10px 20px;
     border-radius: 6px;
-    background-color: #f6f6f6;
+    background-color: ${({ theme }) => theme.bgcColor.light_gray_white};
   }
 `;

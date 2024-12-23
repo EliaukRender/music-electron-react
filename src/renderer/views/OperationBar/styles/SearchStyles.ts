@@ -35,7 +35,7 @@ export const SearchStyles = styled.div`
       top: 50%;
       transform: translateY(-50%);
       font-size: 20px;
-      color: #ccc;
+      color: ${({ theme }) => theme.textColor.gray};
 
       &-nonfocus {
         left: 5px;
