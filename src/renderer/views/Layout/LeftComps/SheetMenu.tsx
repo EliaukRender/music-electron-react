@@ -9,7 +9,7 @@ import { memo } from 'react';
 
 const sheetMenuList: MenuItemType[] = [
   { id: '004', name: '喜欢', icon: 'icon-home' },
-  { id: '005', name: '睡觉', icon: 'icon-video' },
+  { id: '005', name: '睡觉', icon: 'icon-shuijiao' },
   { id: '006', name: '运动', icon: 'icon-wangqiu' },
   { id: '007', name: '热歌', icon: 'icon-huore' },
 ];

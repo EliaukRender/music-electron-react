@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 
 export const LogoInfoStyles = styled.div`
-  height: 60px;
   display: flex;
   align-items: center;
-  padding-bottom: 25px;
+  padding: 25px 15px 25px 15px;
 
   .img {
     width: 36px;

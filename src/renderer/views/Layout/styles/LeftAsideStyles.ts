@@ -5,6 +5,9 @@ export const LeftAsideStyles = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 20px 15px 15px 15px;
   overflow-y: auto;
+
+  .menu {
+    padding: 0px 15px 15px 15px;
+  }
 `;

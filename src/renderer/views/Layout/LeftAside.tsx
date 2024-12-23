@@ -11,10 +11,12 @@ export default function LeftAside() {
     <LeftAsideStyles>
       {/* logo */}
       <LogoInfo></LogoInfo>
-      {/* 在线音乐 */}
-      <OnlineMenu></OnlineMenu>
-      {/* 我的歌单 */}
-      <SheetMenu></SheetMenu>
+      <div className="menu">
+        {/* 在线音乐 */}
+        <OnlineMenu></OnlineMenu>
+        {/* 我的歌单 */}
+        <SheetMenu></SheetMenu>
+      </div>
     </LeftAsideStyles>
   );
 }
