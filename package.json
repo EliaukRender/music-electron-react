@@ -102,13 +102,17 @@
   },
   "dependencies": {
     "@electron/notarize": "^2.3.2",
+    "@reduxjs/toolkit": "^2.5.0",
+    "antd": "^5.22.6",
     "axios": "^1.7.9",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.8",
     "electron-updater": "^6.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.16.0"
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^6.16.0",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@electron/rebuild": "^3.3.0",
