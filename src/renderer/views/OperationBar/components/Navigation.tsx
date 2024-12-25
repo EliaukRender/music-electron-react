@@ -1,15 +1,15 @@
 import { NavigateStyles } from '@/renderer/views/OperationBar/styles/NavigationStyles';
-import { usePreventDefault } from '@/renderer/hooks/usePreventDefault';
+import { useForbidMouseDown } from '@/renderer/hooks/useForbidMouseDown';
 import React, { memo, useRef } from 'react';
 
 /**
  * @description: 左右导航组件
  */
 const Navigation: React.FC = () => {
-  const { elementRef } = usePreventDefault();
+  const { forbidMouseDownEleRef } = useForbidMouseDown();
 
   return (
-    <NavigateStyles ref={elementRef}>
+    <NavigateStyles ref={forbidMouseDownEleRef}>
       <i className="iconfont icon-zuojiantou"></i>
       <i className="iconfont icon-youjiantou"></i>
     </NavigateStyles>

@@ -13,10 +13,10 @@ import { useUpdateWindowPosition } from '@/renderer/hooks/useUpdateWindowPositio
  * @description: 顶部操作栏区域
  */
 const OperationBar: React.FC = () => {
-  const { elementRef } = useUpdateWindowPosition();
+  const { dragEleRef } = useUpdateWindowPosition();
 
   return (
-    <OperationBarStyles ref={elementRef}>
+    <OperationBarStyles ref={dragEleRef}>
       <div className="bar-left">
         <Navigation></Navigation>
         <Search></Search>

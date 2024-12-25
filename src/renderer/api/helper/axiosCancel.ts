@@ -1,12 +1,17 @@
-import { CustomAxiosRequestConfig } from "../index";
-import qs from "qs";
+import { CustomAxiosRequestConfig } from '../index';
+import qs from 'qs';
 
 // 声明一个 Map 用于存储每个请求的标识 和 取消函数
 const pendingMap = new Map<string, AbortController>();
 
 // 序列化参数
 export const getPendingUrl = (config: CustomAxiosRequestConfig) =>
-  [config.method, config.url, qs.stringify(config.data), qs.stringify(config.params)].join("&");
+  [
+    config.method,
+    config.url,
+    qs.stringify(config.data),
+    qs.stringify(config.params),
+  ].join('&');
 
 export class AxiosCanceler {
   /**
@@ -38,7 +43,7 @@ export class AxiosCanceler {
    * @description: 清空所有pending
    */
   removeAllPending() {
-    pendingMap.forEach(controller => {
+    pendingMap.forEach((controller) => {
       controller && controller.abort();
     });
     pendingMap.clear();

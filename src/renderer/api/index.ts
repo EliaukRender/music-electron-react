@@ -6,8 +6,8 @@ import axios, {
   AxiosResponse,
 } from 'axios';
 import { AxiosCanceler } from '@/renderer/api/helper/axiosCancel';
-import { ResultEnum } from '@/renderer/api/constant/config.js';
-import { handleErrorByCode } from '@/renderer/api/helper/checkErrorCode.js';
+import { ResultEnum } from '@/renderer/api/constant/config';
+// import { handleErrorByCode } from '@/renderer/api/helper/checkErrorCode';
 import MessageToast from '@/renderer/components/MessageToast';
 import { useDispatch } from 'react-redux';
 import { setToken } from '@/renderer/store/modules/userReducer';
@@ -21,7 +21,7 @@ export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
 
 // 请求配置
 const baseConfig = {
-  baseURL: process.env.REACT_APP_BASE_URL || '', // 请求根路径
+  baseURL: '/blog', // 请求根路径
   timeout: 1000 * 30, // 超时时间
 };
 
@@ -115,7 +115,7 @@ const handleResError = async (error: AxiosError) => {
   }
   // 根据服务器响应的错误状态码，做不同的处理
   if (response) {
-    handleErrorByCode(response.status);
+    // handleErrorByCode(response.status);
   }
   // 服务器结果都没有返回(可能服务器错误可能客户端断网)，断网处理:可以跳转到断网页面
   if (!window.navigator.onLine) {

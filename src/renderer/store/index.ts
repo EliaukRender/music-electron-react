@@ -3,11 +3,13 @@ import { configureStore, Reducer } from '@reduxjs/toolkit';
 import globalReducer from '@/renderer/store/modules/globalReducer';
 import userReducer from '@/renderer/store/modules/userReducer';
 import { userReducerPersisCfg } from '@/renderer/store/persisConfig';
+import mainMenuReducer from '@/renderer/store/modules/mainMenuReducer';
 
 // store
 const store = configureStore({
   reducer: {
-    global: globalReducer,
+    global: globalReducer, // 全局公用数据
+    mainMenu: mainMenuReducer, // 主菜单数据
     user: persistReducer(userReducerPersisCfg, userReducer) as Reducer, // persistReducer对reducer实现持久化
   },
   middleware: (getDefaultMiddleware) =>
@@ -17,6 +19,8 @@ const store = configureStore({
       },
     }),
 });
+
+export type RootState = ReturnType<typeof store.getState>; // 定义 RootState 类型
 
 export const persistor = persistStore(store); // 持久化后的store
 export default store;

@@ -15,6 +15,7 @@ import log from 'electron-log';
 import {
   installExtension,
   REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS,
 } from 'electron-extension-installer';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
@@ -44,17 +45,17 @@ if (isDebug) {
 }
 
 /**
- * @description: 安装拓展工具
+ * @description: 安装拓展工具: react开发工具、redux
  */
 const installExtensions = async () => {
   try {
-    await installExtension(REACT_DEVELOPER_TOOLS, {
+    await installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS], {
       loadExtensionOptions: {
         allowFileAccess: true,
       },
     });
   } catch (err) {
-    console.log(err);
+    console.log('installExtensions-error', err);
   }
 };
 
@@ -63,6 +64,7 @@ const installExtensions = async () => {
  */
 const createWindow = async () => {
   if (isDebug) {
+    console.log('----installExtensions----');
     await installExtensions();
   }
 

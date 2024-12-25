@@ -5,10 +5,10 @@ import { useEffect, useRef } from 'react';
  * @description: 窗口被拖拽时 更新窗口位置信息
  */
 export function useUpdateWindowPosition() {
-  const elementRef = useRef<HTMLDivElement | null>(null);
+  const dragEleRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const element = elementRef.current;
+    const element = dragEleRef.current;
     if (!element) return;
 
     let dragging = false;
@@ -49,6 +49,6 @@ export function useUpdateWindowPosition() {
   });
 
   return {
-    elementRef,
+    dragEleRef, // 被拖拽的元素
   };
 }

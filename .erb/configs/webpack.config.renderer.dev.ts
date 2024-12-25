@@ -207,6 +207,27 @@ const configuration: webpack.Configuration = {
         .on('error', (spawnError) => console.error(spawnError));
       return middlewares;
     },
+
+    proxy: {
+      // 接口请求代理
+      '/blog': {
+        target: 'http://47.113.177.51',
+        // target: 'http://localhost:50000',
+        pathRewrite: { '^/blog': '/blog' },
+      },
+      // 音、视频代理
+      '/media': {
+        target: 'http://47.113.177.51',
+        // target: 'http://localhost:50000',
+        pathRewrite: { '^/media': '/media' },
+      },
+      // 图片代理
+      '/image': {
+        target: 'http://47.113.177.51',
+        // target: 'http://localhost:50000',
+        pathRewrite: { '^/image': '/image' },
+      },
+    },
   },
 };
 

@@ -1,13 +1,13 @@
 /**
- * @description: 阻止组件的mousedown
+ * @description: 阻止元素的 鼠标mouseDown 事件
  */
 import { useEffect, useRef } from 'react';
 
-export function usePreventDefault() {
-  const elementRef = useRef<HTMLDivElement | null>(null);
+export function useForbidMouseDown() {
+  const forbidMouseDownEleRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const element = elementRef.current;
+    const element = forbidMouseDownEleRef.current;
     if (!element) return;
     element.addEventListener('mousedown', (event: MouseEvent) => {
       event.preventDefault();
@@ -23,6 +23,6 @@ export function usePreventDefault() {
   });
 
   return {
-    elementRef,
+    forbidMouseDownEleRef,
   };
 }

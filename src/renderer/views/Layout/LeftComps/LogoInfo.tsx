@@ -5,10 +5,10 @@ import { useUpdateWindowPosition } from '@/renderer/hooks/useUpdateWindowPositio
  * @description: Logo区域
  */
 export default function LogoInfo() {
-  const { elementRef } = useUpdateWindowPosition();
+  const { dragEleRef } = useUpdateWindowPosition();
 
   return (
-    <LogoInfoStyles ref={elementRef}>
+    <LogoInfoStyles ref={dragEleRef}>
       <img
         className="img"
         src={require('@/renderer/assets/images/music-logo.png')}

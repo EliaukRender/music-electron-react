@@ -1,6 +1,6 @@
 import LogoInfo from '@/renderer/views/Layout/LeftComps/LogoInfo';
-import OnlineMenu from '@/renderer/views/Layout/LeftComps/OnlineMenu';
-import SheetMenu from '@/renderer/views/Layout/LeftComps/SheetMenu';
+import LeftOnlineMenu from '@/renderer/views/Layout/LeftComps/LeftOnlineMenu';
+import LeftSheetMenu from '@/renderer/views/Layout/LeftComps/LeftSheetMenu';
 import { LeftAsideStyles } from './styles/LeftAsideStyles';
 
 /**
@@ -13,9 +13,9 @@ export default function LeftAside() {
       <LogoInfo></LogoInfo>
       <div className="menu">
         {/* 在线音乐 */}
-        <OnlineMenu></OnlineMenu>
+        <LeftOnlineMenu></LeftOnlineMenu>
         {/* 我的歌单 */}
-        <SheetMenu></SheetMenu>
+        <LeftSheetMenu></LeftSheetMenu>
       </div>
     </LeftAsideStyles>
   );

@@ -1,0 +1,49 @@
+import { MenuItemStyles } from '@/renderer/views/components/MenuItem/MenuItemStyles';
+import React, { memo } from 'react';
+import classNames from 'classnames';
+import { SheetMenuItemType } from '@/renderer/types/menuTypes';
+import {
+  setActiveMenu,
+  setActiveSheet,
+} from '@/renderer/store/modules/mainMenuReducer';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/renderer/store';
+
+interface PropsType {
+  menuItemInfo: SheetMenuItemType; // 歌单
+}
+
+/**
+ * @description: 个人歌单item组件
+ */
+const SheetMenu: React.FC<PropsType> = ({ menuItemInfo }) => {
+  const dispatch = useDispatch();
+  const { activeSheet } = useSelector(
+    (state: RootState) => ({
+      activeSheet: state.mainMenu.activeSheet,
+    }),
+    shallowEqual,
+  );
+
+  // 点击歌单
+  const clickSheet = () => {
+    dispatch(setActiveSheet(menuItemInfo));
+    dispatch(setActiveMenu({}));
+  };
+
+  return (
+    <MenuItemStyles onClick={clickSheet}>
+      <div
+        className={classNames(
+          'item',
+          menuItemInfo?.sheetId === activeSheet?.sheetId ? 'item-active' : '',
+        )}
+      >
+        <i className={classNames('iconfont', menuItemInfo.sheetIcon)}></i>
+        <span className="name">{menuItemInfo.sheetName}</span>
+      </div>
+    </MenuItemStyles>
+  );
+};
+
+export default memo(SheetMenu);
