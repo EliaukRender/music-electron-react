@@ -4,12 +4,16 @@ import globalReducer from '@/renderer/store/modules/globalReducer';
 import userReducer from '@/renderer/store/modules/userReducer';
 import { userReducerPersisCfg } from '@/renderer/store/persisConfig';
 import mainMenuReducer from '@/renderer/store/modules/mainMenuReducer';
+import playerControlReducer from '@/renderer/store/modules/playerControlReducer';
+import audioPlayerReducer from '@/renderer/store/modules/audioPlayerReducer';
 
 // store
 const store = configureStore({
   reducer: {
     global: globalReducer, // 全局公用数据
     mainMenu: mainMenuReducer, // 主菜单数据
+    playerControl: playerControlReducer, // 控制栏数据
+    audioPlayer: audioPlayerReducer, // 音频播放数据
     user: persistReducer(userReducerPersisCfg, userReducer) as Reducer, // persistReducer对reducer实现持久化
   },
   middleware: (getDefaultMiddleware) =>

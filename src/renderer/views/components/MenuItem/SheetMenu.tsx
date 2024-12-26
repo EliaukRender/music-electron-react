@@ -8,6 +8,7 @@ import {
 } from '@/renderer/store/modules/mainMenuReducer';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
+import { getSongListBySheetId } from '@/renderer/store/actions/mainMenuActions';
 
 interface PropsType {
   menuItemInfo: SheetMenuItemType; // 歌单
@@ -29,6 +30,11 @@ const SheetMenu: React.FC<PropsType> = ({ menuItemInfo }) => {
   const clickSheet = () => {
     dispatch(setActiveSheet(menuItemInfo));
     dispatch(setActiveMenu({}));
+    // 获取歌曲列表
+    getSongListBySheetId({
+      sheetId: menuItemInfo.sheetId,
+      isOnline: false,
+    });
   };
 
   return (

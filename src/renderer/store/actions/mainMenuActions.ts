@@ -2,17 +2,13 @@
  * @description: 关于播放器 主菜单 的异步事件
  */
 import {
-  createSheet,
-  deleteSheet,
-  deleteSongFromSheet,
-  moveSongToSheet,
   queryCommonMenuList,
-  queryMusicHomeSheet,
   querySheetList,
   querySongListBySheetId,
 } from '@/renderer/api/modules/musicService';
 import store from '@/renderer/store';
 import {
+  setCurSheetSongList,
   setOnlineMenuList,
   setSheetMenuList,
 } from '@/renderer/store/modules/mainMenuReducer';
@@ -20,33 +16,31 @@ import {
 const { dispatch } = store;
 
 /**
- * @description: 初始化菜单数据
+ * @description: 初始化 主菜单数据
  */
 export const initAppMenuData = async () => {
-  await getOnlineMenuList();
-  await getSheetMenuList();
+  const [resMenu, resSheet] = await Promise.all([
+    queryCommonMenuList(),
+    querySheetList(),
+  ]);
+  dispatch(setOnlineMenuList(resMenu.data || [])); // 在线菜单
+  dispatch(setSheetMenuList(resSheet.data || [])); // 歌单菜单
 };
 
 /**
- * @description: 获取在线菜单
+ * @description: 基于歌单ID获取音乐列表
  */
-export const getOnlineMenuList = async () => {
+export const getSongListBySheetId = async ({
+  sheetId,
+  isOnline,
+}: {
+  sheetId: number;
+  isOnline: boolean;
+}) => {
   try {
-    const { data } = await queryCommonMenuList();
-    dispatch(setOnlineMenuList(data || []));
+    const { data } = await querySongListBySheetId({ sheetId, isOnline });
+    dispatch(setCurSheetSongList(data || []));
   } catch (e) {
-    console.log('error-getCommonMenuList', e);
-  }
-};
-
-/**
- * @description: 获取我的所有 歌单菜单 列表
- */
-export const getSheetMenuList = async () => {
-  try {
-    const { data } = await querySheetList();
-    dispatch(setSheetMenuList(data || []));
-  } catch (e) {
-    console.log('error-getSheetList', e);
+    console.log('error-getSongListBySheetId', e);
   }
 };
