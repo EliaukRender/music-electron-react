@@ -1,7 +1,7 @@
-import LogoInfo from '@/renderer/views/Layout/LeftComps/LogoInfo';
-import LeftOnlineMenu from '@/renderer/views/Layout/LeftComps/LeftOnlineMenu';
-import LeftSheetMenu from '@/renderer/views/Layout/LeftComps/LeftSheetMenu';
-import { LeftAsideStyles } from './styles/LeftAsideStyles';
+import LogoInfo from '@/renderer/views/Layout/components/LogoInfo';
+import LeftOnlineMenu from '@/renderer/views/Layout/components/LeftOnlineMenu';
+import LeftSheetMenu from '@/renderer/views/Layout/components/LeftSheetMenu';
+import { LeftAsideStyles } from '../styles/LeftAsideStyles';
 
 /**
  * @description: APP左侧区域

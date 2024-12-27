@@ -1,16 +1,16 @@
 import { Navigate, RouteObject } from 'react-router-dom';
 import React from 'react';
 
-const Home = React.lazy(() => import('../views/Home'));
+const Layout = React.lazy(() => import('@/renderer/views/Layout/index'));
 
 const routes: RouteObject[] = [
   {
     path: '/',
-    element: <Navigate to="/home"></Navigate>,
+    element: <Navigate to="/index"></Navigate>,
   },
   {
-    path: '/home',
-    element: <Home></Home>,
+    path: '/index',
+    element: <Layout></Layout>,
   },
 ];
 

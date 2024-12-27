@@ -1,4 +1,4 @@
-import { LogoInfoStyles } from './styles/LogoInfoStyles';
+import { LogoInfoStyles } from '../styles/LogoInfoStyles';
 import { useUpdateWindowPosition } from '@/renderer/hooks/useUpdateWindowPosition';
 
 /**

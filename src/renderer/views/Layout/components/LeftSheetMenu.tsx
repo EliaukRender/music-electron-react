@@ -1,7 +1,7 @@
 /**
  * @description: 我的歌单：歌单菜单
  */
-import { SheetMenuStyles } from '@/renderer/views/Layout/LeftComps/styles/SheetMenuStyles';
+import { SheetMenuStyles } from '@/renderer/views/Layout/styles/SheetMenuStyles';
 import { memo } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';

@@ -1,5 +1,5 @@
 import OperationBar from '@/renderer/views/OperationBar/OperationBar';
-import { RightContainerStyles } from './styles/RightContainerStyles';
+import { RightContainerStyles } from '../styles/RightContainerStyles';
 import { useUpdateWindowPosition } from '@/renderer/hooks/useUpdateWindowPosition';
 import { useForbidMouseDown } from '@/renderer/hooks/useForbidMouseDown';
 import PlayControlBar from '@/renderer/views/PlayerControlBar';

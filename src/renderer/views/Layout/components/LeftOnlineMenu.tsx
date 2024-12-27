@@ -1,4 +1,4 @@
-import { OnlineMenuStyles } from '@/renderer/views/Layout/LeftComps/styles/OnlineMenuStyles';
+import { OnlineMenuStyles } from '@/renderer/views/Layout/styles/OnlineMenuStyles';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import OnlineMenu from '@/renderer/views/components/MenuItem/OnlineMenu';

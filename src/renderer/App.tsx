@@ -1,6 +1,6 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useMemo } from 'react';
-import Home from './views/Home';
+import Layout from './views/Layout';
 import { AppStyles } from '@/renderer/AppStyles';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme } from '@/renderer/theme/config/lightTheme';
@@ -21,7 +21,7 @@ export default function App() {
           <AppStyles>
             <Router>
               <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Layout />} />
               </Routes>
             </Router>
           </AppStyles>
