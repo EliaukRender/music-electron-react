@@ -27,7 +27,6 @@ yarn package #生产环境
 
 ## 4、常用指令
 ```bash
-# 重置git代理
 git config --global --unset http.proxy
 git config --global --unset https.proxy
 ```

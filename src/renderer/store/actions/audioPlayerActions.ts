@@ -3,9 +3,11 @@ import {
   setCurrentTime,
   setDuration,
   setIsEnded,
+  setIsMuted,
   setIsPause,
   setIsPlaying,
   setPlaybackRate,
+  setVolume,
 } from '@/renderer/store/modules/audioPlayerReducer';
 import {
   setActiveSongId,
@@ -294,4 +296,28 @@ export const playPreSong = async () => {
   dispatch(setDuration(0));
   // 播放
   await playAudio();
+};
+
+/**
+ * @description: 调节音量
+ * @param curVol 当前音量值
+ */
+export const changeVolume = (curVol: number) => {
+  if (curVol <= 0) {
+    dispatch(setVolume(0));
+    dispatch(setIsMuted(true));
+    audio.muted = true;
+    return;
+  }
+  dispatch(setIsMuted(false));
+  dispatch(setVolume(curVol)); // 保存最新音量
+  audio.volume = curVol / 100; // 调节音量
+  audio.muted = false;
+};
+
+/**
+ * @description: 调节播放时间
+ */
+export const changeCurrentTime = (curTime: number) => {
+  audio.currentTime = curTime;
 };

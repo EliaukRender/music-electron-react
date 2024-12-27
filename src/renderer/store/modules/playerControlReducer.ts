@@ -7,13 +7,14 @@ export interface PlayerControlState {
   activeSongId: number | null;
   musicMode: number;
   activeSongUrl: string;
+  drawerVisible: boolean;
 }
 
 // 初始state
 const initialState: PlayerControlState = {
   musicMode: 1, // 1-顺序播放、2-随机播放、3-单曲循环
   showLyrics: false, // 是否显示歌词界面
-
+  drawerVisible: false, // 是否显示频谱弹窗
   activeSongList: [], // 当前在播放队列的 歌曲列表
   activeSongId: null, // 当前激活的 歌曲id
   activeSongUrl: '', // 当前播放歌曲的url
@@ -50,6 +51,10 @@ const playerControlSlice = createSlice({
     setActiveSongUrl(state, { payload }) {
       state.activeSongUrl = payload;
     },
+
+    setDrawerVisible(state, { payload }) {
+      state.drawerVisible = payload;
+    },
   },
 
   // 异步reducers
@@ -62,6 +67,7 @@ export const {
   setActiveSongId,
   setMusicMode,
   setActiveSongUrl,
+  setDrawerVisible,
 } = playerControlSlice.actions; // 同步的dispatch
 
 export default playerControlSlice.reducer; // reducer

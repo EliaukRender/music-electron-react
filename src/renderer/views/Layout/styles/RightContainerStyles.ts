@@ -6,6 +6,7 @@ export const RightContainerStyles = styled.div`
   padding: 10px 10px 10px 0;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   .container {
     width: 100%;

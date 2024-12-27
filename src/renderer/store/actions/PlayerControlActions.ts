@@ -5,6 +5,7 @@ import MessageToast from '@/renderer/components/MessageToast';
 import {
   deleteSongById,
   setActiveSongId,
+  setMusicMode,
 } from '@/renderer/store/modules/playerControlReducer';
 
 const { dispatch } = store;
@@ -68,4 +69,11 @@ export const deleteSongFromSongList = async (songId: number) => {
     // audio.pause();
     // await playAudio(targetSong.songId); // 播放下一首
   }
+};
+
+/**
+ * @description: 调节音乐播放模式: 1-顺序播放、2-随机播放、3-单曲循环
+ */
+export const changeMusicMode = (mode: number) => {
+  dispatch(setMusicMode(mode));
 };
