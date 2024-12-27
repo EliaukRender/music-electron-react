@@ -15,10 +15,12 @@ export interface MainMenuState {
 
 // 初始state
 const initialState: MainMenuState = {
-  onlineMenuList: [], // 在线菜单 列表
-  sheetMenuList: [], // 歌单菜单 列表
+  onlineMenuList: [], // 在线菜单
+  sheetMenuList: [], // 歌单菜单
+
   activeSheet: {} as SheetMenuItemType, // 当前激活的 个人歌单
   activeMenu: {} as OnlineMenuItemType, // 当前激活的 在线菜单
+
   curSheetSongList: [], // 当前歌单 对应的 歌曲列表
 };
 

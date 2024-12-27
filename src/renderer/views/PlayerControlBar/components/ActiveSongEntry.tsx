@@ -32,7 +32,12 @@ const ActiveSongEntry = () => {
         <div className="title">当前播放歌曲列表</div>
         <div className="song-list">
           {activeSongList.map((song: any) => {
-            return <SongItemForActive songInfo={song}></SongItemForActive>;
+            return (
+              <SongItemForActive
+                songInfo={song}
+                key={song.songId}
+              ></SongItemForActive>
+            );
           })}
         </div>
       </DrawerCmp>

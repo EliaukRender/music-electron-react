@@ -8,12 +8,37 @@ import {
 } from '@/renderer/api/modules/musicService';
 import store from '@/renderer/store';
 import {
+  setActiveSheet,
   setCurSheetSongList,
   setOnlineMenuList,
   setSheetMenuList,
 } from '@/renderer/store/modules/mainMenuReducer';
+import { setActiveSongList } from '@/renderer/store/modules/playerControlReducer';
 
 const { dispatch } = store;
+
+/**
+ * @description: 进入app时初始化数据
+ */
+export const initAppData = async () => {
+  try {
+    // todo 先从缓存拿菜单数据，同步去接口请求获取最新的菜单数据
+
+    await initAppMenuData();
+    const { sheetMenuList } = store.getState().mainMenu;
+
+    // 有歌单数据
+    if (sheetMenuList.length) {
+      dispatch(setActiveSheet(sheetMenuList[0]));
+      await getSongListBySheetId({ sheetId: sheetMenuList[0].sheetId });
+      dispatch(setActiveSongList(store.getState().mainMenu.curSheetSongList)); // 默认的播放队列
+    } else {
+      // todo 进入音乐馆
+    }
+  } catch (e) {
+    console.log('initAppData error', e);
+  }
+};
 
 /**
  * @description: 初始化 主菜单数据
@@ -28,7 +53,7 @@ export const initAppMenuData = async () => {
 };
 
 /**
- * @description: 基于歌单ID获取音乐列表
+ * @description: 基于歌单ID 获取音乐列表
  */
 export const getSongListBySheetId = async ({
   sheetId,

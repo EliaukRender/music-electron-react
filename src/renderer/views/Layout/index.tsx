@@ -4,12 +4,12 @@
 import LeftAside from './components/LeftAside';
 import RightContainer from './components/RightContainer';
 import { useEffect } from 'react';
-import { initAppMenuData } from '@/renderer/store/actions/mainMenuActions';
+import { initAppData } from '@/renderer/store/actions/mainMenuActions';
 import { LayoutStyles } from '@/renderer/views/Layout/styles/LayoutStyles';
 
 export default function Layout() {
   useEffect(() => {
-    initAppMenuData(); // 初始化app的菜单数据
+    initAppData(); // 初始化app的菜单数据
   });
 
   return (

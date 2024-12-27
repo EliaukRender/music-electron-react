@@ -27,20 +27,22 @@ const DrawerCmp = ({ children }: DrawerProps) => {
 
   return (
     <DrawerStyles>
-      <Drawer
-        width={800}
-        placement="right"
-        autoFocus={false}
-        destroyOnClose
-        mask
-        maskClosable
-        closable={false}
-        onClose={onClose}
-        open={drawerVisible}
-        getContainer={false}
-      >
-        {children}
-      </Drawer>
+      {drawerVisible && (
+        <Drawer
+          width={400}
+          placement="right"
+          autoFocus={false}
+          destroyOnClose
+          mask
+          maskClosable
+          closable={false}
+          onClose={onClose}
+          open={drawerVisible}
+          getContainer={false}
+        >
+          {children}
+        </Drawer>
+      )}
     </DrawerStyles>
   );
 };

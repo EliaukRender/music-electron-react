@@ -77,31 +77,29 @@ const createAnalyzer = () => {
 
 /**
  * @description: 准备播放
- * @param id 歌曲的songId值
+ * @param songId 歌曲的songId值
  */
-export const playAudio = async (id?: number) => {
-  console.log('playAudio', id);
+export const playAudio = async (songId?: number) => {
+  console.log('playAudio--songId', songId);
   // 让用户点击时才创建audioContext，否则会被浏览器策略限制
   if (!analyser) {
     createAnalyzer();
   }
-  const { volume, isEnded, currentTime, duration, isPause, playbackRate } =
-    store.getState().audioPlayer;
-  let { activeSongId, activeSongUrl } = store.getState().playerControl;
-  const { activeSongList } = store.getState().playerControl;
-  /* 1、用户点击指定一首新歌从0开始播放 */
-  if (id && id !== activeSongId) {
+  const { activeSongId, activeSongList } = store.getState().playerControl;
+  console.log('playAudio--activeSongList', activeSongList);
+
+  /* 1、指定一首新歌开始播放 */
+  if (songId && songId !== activeSongId) {
     console.log('指定新歌播放');
-    activeSongId = id;
-    const song = activeSongList.find((item: any) => item.songId === id);
-    activeSongUrl = song.url;
-    PlayNewAudio({ activeSongId, activeSongUrl, volume, playbackRate });
+    const song = activeSongList.find((item: any) => item.songId === songId);
+    PlayNewAudio({ songId, songUrl: song.url });
     return;
   }
+
   /* 2、暂停后继续播放 */
-  if (isPause && !!activeSongUrl && !isEnded && duration) {
+  if (store.getState().audioPlayer.isPause && activeSongId) {
     console.log('暂停后播放');
-    audio.currentTime = currentTime;
+    audio.currentTime = store.getState().audioPlayer.currentTime;
     try {
       audio
         .play()
@@ -117,18 +115,16 @@ export const playAudio = async (id?: number) => {
     }
     return;
   }
-  /* 3、歌曲列表中没有任何歌曲信息，无法播放歌曲 */
-  if (!activeSongUrl && !activeSongList.length) {
+
+  /* 3、播放队列中的歌曲 */
+  if (activeSongList.length) {
+    PlayNewAudio({
+      songId: activeSongList[0].songId,
+      songUrl: activeSongList[0].songUrl,
+    });
+  } else {
     MessageToast.warning('暂无歌曲音频，请刷新页面后重试');
-    return;
   }
-  /* 4、有歌曲列表，但是没有待播放的歌曲信息 */
-  if (activeSongList.length && !activeSongUrl && !currentTime) {
-    console.log('自动指定新歌播放');
-    activeSongUrl = activeSongList[0].songUrl;
-    activeSongId = activeSongList[0].songId;
-  }
-  PlayNewAudio({ activeSongId, activeSongUrl, volume, playbackRate });
 };
 
 /**
@@ -136,28 +132,24 @@ export const playAudio = async (id?: number) => {
  * @param
  */
 const PlayNewAudio = ({
-  activeSongId,
-  activeSongUrl,
-  volume,
-  playbackRate,
+  songId,
+  songUrl,
 }: {
-  activeSongId: number | null;
-  activeSongUrl: string;
-  volume: number;
-  playbackRate: number;
+  songId: number;
+  songUrl: string;
 }) => {
   console.log('readyPlayAudio');
-  if (!activeSongId || !activeSongUrl) return;
+  if (!songId || !songUrl) return;
   try {
-    audio.volume = volume / 100; // 设置音量
-    audio.src = activeSongUrl;
-    audio.playbackRate = playbackRate; // 切换歌曲时速率会重置为1
+    audio.src = songUrl;
+    audio.volume = store.getState().audioPlayer.volume / 100;
+    audio.playbackRate = store.getState().audioPlayer.playbackRate;
     audio
       .play()
       .then(() => {
         console.log('当前歌曲时长：', audio.duration);
-        dispatch(setActiveSongUrl(activeSongUrl));
-        dispatch(setActiveSongId(activeSongId));
+        dispatch(setActiveSongUrl(songUrl));
+        dispatch(setActiveSongId(songId));
         dispatch(setIsEnded(false));
         dispatch(setIsPlaying(true));
         dispatch(setIsPause(false));
@@ -232,13 +224,20 @@ const resetAudioStatus = () => {
 
 /**
  * @description: 歌曲播放完毕
- *               songId不重置的目的是为了定位下一首歌曲
  */
 audio.addEventListener('ended', () => {
   console.log('歌曲播放完毕');
   resetAudioStatus();
   // 	自动下一首
   playNextSong(false);
+});
+
+/**
+ * @description: 歌曲当前播放时间，实时保存
+ */
+audio.addEventListener('timeupdate', () => {
+  // console.log('当前时间', audio.currentTime);
+  dispatch(setCurrentTime(audio.currentTime));
 });
 
 /**

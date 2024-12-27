@@ -22,7 +22,7 @@ function LeftSheetMenu() {
         <i className="iconfont icon-jia"></i>
       </div>
       <div>
-        {sheetMenuList?.map((item) => {
+        {sheetMenuList.map((item) => {
           return <SheetMenu key={item.sheetId} menuItemInfo={item}></SheetMenu>;
         })}
       </div>
