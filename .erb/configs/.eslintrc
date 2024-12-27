@@ -18,6 +18,7 @@
     "import/order": "off",
     "jsx-a11y/no-static-element-interactions": "off",
     "react/function-component-definition": "off",
-    "import/ prefer-default-expor": "off"
+    "import/ prefer-default-expor": "off",
+    "promise/always-return": "off"
   }
 }

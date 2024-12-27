@@ -35,7 +35,7 @@ export const getSongListBySheetId = async ({
   isOnline,
 }: {
   sheetId: number;
-  isOnline: boolean;
+  isOnline?: boolean;
 }) => {
   try {
     const { data } = await querySongListBySheetId({ sheetId, isOnline });

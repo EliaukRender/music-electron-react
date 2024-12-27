@@ -17,5 +17,11 @@ export const PlayControlBarStyles = styled.div`
       justify-content: flex-start;
       padding-left: 10px;
     }
+
+    .middle {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
   }
 `;
