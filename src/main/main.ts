@@ -79,6 +79,8 @@ const createWindow = async () => {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    minWidth: 1100,
+    minHeight: 700,
     frame: false, // 隐藏窗口的工具栏
     transparent: true, // 窗口是否透明
     icon: getAssetPath('icon.png'),

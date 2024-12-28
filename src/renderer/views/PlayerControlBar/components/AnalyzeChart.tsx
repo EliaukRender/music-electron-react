@@ -30,7 +30,7 @@ const AnalyzeChart = () => {
         {AnalyzeChartList.map((item: any) => {
           return (
             <div
-              key={item.mode}
+              key={item.id}
               onClick={() => {
                 dispatch(setMode(item.mode));
               }}

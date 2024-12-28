@@ -1,39 +1,40 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import { Drawer } from 'antd';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/renderer/store';
-import { setDrawerVisible } from '@/renderer/store/modules/playerControlReducer';
 import { DrawerStyles } from '@/renderer/components/Drawer/DrawerStyles';
+import { useClickOutside } from '@/renderer/hooks/useClickOutside';
 
 interface DrawerProps {
+  drawerVisible: boolean;
+  closeDrawer: () => void;
   children: React.ReactNode;
 }
 
 /**
  * @description: 播放器的全局抽屉
  */
-const DrawerCmp = ({ children }: DrawerProps) => {
-  const dispatch = useDispatch();
-  const { drawerVisible } = useSelector(
-    (state: RootState) => ({
-      drawerVisible: state.playerControl.drawerVisible,
-    }),
-    shallowEqual,
-  );
+const DrawerCmp = ({ children, drawerVisible, closeDrawer }: DrawerProps) => {
+  const { isClickOutside, clickOutSideRef } = useClickOutside({
+    needWatch: drawerVisible,
+  });
 
+  useEffect(() => {
+    isClickOutside && onClose();
+  });
+
+  // 关闭窗口
   const onClose = () => {
-    dispatch(setDrawerVisible(false));
+    drawerVisible && closeDrawer();
   };
 
   return (
-    <DrawerStyles>
+    <DrawerStyles ref={clickOutSideRef}>
       {drawerVisible && (
         <Drawer
           width={400}
           placement="right"
           autoFocus={false}
           destroyOnClose
-          mask
+          mask={false}
           maskClosable
           closable={false}
           onClose={onClose}

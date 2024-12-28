@@ -2,10 +2,10 @@
  * @description: 频谱图动效样式
  */
 export const AnalyzeChartList = [
-  { name: '关闭', mode: 'none' },
-  { name: '经典', mode: 'bars' },
-  { name: '荧光', mode: 'lightBars' },
-  { name: '对称', mode: 'doubleBars' },
+  { id: '1', name: '关闭', mode: 'none' },
+  { id: '2', name: '经典', mode: 'bars' },
+  { id: '3', name: '荧光', mode: 'lightBars' },
+  { id: '4', name: '对称', mode: 'doubleBars' },
 ];
 
 /**

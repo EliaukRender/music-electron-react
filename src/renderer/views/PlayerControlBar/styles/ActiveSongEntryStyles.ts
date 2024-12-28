@@ -5,20 +5,27 @@ export const ActiveSongEntryStyles = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   box-sizing: border-box;
-  overflow-y: auto;
   margin-left: 20px;
   cursor: pointer;
+  overflow: hidden;
 
-  .title {
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
-
-  .song-list {
-    flex: 1;
-    overflow-y: auto;
+  .ant-drawer-body {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+
+    .title {
+      height: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      box-sizing: border-box;
+    }
+
+    .song-list {
+      height: calc(100% - 50px);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      overflow-y: auto;
+    }
   }
 `;

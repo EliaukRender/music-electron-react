@@ -1,20 +1,18 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { ActiveSongEntryStyles } from '@/renderer/views/PlayerControlBar/styles/ActiveSongEntryStyles';
 import SongItemForActive from '@/renderer/views/components/SongItem/SongItemForActive';
 import DrawerCmp from '@/renderer/components/Drawer/Drawer';
-import { setDrawerVisible } from '@/renderer/store/modules/playerControlReducer';
 
 /**
  * @description: 当前歌曲播放列表
  */
 const ActiveSongEntry = () => {
-  const dispatch = useDispatch();
-  const { activeSongList, drawerVisible } = useSelector(
+  const [visible, setVisible] = useState(false);
+  const { activeSongList } = useSelector(
     (state: RootState) => ({
       activeSongList: state.playerControl.activeSongList,
-      drawerVisible: state.playerControl.drawerVisible,
     }),
     shallowEqual,
   );
@@ -23,24 +21,31 @@ const ActiveSongEntry = () => {
     <ActiveSongEntryStyles>
       <i
         className="iconfont icon-zhankai"
-        style={drawerVisible ? {} : {}}
+        style={visible ? {} : {}}
         onClick={() => {
-          dispatch(setDrawerVisible(true));
+          setVisible(true);
         }}
       ></i>
-      <DrawerCmp>
-        <div className="title">当前播放歌曲列表</div>
-        <div className="song-list">
-          {activeSongList.map((song: any) => {
-            return (
-              <SongItemForActive
-                songInfo={song}
-                key={song.songId}
-              ></SongItemForActive>
-            );
-          })}
-        </div>
-      </DrawerCmp>
+      {/* 播放歌曲队列弹窗 */}
+      {visible && (
+        <DrawerCmp
+          drawerVisible={visible}
+          closeDrawer={() => setVisible(false)}
+        >
+          <div className="title">当前播放歌曲列表</div>
+          <div className="song-list">
+            {activeSongList.map((song: any, index: number) => {
+              return (
+                <SongItemForActive
+                  songInfo={song}
+                  index={index}
+                  key={song.songId}
+                ></SongItemForActive>
+              );
+            })}
+          </div>
+        </DrawerCmp>
+      )}
     </ActiveSongEntryStyles>
   );
 };

@@ -13,7 +13,11 @@ import {
   setOnlineMenuList,
   setSheetMenuList,
 } from '@/renderer/store/modules/mainMenuReducer';
-import { setActiveSongList } from '@/renderer/store/modules/playerControlReducer';
+import {
+  setActiveSongId,
+  setActiveSongList,
+  setActiveSongUrl,
+} from '@/renderer/store/modules/playerControlReducer';
 
 const { dispatch } = store;
 
@@ -31,7 +35,12 @@ export const initAppData = async () => {
     if (sheetMenuList.length) {
       dispatch(setActiveSheet(sheetMenuList[0]));
       await getSongListBySheetId({ sheetId: sheetMenuList[0].sheetId });
-      dispatch(setActiveSongList(store.getState().mainMenu.curSheetSongList)); // 默认的播放队列
+      const list = store.getState().mainMenu.curSheetSongList;
+      if (list?.length) {
+        dispatch(setActiveSongList(list)); // 默认的播放队列
+        dispatch(setActiveSongId(list[0].songId)); // 默认的一首歌
+        dispatch(setActiveSongUrl(list[0].songUrl)); // 默认的一首歌
+      }
     } else {
       // todo 进入音乐馆
     }

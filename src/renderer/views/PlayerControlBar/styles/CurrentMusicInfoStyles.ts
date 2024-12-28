@@ -2,8 +2,7 @@ import styled from 'styled-components';
 
 export const CurrentMusicInfoStyles = styled.div`
   .info-text {
-    width: 80px;
-    max-width: 100px;
+    max-width: 80px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

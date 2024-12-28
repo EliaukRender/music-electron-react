@@ -1,5 +1,6 @@
-import React, { memo } from 'react';
+/* eslint-disable react/no-array-index-key */
 
+import React, { memo } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { AnalyzeColorStyles } from '@/renderer/views/PlayerControlBar/styles/AnalyzeColorStyles';
 import { RootState } from '@/renderer/store';
@@ -39,9 +40,10 @@ const AnalyzeColors = () => {
                 dispatch(setColors(item.colors));
               }}
             >
-              {item.colors.map((color: string) => {
+              {item.colors.map((color: string, index: number) => {
                 return (
                   <div
+                    key={index}
                     className="color"
                     style={{ backgroundColor: color }}
                   ></div>

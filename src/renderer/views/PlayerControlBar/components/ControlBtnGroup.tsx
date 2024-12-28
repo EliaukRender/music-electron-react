@@ -11,9 +11,9 @@ import {
   addCurrentTime,
   decreaseCurrentTime,
   pauseAudio,
-  playAudio,
   playNextSong,
   playPreSong,
+  playSong,
 } from '@/renderer/store/actions/audioPlayerActions';
 import { ControlBtnGroupStyles } from '@/renderer/views/PlayerControlBar/styles/ControlBtnGroupStyles';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -58,7 +58,7 @@ const ControlBtnGroup = () => {
           {!isPlaying && (
             <CaretRightOutlined
               onClick={() => {
-                playAudio();
+                playSong();
               }}
             />
           )}

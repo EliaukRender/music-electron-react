@@ -16,10 +16,10 @@ const CurrentMusicInfo = () => {
     shallowEqual,
   );
 
-  // 当前歌曲
+  // 当前播放的歌曲
   const currentSong = useMemo(() => {
     return activeSongList.find((song) => song.songId === activeSongId) || {};
-  }, [activeSongList]);
+  }, [activeSongId, activeSongList]);
 
   return (
     <CurrentMusicInfoStyles>

@@ -1,8 +1,5 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { AnalyzeEntryStyles } from '@/renderer/views/PlayerControlBar/styles/AnalyzeEntryStyles';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/renderer/store';
-import { setDrawerVisible } from '@/renderer/store/modules/playerControlReducer';
 import DrawerCmp from '@/renderer/components/Drawer/Drawer';
 import AnalyzeChart from '@/renderer/views/PlayerControlBar/components/AnalyzeChart';
 import AnalyzeColor from '@/renderer/views/PlayerControlBar/components/AnalyzeColor';
@@ -11,28 +8,27 @@ import AnalyzeColor from '@/renderer/views/PlayerControlBar/components/AnalyzeCo
  * @description: 频谱
  */
 const AnalyzeEntry = () => {
-  const dispatch = useDispatch();
-  const { drawerVisible } = useSelector(
-    (state: RootState) => ({
-      drawerVisible: state.playerControl.drawerVisible,
-    }),
-    shallowEqual,
-  );
+  const [visible, setVisible] = useState(false);
 
   return (
     <AnalyzeEntryStyles>
       <i
         className="iconfont icon-pinpu"
-        style={drawerVisible ? {} : {}}
+        style={visible ? {} : {}}
         onClick={() => {
-          dispatch(setDrawerVisible(true));
+          setVisible(true);
         }}
       ></i>
       {/* 弹窗 */}
-      <DrawerCmp>
-        <AnalyzeChart></AnalyzeChart>
-        <AnalyzeColor></AnalyzeColor>
-      </DrawerCmp>
+      {visible && (
+        <DrawerCmp
+          drawerVisible={visible}
+          closeDrawer={() => setVisible(false)}
+        >
+          <AnalyzeChart></AnalyzeChart>
+          <AnalyzeColor></AnalyzeColor>
+        </DrawerCmp>
+      )}
     </AnalyzeEntryStyles>
   );
 };

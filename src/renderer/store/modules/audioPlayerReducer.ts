@@ -18,7 +18,7 @@ const initialState: AudioPlayerState = {
   isPlaying: false, // 正在播放
   duration: 0, // 歌曲总时长
   currentTime: 0, // 歌曲当前播放时间
-  volume: 5, // 音量
+  volume: 20, // 音量
   isPause: false, // 是否暂停
   isEnded: false, // 是否播放结束
   muted: false, // 是否静音
