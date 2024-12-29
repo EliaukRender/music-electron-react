@@ -11,6 +11,7 @@ export interface MainMenuState {
   activeSheet: SheetMenuItemType;
   activeMenu: OnlineMenuItemType;
   curSheetSongList: any;
+  isCollapseMenu: boolean;
 }
 
 // 初始state
@@ -20,8 +21,9 @@ const initialState: MainMenuState = {
 
   activeSheet: {} as SheetMenuItemType, // 当前激活的 个人歌单
   activeMenu: {} as OnlineMenuItemType, // 当前激活的 在线菜单
-
   curSheetSongList: [], // 当前歌单 对应的 歌曲列表
+
+  isCollapseMenu: false, // 菜单是否折叠
 };
 
 /**
@@ -53,6 +55,10 @@ const mainMenuSlice = createSlice({
     setCurSheetSongList(state, { payload }) {
       state.curSheetSongList = payload;
     },
+
+    setIsCollapseMenu(state, { payload }) {
+      state.isCollapseMenu = payload;
+    },
   },
 
   // 异步reducers
@@ -65,6 +71,7 @@ export const {
   setActiveMenu,
   setActiveSheet,
   setCurSheetSongList,
+  setIsCollapseMenu,
 } = mainMenuSlice.actions; // 同步的dispatch
 
 export default mainMenuSlice.reducer; // reducer

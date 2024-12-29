@@ -12,8 +12,9 @@ export const lightTheme = {
   /* 文本类 */
   textColor: {
     normal: '#333333', // 正常
-    light: '#626262', // 浅色
-    gray: '#dddddd', // 浅色
+    light: '#626262',
+    gray: '#dddddd',
+    gray_white: '#f2f3f4',
   },
 
   /* 背景色 */

@@ -8,16 +8,22 @@ import OnlineMenu from '@/renderer/views/components/MenuItem/OnlineMenu';
  */
 
 export default function LeftOnlineMenu() {
-  const { onlineMenuList } = useSelector(
+  const { onlineMenuList, isCollapseMenu } = useSelector(
     (state: RootState) => ({
       onlineMenuList: state.mainMenu.onlineMenuList,
+      isCollapseMenu: state.mainMenu.isCollapseMenu,
     }),
     shallowEqual,
   );
 
   return (
     <OnlineMenuStyles>
-      <div className="title">在线音乐</div>
+      <div
+        className="title"
+        style={{ display: isCollapseMenu ? 'none' : 'block' }}
+      >
+        在线音乐
+      </div>
       <div>
         {onlineMenuList?.map((item: any) => {
           return (

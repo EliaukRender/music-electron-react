@@ -18,7 +18,7 @@ import {
 import MessageToast from '@/renderer/components/MessageToast';
 
 const { dispatch } = store;
-const audio = new Audio();
+export const audio = new Audio();
 let analyser: any = null;
 
 /**

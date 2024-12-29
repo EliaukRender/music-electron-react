@@ -6,6 +6,7 @@ import RightContainer from './components/RightContainer';
 import { useEffect } from 'react';
 import { initAppData } from '@/renderer/store/actions/mainMenuActions';
 import { LayoutStyles } from '@/renderer/views/Layout/styles/LayoutStyles';
+import LyricFullScreen from '@/renderer/views/LyricFullScreen';
 
 export default function Layout() {
   useEffect(() => {
@@ -16,6 +17,7 @@ export default function Layout() {
     <LayoutStyles>
       <LeftAside></LeftAside>
       <RightContainer></RightContainer>
+      <LyricFullScreen></LyricFullScreen>
     </LayoutStyles>
   );
 }

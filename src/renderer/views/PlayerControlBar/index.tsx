@@ -22,6 +22,7 @@ const PlayControlBar = () => {
 
   return (
     <PlayControlBarStyles
+      className="player-control-bar"
       ref={forbidMouseDownEleRef}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}

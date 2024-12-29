@@ -18,9 +18,10 @@ interface PropsType {
  */
 const OnlineMenu: React.FC<PropsType> = ({ menuItemInfo }) => {
   const dispatch = useDispatch();
-  const { activeMenu } = useSelector(
+  const { activeMenu, isCollapseMenu } = useSelector(
     (state: RootState) => ({
       activeMenu: state.mainMenu.activeMenu,
+      isCollapseMenu: state.mainMenu.isCollapseMenu,
     }),
     shallowEqual,
   );
@@ -34,16 +35,21 @@ const OnlineMenu: React.FC<PropsType> = ({ menuItemInfo }) => {
   return (
     <MenuItemStyles
       onClick={clickMenu}
-      className={menuItemInfo.menuId === activeMenu?.menuId ? 'active' : ''}
+      className={classNames(
+        menuItemInfo.menuId === activeMenu?.menuId ? 'active' : '',
+      )}
     >
       <div
         className={classNames(
           'item',
+          isCollapseMenu ? 'item-collapse' : '',
           menuItemInfo.menuId === activeMenu?.menuId ? 'item-active' : '',
         )}
       >
         <i className={classNames('iconfont', menuItemInfo?.menuIcon)}></i>
-        <span className="name">{menuItemInfo.menuName}</span>
+        {!isCollapseMenu && (
+          <span className="name">{menuItemInfo.menuName}</span>
+        )}
       </div>
     </MenuItemStyles>
   );

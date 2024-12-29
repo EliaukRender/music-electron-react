@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const RightContainerStyles = styled.div`
-  width: calc(100% - 220px);
+  flex: 1;
   height: 100%;
   padding: 10px 10px 10px 0;
   display: flex;

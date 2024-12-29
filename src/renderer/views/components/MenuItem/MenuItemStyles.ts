@@ -28,4 +28,15 @@ export const MenuItemStyles = styled.div`
       background-color: ${({ theme }) => theme.bgcColor.active} !important;
     }
   }
+
+  // 菜单折叠时重置样式
+  .item-collapse {
+    height: 48px;
+    padding-left: 0;
+    justify-content: center;
+
+    .iconfont {
+      font-size: 30px;
+    }
+  }
 `;

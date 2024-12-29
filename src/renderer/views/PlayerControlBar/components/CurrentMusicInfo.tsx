@@ -22,7 +22,7 @@ const CurrentMusicInfo = () => {
   }, [activeSongId, activeSongList]);
 
   return (
-    <CurrentMusicInfoStyles>
+    <CurrentMusicInfoStyles className="current-music-info">
       <div className="info-text">
         <div className="singer">{currentSong?.singer || 'Eliauk'}</div>
         <div className="song-name">{currentSong?.songName || '音乐一下'}</div>

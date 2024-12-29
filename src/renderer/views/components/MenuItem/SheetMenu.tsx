@@ -19,9 +19,10 @@ interface PropsType {
  */
 const SheetMenu: React.FC<PropsType> = ({ menuItemInfo }) => {
   const dispatch = useDispatch();
-  const { activeSheet } = useSelector(
+  const { activeSheet, isCollapseMenu } = useSelector(
     (state: RootState) => ({
       activeSheet: state.mainMenu.activeSheet,
+      isCollapseMenu: state.mainMenu.isCollapseMenu,
     }),
     shallowEqual,
   );
@@ -42,11 +43,14 @@ const SheetMenu: React.FC<PropsType> = ({ menuItemInfo }) => {
       <div
         className={classNames(
           'item',
+          isCollapseMenu ? 'item-collapse' : '',
           menuItemInfo?.sheetId === activeSheet?.sheetId ? 'item-active' : '',
         )}
       >
         <i className={classNames('iconfont', menuItemInfo.sheetIcon)}></i>
-        <span className="name">{menuItemInfo.sheetName}</span>
+        {!isCollapseMenu && (
+          <span className="name">{menuItemInfo.sheetName}</span>
+        )}
       </div>
     </MenuItemStyles>
   );

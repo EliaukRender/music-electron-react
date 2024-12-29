@@ -21,6 +21,7 @@ export const MusicMiniPictureStyles = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
+      border-radius: 6px;
     }
 
     .music-pic {

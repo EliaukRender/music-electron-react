@@ -29,7 +29,7 @@ const TimeLine = () => {
   };
 
   return (
-    <TimeLineStyles>
+    <TimeLineStyles className="time-line">
       <div className="time">{formatTime(currentTime)}</div>
       <ConfigProvider
         theme={{

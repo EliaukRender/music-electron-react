@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+interface IState {
+  fullScreen: boolean; // 全屏
+  minScreen: boolean; // 最小化
+  maxScreen: boolean; // 最大化
+}
+
 /**
  * @description: 全局数据
  */
@@ -7,19 +13,23 @@ const globalSlice = createSlice({
   name: 'global',
 
   initialState: {
-    scrollY: 0, // 页面在Y轴方向滚动值
-    scrollDirection: '', // up-往上； down-往下
+    fullScreen: false,
+    minScreen: false,
+    maxScreen: false,
   },
 
   // 同步reducers
   reducers: {
-    // 保存最新的scrollY值
-    setScrollY(state, { payload }) {
-      state.scrollY = payload;
+    setFullScreen(state, { payload }) {
+      state.fullScreen = payload;
     },
-    // 网页滚动的方向
-    setScrollDirection(state, { payload }) {
-      state.scrollDirection = payload;
+
+    setMinScreen(state, { payload }) {
+      state.minScreen = payload;
+    },
+
+    setMaxScreen(state, { payload }) {
+      state.maxScreen = payload;
     },
   },
 
@@ -27,5 +37,6 @@ const globalSlice = createSlice({
   extraReducers: () => {},
 });
 
-export const { setScrollY, setScrollDirection } = globalSlice.actions; // 同步的dispatch
+export const { setFullScreen, setMinScreen, setMaxScreen } =
+  globalSlice.actions; // 同步的dispatch
 export default globalSlice.reducer; // reducer

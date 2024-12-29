@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4619235 */
-  src: url('iconfont.woff2?t=1734959644892') format('woff2'),
-       url('iconfont.woff?t=1734959644892') format('woff'),
-       url('iconfont.ttf?t=1734959644892') format('truetype');
+  src: url('iconfont.woff2?t=1735471985906') format('woff2'),
+       url('iconfont.woff?t=1735471985906') format('woff'),
+       url('iconfont.ttf?t=1735471985906') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-zhediecaidan:before {
+  content: "\e65a";
 }
 
 .icon-mini-app:before {

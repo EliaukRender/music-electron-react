@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "20764004",
+      "name": "折叠菜单",
+      "font_class": "zhediecaidan",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
       "icon_id": "4251780",
       "name": "miniApp",
       "font_class": "mini-app",
