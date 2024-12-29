@@ -16,7 +16,6 @@ export const LyricFullScreenStyles = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-    background-color: transparent;
 
     .operation-bar {
       display: flex;

@@ -9,6 +9,7 @@ export const PlayControlBarStyles = styled.div`
     height: 77px;
     margin-top: 10px;
     border-radius: 6px;
+    background-color: ${(props) => props.theme.bgcColor.light_gray_white};
 
     .left {
       flex: 1;
