@@ -30,14 +30,16 @@ export const transformLyric = (lyricStr = ''): ILyric[] => {
         return null;
       })
       .filter((obj) => obj !== null) || [];
-  return initList.map((item, index) => {
-    return {
-      ...item,
-      /* 额外减去0.2s是为了提前高亮歌词 */
-      duration:
-        index !== initList.length - 1
-          ? initList[index + 1].time - initList[index].time - 0.2
-          : 5,
-    };
-  });
+  return initList
+    .map((item, index) => {
+      return {
+        ...item,
+        /* 额外减去0.2s是为了提前高亮歌词 */
+        duration:
+          index !== initList.length - 1
+            ? initList[index + 1].time - initList[index].time - 0.2
+            : 5,
+      };
+    })
+    .filter((item) => !!item.lyric.length);
 };
