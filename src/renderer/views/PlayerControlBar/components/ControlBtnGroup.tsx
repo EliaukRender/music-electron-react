@@ -30,6 +30,10 @@ const ControlBtnGroup = () => {
     shallowEqual,
   );
 
+  const handleForward = () => {
+    addCurrentTime();
+  };
+
   return (
     <ControlBtnGroupStyles>
       <motion.div
@@ -77,11 +81,7 @@ const ControlBtnGroup = () => {
           }}
         />
         {/* 快进 */}
-        <ForwardOutlined
-          onClick={() => {
-            addCurrentTime();
-          }}
-        />
+        <ForwardOutlined onClick={handleForward} />
       </motion.div>
     </ControlBtnGroupStyles>
   );

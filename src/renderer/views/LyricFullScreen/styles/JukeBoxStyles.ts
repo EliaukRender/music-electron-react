@@ -1,55 +1,43 @@
 import styled from 'styled-components';
 
 export const JukeBoxStyles = styled.div`
-  width: 50%;
-  height: 100%;
+  flex: 1;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  box-sizing: border-box;
-  padding-right: 50px;
 
-  .box {
-    width: 400px;
-    height: 400px;
-    background-color: #131313;
-    border-radius: 40px;
+  /* 最外层方形盒子 */
+  .juke-box {
     display: flex;
     justify-content: center;
     align-items: center;
 
-    .outer {
-      width: 380px;
-      height: 380px;
-      background-color: #1f1f1f;
+    border-radius: 20px;
+    background-color: #131313;
+
+    .circle-one {
+      width: 90%;
+      height: 90%;
       border-radius: 50%;
+      background-color: #1f1f1f;
+
       display: flex;
       justify-content: center;
       align-items: center;
 
-      .inner {
-        width: 330px;
-        height: 330px;
-        border-radius: 50%;
+      .circle-two {
         display: flex;
         justify-content: center;
         align-items: center;
-        box-sizing: border-box;
-        background-color: #979794;
-        position: relative;
 
-        .line {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, 50%);
-          border: 1px solid #efefef;
-          border-radius: 50%;
-        }
+        width: 90%;
+        height: 90%;
+        border-radius: 50%;
+        background-color: #979794;
 
         .image {
-          width: 200px;
-          height: 200px;
+          width: 70%;
+          height: 70%;
           border-radius: 50%;
         }
       }

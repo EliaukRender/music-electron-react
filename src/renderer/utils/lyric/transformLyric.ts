@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ILyric } from '@/renderer/types/Lyric';
 
 /**
@@ -23,23 +24,21 @@ export const transformLyric = (lyricStr = ''): ILyric[] => {
           const timeInSeconds = minutes * 60 + seconds + milliseconds / 100;
 
           return {
-            time: Number(timeInSeconds),
+            startTime: Number(timeInSeconds).toFixed(3),
             lyric: match[4].trim(), // 去除空格
           };
         }
         return null;
       })
       .filter((obj) => obj !== null) || [];
-  return initList
-    .map((item, index) => {
-      return {
-        ...item,
-        /* 额外减去0.2s是为了提前高亮歌词 */
-        duration:
-          index !== initList.length - 1
-            ? initList[index + 1].time - initList[index].time - 0.2
-            : 5,
-      };
-    })
-    .filter((item) => !!item.lyric.length);
+  console.log('initList', initList);
+  return initList.map((item, index) => {
+    return {
+      ...item,
+      duration: (index !== initList.length - 1
+        ? initList[index + 1].startTime - initList[index].startTime
+        : 5
+      ).toFixed(3),
+    };
+  });
 };

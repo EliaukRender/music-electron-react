@@ -1,108 +1,157 @@
+// @ts-nocheck
 import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { LyricStyles } from '@/renderer/views/LyricFullScreen/styles/LyricStyles';
 import { shallowEqual, useSelector } from 'react-redux';
 import { transformLyric } from '@/renderer/utils/lyric/transformLyric';
-import { audio } from '@/renderer/store/actions/audioPlayerActions';
 import { RootState } from '@/renderer/store';
+import gsap from 'gsap';
+import ScrollToPlugin from 'gsap/ScrollToPlugin';
+import Emitter from '@/renderer/eventBus/event-emitter';
+import { LyricInteraction } from '@/renderer/eventBus/modules/lyricInteraction';
+
+interface IProps {
+  initWidth: number;
+}
 
 /**
  * @description: 歌词
  */
-const Lyric = () => {
-  const { activeSongId, activeSongList } = useSelector(
+const Lyric = ({ initWidth }: IProps) => {
+  const { activeSongId, activeSongList, currentTime, isPlaying } = useSelector(
     (state: RootState) => ({
       activeSongId: state.playerControl.activeSongId,
       activeSongList: state.playerControl.activeSongList,
+      currentTime: state.audioPlayer.currentTime,
+      isPlaying: state.audioPlayer.isPlaying,
     }),
     shallowEqual,
   );
-  const [currentTime, setCurrentTime] = useState(0);
+  const [activeLyric, setActiveLyric] = useState();
   const lyricBoxRef = useRef<HTMLDivElement | null>(null);
-  const [oldIndex, setOldIndex] = useState(0);
+  const lyricRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const timeLine = useRef();
+  gsap.registerPlugin(ScrollToPlugin);
+
+  // 当前歌曲
+  const activeSong = useMemo(() => {
+    return activeSongList.find((song) => song.songId === activeSongId) || {};
+  }, [activeSongId, activeSongList]);
 
   // 当前歌词列表
   const lyricList = useMemo(() => {
-    const curSong = activeSongList.find((song) => song.songId === activeSongId);
-    return transformLyric(curSong.lyric);
-  }, [activeSongId, activeSongList]);
+    return activeSong?.lyric ? transformLyric(activeSong?.lyric) : [];
+  }, [activeSong]);
 
   /**
-   * @description: 歌曲切换时更新歌词
+   * @description:歌词动画效果
    */
   useEffect(() => {
-    const lyricBoxEle = lyricBoxRef.current as HTMLDivElement;
-    const currentSong = activeSongList.find(
-      (song) => song.activeSongId === activeSongId,
-    );
-    if (currentSong && lyricBoxEle) {
-      setOldIndex(0); // 重置索引值
-      // 清除动画效果
-      const childrenList = lyricBoxEle.querySelectorAll('.lyric-text');
-      childrenList.forEach((item: any) => {
-        item.style.animation = 'none';
-        item.style.fontWeight = '400';
+    console.log('lyricLineRef', lyricRefs.current, lyricList);
+    timeLine.current = gsap.timeline();
+
+    lyricList.forEach((lyric, index) => {
+      const target = lyricRefs.current[index];
+
+      timeLine.current.to(target, {
+        backgroundSize: '100% 100%',
+        duration: lyric.duration,
+        pause: true,
+
+        /* 每一句歌词动画 开始 */
+        onStart: () => {
+          console.log('onStart');
+          boldLyric(target);
+        },
+
+        /* 每一句歌词动画 结束 */
+        onComplete: () => {
+          gsap.set(target, { clearProps: 'all' });
+          gsap.killTweensOf(target);
+          handleBoxScroll(index); // 歌词滚动
+        },
       });
-      // 歌词盒子还原偏移值
-      lyricBoxEle.scrollTo({ top: 0 });
-    }
-  }, [activeSongId, activeSongList]);
+    });
+  }, [lyricList]);
+
+  // 歌词字体加粗变大
+  const boldLyric = (target) => {
+    gsap.to(target, {
+      fontWeight: 600,
+      height: '55px',
+      lineHeight: '55px',
+      fontSize: 22,
+      duration: 0.1,
+    });
+  };
+
+  // 歌词滚动
+  const handleBoxScroll = (index: number) => {
+    if (index < 3) return;
+    gsap.to(lyricBoxRef.current, {
+      duration: 0,
+      scrollTo: 40 * (index - 3),
+      ease: 'power2.in',
+    });
+  };
 
   /**
-   * @description: 歌曲时间变化时更新歌词状态
+   *  监听音乐的 时间节点变化
    */
   useEffect(() => {
-    const lyricBox = lyricBoxRef.current as HTMLDivElement;
-    if (!lyricBox) return;
-    const childrenList = lyricBox?.querySelectorAll('.lyric-text');
-    // 寻找高亮歌词索引值
-    const index = lyricList.findIndex((item: any) => item.time >= currentTime);
-    if (index !== -1 && index !== oldIndex) {
-      highlightLyric(index);
-    }
+    Emitter.on(LyricInteraction.change_current_time, handleForward);
 
-    // 更新界面显示高亮歌词的函数
-    function highlightLyric(idx: number) {
-      if (idx === 0) return;
-      // 清除动画效果
-      childrenList.forEach((item: any) => {
-        item.style.animation = 'none';
-        item.style.fontWeight = '400';
+    // 处理快进、后退事件
+    function handleForward(time) {
+      let newIndex = lyricList.findIndex((item) => item.startTime > time);
+      if (newIndex !== -1) {
+        newIndex -= 1;
+      } else {
+        newIndex = lyricRefs.current.length;
+      }
+      console.log('newIndex', newIndex);
+      lyricRefs.current.forEach((item, index) => {
+        if (index < newIndex) {
+          gsap.killTweensOf(item);
+          gsap.set(item, { clearProps: 'all' });
+        }
       });
-      // 当前歌词添加动画
-      const targetEle = childrenList[idx - 1] as HTMLElement;
-      targetEle.style.animation = `scan ${lyricList[idx - 1].duration}s ease-out`;
-      targetEle.style.fontWeight = '600';
-      // 高亮到第五行歌词开始滚动
-      if (idx < 5) return;
-      lyricBox.scrollTo({
-        top: 40 * (idx - 5), // 每行歌词的高度40px
-        behavior: 'smooth',
-      });
-      setOldIndex(idx); // 下一句歌词的参考索引值
+      timeLine.current.seek(time);
+      boldLyric(lyricRefs.current[newIndex]);
+      handleBoxScroll(newIndex);
     }
-  }, [currentTime, lyricList, oldIndex]);
+  }, [lyricList]);
 
-  // 歌词页面自己维护歌曲当前播放时间(提高实时性)
+  // 歌词动画的开始与暂停
   useEffect(() => {
-    function timeUpdate() {
-      setCurrentTime(audio.currentTime);
+    if (isPlaying) {
+      timeLine.current.play();
+    } else {
+      timeLine.current.pause();
     }
-    audio.addEventListener('timeupdate', timeUpdate);
-
-    return () => {
-      audio && audio.removeEventListener('timeupdate', timeUpdate);
-    };
-  }, [activeSongId]);
+  }, [isPlaying]);
 
   return (
-    <LyricStyles>
-      <div className="lyric-box" ref={lyricBoxRef}>
+    <LyricStyles style={{ paddingLeft: 0.1 * initWidth }}>
+      <div
+        ref={lyricBoxRef}
+        className="lyric-box"
+        style={{
+          width: 0.6 * initWidth,
+          height: 0.7 * initWidth,
+        }}
+      >
         {!!lyricList.length &&
           lyricList.map((item, index) => {
             return (
-              // eslint-disable-next-line react/no-array-index-key
               <div className="lyric-line" key={index}>
-                <div className="lyric-text">{item.lyric}</div>
+                <div
+                  ref={(el: HTMLDivElement) => {
+                    lyricRefs.current[index] = el;
+                  }}
+                  className="lyric-text"
+                >
+                  {item.lyric}
+                </div>
               </div>
             );
           })}

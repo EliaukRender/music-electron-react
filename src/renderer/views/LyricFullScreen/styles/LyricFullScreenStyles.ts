@@ -34,6 +34,7 @@ export const LyricFullScreenStyles = styled.div`
       }
 
       /* 重置原组件的样式 */
+
       .iconfont,
       svg {
         cursor: pointer;
@@ -42,6 +43,8 @@ export const LyricFullScreenStyles = styled.div`
     }
 
     .juke-lyric {
+      width: 100%;
+      height: 100%;
       flex: 1;
       display: flex;
       align-items: center;
@@ -55,22 +58,26 @@ export const LyricFullScreenStyles = styled.div`
       height: 77px;
 
       /* 重置原组件的元素样式 */
+
       .box {
         margin-top: 0;
         background-color: transparent;
       }
 
       /* 重置原组件的元素样式 */
+
       .current-music-info {
         .singer {
           color: ${(props) => props.theme.textColor.gray_white};
         }
+
         .song-name {
           color: ${(props) => props.theme.textColor.gray};
         }
       }
 
       /* 重置 TimeLine组件 的元素样式 */
+
       .time-line {
         .time {
           color: ${(props) => props.theme.textColor.gray};
@@ -78,6 +85,7 @@ export const LyricFullScreenStyles = styled.div`
       }
 
       /* 重置原组件的 svg和iconfont元素 样式 */
+
       .iconfont,
       svg {
         cursor: pointer;

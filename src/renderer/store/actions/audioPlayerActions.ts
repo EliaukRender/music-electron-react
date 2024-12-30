@@ -16,6 +16,8 @@ import {
   setIsLoadingSong,
 } from '@/renderer/store/modules/playerControlReducer';
 import MessageToast from '@/renderer/components/MessageToast';
+import Emitter from '@/renderer/eventBus/event-emitter';
+import { LyricInteraction } from '@/renderer/eventBus/modules/lyricInteraction';
 
 const { dispatch } = store;
 export const audio = new Audio();
@@ -234,6 +236,7 @@ export const addCurrentTime = () => {
   }
   dispatch(setCurrentTime(lastTime));
   audio.currentTime = lastTime;
+  Emitter.emit(LyricInteraction.change_current_time, lastTime);
 };
 
 /**
@@ -252,6 +255,7 @@ export const decreaseCurrentTime = () => {
   }
   dispatch(setCurrentTime(lastTime));
   audio.currentTime = lastTime;
+  Emitter.emit(LyricInteraction.change_current_time, lastTime);
 };
 
 /**
