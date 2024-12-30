@@ -1,17 +1,17 @@
-import React, { memo, useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useMemo, useRef } from 'react';
 import { JukeBoxStyles } from '@/renderer/views/LyricFullScreen/styles/JukeBoxStyles';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import gsap from 'gsap';
 
 interface IProps {
-  initWidth: number;
+  initWidthHeight: { width: number; height: number };
 }
 
 /**
  * @description: 唱片机
  */
-const JukeBox = ({ initWidth }: IProps) => {
+const JukeBox = ({ initWidthHeight }: IProps) => {
   const imageRef = useRef<HTMLImageElement | null>(null);
   const rotateTween = useRef<gsap.TweenTarget>();
 
@@ -40,15 +40,19 @@ const JukeBox = ({ initWidth }: IProps) => {
     }
   }, [isPlaying]);
 
+  /**
+   * 计算样式 todo
+   */
+  const style = useMemo(() => {
+    return {
+      width: initWidthHeight.width * 0.6,
+      height: initWidthHeight.width * 0.6,
+    };
+  }, [initWidthHeight]);
+
   return (
-    <JukeBoxStyles style={{ paddingRight: initWidth * 0.1 }}>
-      <div
-        className="juke-box"
-        style={{
-          width: 0.6 * initWidth,
-          height: 0.6 * initWidth,
-        }}
-      >
+    <JukeBoxStyles style={{ paddingRight: initWidthHeight.width * 0.1 }}>
+      <div className="juke-box" style={style}>
         <div className="circle-one">
           <div className="circle-two">
             <img

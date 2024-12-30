@@ -22,7 +22,10 @@ const LyricFullScreen = () => {
     }),
     shallowEqual,
   );
-  const [initWidth, setInitWidth] = useState(0);
+  const [initWidthHeight, setInitWidthHeight] = useState({
+    width: 0,
+    height: 0,
+  });
   const jukeLyricRef = useRef<HTMLDivElement | null>(null);
 
   // 监听页面视图尺寸变化
@@ -32,8 +35,11 @@ const LyricFullScreen = () => {
     // 计算唱片机的宽度
     const computeWidth = () => {
       const rect = jukeLyricEle?.getBoundingClientRect();
-      console.log('计算宽度', rect);
-      setInitWidth((prevState) => (rect?.width || prevState) / 2);
+      if (!rect) return;
+      setInitWidthHeight({
+        width: rect.width / 2,
+        height: rect.height / 2,
+      });
     };
 
     computeWidth();
@@ -44,30 +50,30 @@ const LyricFullScreen = () => {
   }, [showLyrics]);
 
   return (
-    showLyrics && (
-      <LyricFullScreenStyles>
-        <div className="main-box">
-          <div className="operation-bar" ref={dragEleRef}>
-            <div className="left">
-              <MiniLyricScreen></MiniLyricScreen>
-            </div>
-            <div className="right">
-              <FullScreen></FullScreen>
-              <MinScreen></MinScreen>
-              <MaxScreen></MaxScreen>
-            </div>
+    <LyricFullScreenStyles
+      style={{ transform: showLyrics ? 'translateY(0%)' : 'translateY(100%)' }}
+    >
+      <div className="main-box">
+        <div className="operation-bar" ref={dragEleRef}>
+          <div className="left">
+            <MiniLyricScreen></MiniLyricScreen>
           </div>
-          <div className="juke-lyric" ref={jukeLyricRef}>
-            <JukeBox initWidth={initWidth}></JukeBox>
-            <Lyric initWidth={initWidth}></Lyric>
+          <div className="right">
+            <FullScreen></FullScreen>
+            <MinScreen></MinScreen>
+            <MaxScreen></MaxScreen>
           </div>
         </div>
+        <div className="juke-lyric" ref={jukeLyricRef}>
+          <JukeBox initWidthHeight={initWidthHeight}></JukeBox>
+          <Lyric initWidthHeight={initWidthHeight}></Lyric>
+        </div>
+      </div>
 
-        <div className="bottom-box">
-          <PlayControlBar></PlayControlBar>
-        </div>
-      </LyricFullScreenStyles>
-    )
+      <div className="bottom-box">
+        <PlayControlBar></PlayControlBar>
+      </div>
+    </LyricFullScreenStyles>
   );
 };
 

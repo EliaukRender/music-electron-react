@@ -1,5 +1,6 @@
 export interface ILyric {
   duration: number;
-  time: number;
+  startTime: number;
+  endTime: number;
   lyric: string;
 }

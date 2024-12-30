@@ -11,7 +11,7 @@ export const LyricStyles = styled.div`
   .lyric-box {
     overflow: auto;
     pointer-events: none; /* 禁止鼠标事件 */
-    font-size: 16px;
+    font-size: 18px;
 
     &::-webkit-scrollbar {
       display: none;
@@ -26,6 +26,7 @@ export const LyricStyles = styled.div`
       .lyric-text {
         height: 40px;
         line-height: 40px;
+
         display: inline-block;
         text-overflow: ellipsis;
         background: #efefef linear-gradient(to right, #00cc65, #00cc65)

@@ -24,7 +24,7 @@ export const transformLyric = (lyricStr = ''): ILyric[] => {
           const timeInSeconds = minutes * 60 + seconds + milliseconds / 100;
 
           return {
-            startTime: Number(timeInSeconds).toFixed(3),
+            startTime: Number(timeInSeconds.toFixed(3)),
             lyric: match[4].trim(), // 去除空格
           };
         }
@@ -32,13 +32,18 @@ export const transformLyric = (lyricStr = ''): ILyric[] => {
       })
       .filter((obj) => obj !== null) || [];
   console.log('initList', initList);
-  return initList.map((item, index) => {
-    return {
-      ...item,
-      duration: (index !== initList.length - 1
+  const lastList = initList.map((item, index) => {
+    const duration = (
+      index !== initList.length - 1
         ? initList[index + 1].startTime - initList[index].startTime
         : 5
-      ).toFixed(3),
+    ).toFixed(3);
+    return {
+      ...item,
+      duration,
+      endTime: item.startTime + Number(duration),
     };
   });
+  console.log('lastList', lastList);
+  return lastList;
 };
