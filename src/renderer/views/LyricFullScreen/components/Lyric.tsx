@@ -24,21 +24,35 @@ interface IProps {
  * @description: 歌词
  */
 const Lyric = ({ initWidthHeight }: IProps) => {
-  const { activeSongId, activeSongList, isPlaying, currentTime, isPause } =
-    useSelector(
-      (state: RootState) => ({
-        activeSongId: state.playerControl.activeSongId,
-        activeSongList: state.playerControl.activeSongList,
-        currentTime: state.audioPlayer.currentTime,
-        isPlaying: state.audioPlayer.isPlaying,
-        isPause: state.audioPlayer.isPause,
-      }),
-      shallowEqual,
-    );
+  const {
+    activeSongId,
+    activeSongList,
+    isPlaying,
+    currentTime,
+    isPause,
+    isEnded,
+  } = useSelector(
+    (state: RootState) => ({
+      activeSongId: state.playerControl.activeSongId,
+      activeSongList: state.playerControl.activeSongList,
+      currentTime: state.audioPlayer.currentTime,
+      isPlaying: state.audioPlayer.isPlaying,
+      isPause: state.audioPlayer.isPause,
+      isEnded: state.audioPlayer.isEnded,
+    }),
+    shallowEqual,
+  );
   const lyricBoxRef = useRef<HTMLDivElement | null>(null);
   const lyricRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [lyricTween, setLyricTween] = useState(); // 歌词高亮动画
+  const [lyricTween, setLyricTween] = useState({}); // 歌词高亮动画
+
+  /**
+   *  注册动画插件
+   */
+  useEffect(() => {
+    gsap.registerPlugin(ScrollToPlugin);
+  }, []);
 
   /**
    *  生成歌词
@@ -53,21 +67,20 @@ const Lyric = ({ initWidthHeight }: IProps) => {
    *   更新歌词高亮索引值
    */
   useEffect(() => {
-    const newIndex =
-      lyricList.findIndex((item) => item.startTime > currentTime) - 1;
-    if (newIndex === -2) return; // 最后一句不再更新索引值
+    const newIndex = lyricList.findIndex((item) => currentTime < item?.endTime);
+    if (newIndex === -1) return;
     // 高亮新的一句
     if (newIndex !== activeIndex) {
       lyricRefs.current.forEach((item) => {
-        gsap.killTweensOf(item);
-        gsap.set(item, { clearProps: 'all' });
+        item && gsap.killTweensOf(item);
+        item && gsap.set(item, { clearProps: 'all' });
       });
       setActiveIndex((prevState) => newIndex);
     }
   }, [activeIndex, currentTime, lyricList]);
 
   /**
-   *   歌词高亮移动动画
+   *   歌词高亮动画
    */
   const lyricAnimation = useCallback(() => {
     if (!lyricList.length || !lyricRefs.current.length) return;
@@ -93,7 +106,7 @@ const Lyric = ({ initWidthHeight }: IProps) => {
       fontWeight: 600,
       height: '50px',
       lineHeight: '50px',
-      fontSize: 26,
+      fontSize: 22,
       duration: 0.2,
     });
   }, [activeIndex]);
@@ -101,8 +114,7 @@ const Lyric = ({ initWidthHeight }: IProps) => {
   /**
    *  歌词滚动动画
    */
-  const handleBoxScroll = useCallback(() => {
-    gsap.registerPlugin(ScrollToPlugin);
+  useEffect(() => {
     if (activeIndex < 3) return;
     gsap.to(lyricBoxRef.current, {
       duration: 0.3,
@@ -112,24 +124,36 @@ const Lyric = ({ initWidthHeight }: IProps) => {
   }, [activeIndex]);
 
   /**
-   * @description: 控制歌词动画
+   *   控制歌词动画
    */
   useEffect(() => {
     if (isPlaying) {
       lyricAnimation();
       lyricHighlight();
-      handleBoxScroll();
     }
-  }, [isPlaying, lyricHighlight, handleBoxScroll, lyricAnimation]);
+  }, [isPlaying, lyricHighlight, lyricAnimation]);
 
+  /**
+   *  歌词暂停
+   */
   useEffect(() => {
-    if (isPause) {
+    if (isPause && lyricTween) {
       lyricTween?.pause();
     }
   }, [isPause, lyricTween]);
 
   /**
-   * @description: 用户改变播放音频当前播放时间
+   * 歌曲结束
+   */
+  useEffect(() => {
+    if (isEnded) {
+      setActiveIndex((prevState) => 0);
+      setLyricTween((prevState) => {});
+    }
+  }, [isEnded]);
+
+  /**
+   *  用户改变播放音频当前播放时间
    */
   useEffect(() => {
     function handleChangeCurrentTime() {

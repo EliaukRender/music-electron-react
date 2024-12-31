@@ -45,5 +45,8 @@ export const transformLyric = (lyricStr = ''): ILyric[] => {
     };
   });
   console.log('lastList', lastList);
+  for (let i = 0; i < 6; i++) {
+    lastList.push({});
+  }
   return lastList;
 };

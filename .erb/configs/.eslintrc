@@ -23,6 +23,7 @@
     "no-unused-expressions": "off",
     "react/ no-array-index-key": "off",
     /* 数组循环时允许使用index作为key */
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "no-plusplus": "off" // 禁用 '++' 操作符
   }
 }
