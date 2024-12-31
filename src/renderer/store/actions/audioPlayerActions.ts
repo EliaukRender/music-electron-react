@@ -51,10 +51,6 @@ export const playSong = async (song?: any, songList?: any[]) => {
   if (store.getState().playerControl.isLoadingSong) return;
   dispatch(setIsLoadingSong(true)); // 加载歌曲中
   console.log('playAudio--song', song);
-  // 让用户点击时才创建audioContext，否则会被浏览器策略限制
-  if (!analyser) {
-    createAnalyzer();
-  }
   // 1、点击一首歌曲播放
   if (song) {
     resetAudioStatus();
@@ -90,6 +86,10 @@ const playAudio = ({
   playbackRate?: number;
 }) => {
   if (!songId && !songUrl) return;
+  // 让用户点击时才创建audioContext，否则会被浏览器策略限制
+  if (!analyser) {
+    createAnalyzer();
+  }
   audio.src = songUrl || store.getState().playerControl.activeSongUrl;
   audio.currentTime = currentTime || store.getState().audioPlayer.currentTime;
   audio.volume = volume || store.getState().audioPlayer.volume / 100;

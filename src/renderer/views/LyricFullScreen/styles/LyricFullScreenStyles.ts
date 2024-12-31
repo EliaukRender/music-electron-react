@@ -7,6 +7,7 @@ export const LyricFullScreenStyles = styled.div`
   height: 100%;
   z-index: 10;
   background: linear-gradient(to top, #484f50 0%, #1d2529 50%, #0f2f41 100%);
+  border-radius: 6px;
 
   position: fixed;
   top: 0;

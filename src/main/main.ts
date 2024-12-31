@@ -92,6 +92,7 @@ const createWindow = async () => {
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
   });
+  // mainWindow.setHasShadow(true); // 启用窗口阴影
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 
