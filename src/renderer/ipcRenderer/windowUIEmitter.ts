@@ -1,20 +1,23 @@
 import WindowUIEvent from '../../eventNameEnum/windowUIEvent';
+import { setMaxScreen } from '@/renderer/store/modules/globalReducer';
+import store from '@/renderer/store';
+
+const { dispatch } = store;
 
 /**
  * @description: 窗口UI通信事件
  */
 export default {
   // 最大化app窗口
-  maxApp: async (): Promise<boolean> => {
-    try {
-      const res = await window.electron.ipcRenderer.invoke(
-        WindowUIEvent.MAX_APP,
-      );
-      return res as boolean;
-    } catch (e) {
-      console.error('maxApp error!', e);
-      return false;
-    }
+  maxApp: () => {
+    window.electron.ipcRenderer
+      .invoke(WindowUIEvent.MAX_APP)
+      .then((res) => {
+        dispatch(setMaxScreen(res));
+      })
+      .catch((err) => {
+        console.error('maxApp error!!!', err);
+      });
   },
 
   // 最小化app窗口

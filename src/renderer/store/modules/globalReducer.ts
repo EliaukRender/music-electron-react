@@ -23,6 +23,7 @@ const globalSlice = createSlice({
   // 同步reducers
   reducers: {
     setFullScreen(state, { payload }) {
+      console.log('全屏', payload);
       state.fullScreen = payload;
     },
 
@@ -31,6 +32,7 @@ const globalSlice = createSlice({
     },
 
     setMaxScreen(state, { payload }) {
+      console.log('setMaxScreen', payload);
       state.maxScreen = payload;
     },
   },

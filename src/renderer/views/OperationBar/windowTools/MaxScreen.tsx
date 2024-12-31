@@ -1,24 +1,31 @@
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 import windowUIEmitter from '@/renderer/ipcRenderer/windowUIEmitter';
 import classNames from 'classnames';
+import { shallowEqual, useSelector } from 'react-redux';
+import { RootState } from '@/renderer/store';
 
 /**
  * @description: 最大化、退出最大化
  */
 const MaxScreen = memo(() => {
-  const [isMaxScreen, setIsMaxScreen] = useState(false);
+  const { maxScreen } = useSelector(
+    (state: RootState) => ({
+      maxScreen: state.global.maxScreen,
+    }),
+    shallowEqual,
+  );
 
   // 窗口最大化、退出最大化
   const handleMaxScreen = async () => {
-    const res = await windowUIEmitter.maxApp();
-    setIsMaxScreen(res);
+    windowUIEmitter.maxApp();
   };
+
   return (
     <div onClick={handleMaxScreen}>
       <i
         className={classNames(
           'iconfont',
-          isMaxScreen ? 'icon-zuidahua1' : 'icon-zuidahua',
+          maxScreen ? 'icon-zuidahua1' : 'icon-zuidahua',
         )}
       ></i>
     </div>
