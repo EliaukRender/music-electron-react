@@ -16,32 +16,6 @@
     padding: 20px 15px 15px 15px;
     box-sizing: border-box;
   }
-
-  .ant-slider {
-    flex: 1;
-    margin: 0;
-
-    .ant-slider-handle::after {
-      background-color: #00cc65;
-    }
-
-    .ant-slider-handle:focus::after {
-      box-shadow: 0 0 0 4px #00cc65;
-    }
-  }
-
-  .ant-slider:hover .ant-slider-handle::after {
-    box-shadow: 0 0 0 2px #00cc65;
-  }
-
-  .anticon-sound {
-    font-size: 18px;
-    margin-top: 15px;
-  }
-
-  .volume-value {
-    margin: 10px 0;
-  }
 }
 
 /**

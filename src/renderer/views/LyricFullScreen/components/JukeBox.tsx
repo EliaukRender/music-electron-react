@@ -13,13 +13,11 @@ interface IProps {
  */
 const JukeBox = ({ initWidthHeight }: IProps) => {
   const imageRef = useRef<HTMLImageElement | null>(null);
-  const rotateTween = useRef<gsap.TweenTarget>();
+  const rotateTween = useRef<gsap.core.Tween>();
 
-  const { isPlaying, activeSongId, activeSongList } = useSelector(
+  const { isPlaying } = useSelector(
     (state: RootState) => ({
       isPlaying: state.audioPlayer.isPlaying,
-      activeSongId: state.playerControl.activeSongId,
-      activeSongList: state.playerControl.activeSongList,
     }),
     shallowEqual,
   );
