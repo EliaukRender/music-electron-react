@@ -31,7 +31,6 @@ export const OperationBarStyles = styled.div`
       margin-left: 10px;
 
       &:hover {
-        /* 降低主题色的亮度 */
         color: ${({ theme }) => darkenHexColor(theme.themeColor.active, 10)};
       }
     }

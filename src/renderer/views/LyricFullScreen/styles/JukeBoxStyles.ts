@@ -2,12 +2,13 @@ import styled from 'styled-components';
 
 export const JukeBoxStyles = styled.div`
   flex: 1;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  position: relative;
 
   /* 最外层方形盒子 */
   .juke-box {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-40%);
     display: flex;
     justify-content: center;
     align-items: center;

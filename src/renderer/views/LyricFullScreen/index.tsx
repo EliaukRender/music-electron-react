@@ -10,6 +10,7 @@ import { useUpdateWindowPosition } from '@/renderer/hooks/useUpdateWindowPositio
 import Lyric from '@/renderer/views/LyricFullScreen/components/Lyric';
 import JukeBox from '@/renderer/views/LyricFullScreen/components/JukeBox';
 import MinScreen from '@/renderer/views/OperationBar/windowTools/MinScreen';
+import AnalyzeCanvas from '@/renderer/views/LyricFullScreen/components/AnalyzeCanvas';
 
 /**
  * @description:全屏歌词界面
@@ -67,6 +68,9 @@ const LyricFullScreen = () => {
         <div className="juke-lyric" ref={jukeLyricRef}>
           <JukeBox initWidthHeight={initWidthHeight}></JukeBox>
           <Lyric initWidthHeight={initWidthHeight}></Lyric>
+        </div>
+        <div className="analyze">
+          <AnalyzeCanvas></AnalyzeCanvas>
         </div>
       </div>
 

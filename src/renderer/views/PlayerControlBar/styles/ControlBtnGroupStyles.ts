@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darkenHexColor } from '@/renderer/utils/color/transformColor';
 
 export const ControlBtnGroupStyles = styled.div`
   .btns {
@@ -25,7 +26,7 @@ export const ControlBtnGroupStyles = styled.div`
       cursor: pointer;
 
       &:hover {
-        color: #00cc65;
+        color: ${({ theme }) => darkenHexColor(theme.themeColor.active, 10)};
       }
 
       svg {

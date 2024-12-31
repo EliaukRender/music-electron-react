@@ -6,7 +6,7 @@ export const lightTheme = {
   themeColor: {
     primary: '#00f268', // 普通态
     active: '#00f268', // 激活态、选中态
-    hover: '#82ba77', // hover态
+    hover: '#00CC65', // hover态
   },
 
   /* 文本类 */

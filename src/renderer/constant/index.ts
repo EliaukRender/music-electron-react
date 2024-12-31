@@ -1,17 +1,40 @@
+import { IAnalyzeColor } from '@/types/commonTypes';
+
 /**
  * @description: 频谱图动效样式
  */
 export const AnalyzeChartList = [
-  { id: '1', name: '关闭', mode: 'none' },
-  { id: '2', name: '经典', mode: 'bars' },
-  { id: '3', name: '荧光', mode: 'lightBars' },
-  { id: '4', name: '对称', mode: 'doubleBars' },
+  {
+    id: '1',
+    name: '关闭',
+    mode: 'none',
+    chartImg: require('@/renderer/assets/images/analyzeImage/none.png'),
+  },
+  {
+    id: '2',
+    name: '经典',
+    mode: 'bars',
+    chartImg: require('@/renderer/assets/images/analyzeImage/bars.png'),
+  },
+  {
+    id: '3',
+    name: '荧光',
+    mode: 'lightBars',
+    chartImg: require('@/renderer/assets/images/analyzeImage/lightBars.png'),
+  },
+  {
+    id: '4',
+    name: '对称',
+    mode: 'doubleBars',
+    chartImg: require('@/renderer/assets/images/analyzeImage/doubleBars.png'),
+  },
 ];
 
 /**
  * @description: 频谱图动效颜色
  */
-export const AnalyzeColorList = [
+
+export const AnalyzeColorList: IAnalyzeColor[] = [
   { id: '1', colors: ['#00cc65', '#87f7a2', '#007c39', '#00cc65'] },
   { id: '2', colors: ['#93ba71', '#bed478', '#f0c8d4', '#f8e89b'] },
   { id: '3', colors: ['#84b488', '#bbe1af', '#94d380', '#cae442'] },

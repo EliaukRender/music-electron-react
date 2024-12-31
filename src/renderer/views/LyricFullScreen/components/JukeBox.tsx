@@ -43,7 +43,7 @@ const JukeBox = ({ initWidthHeight }: IProps) => {
   /**
    * 计算样式 todo
    */
-  const style = useMemo(() => {
+  const juBoxStyles = useMemo(() => {
     return {
       width: initWidthHeight.width * 0.6,
       height: initWidthHeight.width * 0.6,
@@ -51,8 +51,11 @@ const JukeBox = ({ initWidthHeight }: IProps) => {
   }, [initWidthHeight]);
 
   return (
-    <JukeBoxStyles style={{ paddingRight: initWidthHeight.width * 0.1 }}>
-      <div className="juke-box" style={style}>
+    <JukeBoxStyles>
+      <div
+        className="juke-box"
+        style={{ right: initWidthHeight.width * 0.1, ...juBoxStyles }}
+      >
         <div className="circle-one">
           <div className="circle-two">
             <img

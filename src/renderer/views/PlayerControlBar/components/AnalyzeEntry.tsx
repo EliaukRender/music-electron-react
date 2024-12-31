@@ -3,18 +3,26 @@ import { AnalyzeEntryStyles } from '@/renderer/views/PlayerControlBar/styles/Ana
 import DrawerCmp from '@/renderer/components/Drawer/Drawer';
 import AnalyzeChart from '@/renderer/views/PlayerControlBar/components/AnalyzeChart';
 import AnalyzeColor from '@/renderer/views/PlayerControlBar/components/AnalyzeColor';
+import { darkenHexColor } from '@/renderer/utils/color/transformColor';
+import { lightTheme } from '@/renderer/theme/config/lightTheme';
 
 /**
  * @description: 频谱
  */
-const AnalyzeEntry = () => {
+const AnalyzeEntry: React.FC = () => {
   const [visible, setVisible] = useState(false);
 
   return (
     <AnalyzeEntryStyles>
       <i
         className="iconfont icon-pinpu"
-        style={visible ? {} : {}}
+        style={
+          visible
+            ? {
+                color: darkenHexColor(lightTheme.themeColor.active, 10),
+              }
+            : {}
+        }
         onClick={() => {
           setVisible(true);
         }}

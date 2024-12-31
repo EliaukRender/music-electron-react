@@ -47,7 +47,13 @@ export const LyricFullScreenStyles = styled.div`
       height: 100%;
       flex: 1;
       display: flex;
-      align-items: center;
+    }
+
+    .analyze {
+      width: 100%;
+      height: 160px;
+      display: flex;
+      justify-content: center;
     }
   }
 

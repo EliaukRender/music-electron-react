@@ -21,7 +21,6 @@ import { motion } from 'framer-motion';
 import { RootState } from '@/renderer/store';
 
 const ControlBtnGroup = () => {
-  const [hover, setHover] = useState(false);
   const { isPlaying } = useSelector(
     (state: RootState) => ({
       isPause: state.audioPlayer.isPause,
@@ -36,15 +35,7 @@ const ControlBtnGroup = () => {
 
   return (
     <ControlBtnGroupStyles>
-      <motion.div
-        className="btns"
-        onMouseEnter={() => {
-          setHover(true);
-        }}
-        onMouseLeave={() => {
-          setHover(false);
-        }}
-      >
+      <motion.div className="btns">
         {/* 后退 */}
         <BackwardOutlined
           onClick={() => {

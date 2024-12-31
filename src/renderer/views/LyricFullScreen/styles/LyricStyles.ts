@@ -4,11 +4,12 @@ export const LyricStyles = styled.div`
   flex: 1;
   box-sizing: border-box;
   overflow: hidden;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  position: relative;
 
   .lyric-box {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-40%);
     overflow: auto;
     pointer-events: none; /* 禁止鼠标事件 */
     font-size: 18px;

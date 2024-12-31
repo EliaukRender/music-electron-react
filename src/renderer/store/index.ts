@@ -15,7 +15,7 @@ const store = configureStore({
     mainMenu: mainMenuReducer, // 主菜单数据
     playerControl: playerControlReducer, // 控制栏数据
     audioPlayer: audioPlayerReducer, // 音频播放数据
-    analyze: analyzeReducer, // 音频播放数据
+    analyze: analyzeReducer, // 频谱图数据
     user: persistReducer(userReducerPersisCfg, userReducer) as Reducer, // persistReducer对reducer实现持久化
   },
   middleware: (getDefaultMiddleware) =>

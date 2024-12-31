@@ -1,9 +1,11 @@
 import React, { memo, useState } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { ActiveSongEntryStyles } from '@/renderer/views/PlayerControlBar/styles/ActiveSongEntryStyles';
 import SongItemForActive from '@/renderer/views/components/SongItem/SongItemForActive';
 import DrawerCmp from '@/renderer/components/Drawer/Drawer';
+import { darkenHexColor } from '@/renderer/utils/color/transformColor';
+import { lightTheme } from '@/renderer/theme/config/lightTheme';
 
 /**
  * @description: 当前歌曲播放列表
@@ -21,7 +23,13 @@ const ActiveSongEntry = () => {
     <ActiveSongEntryStyles>
       <i
         className="iconfont icon-zhankai"
-        style={visible ? {} : {}}
+        style={
+          visible
+            ? {
+                color: darkenHexColor(lightTheme.themeColor.active, 10),
+              }
+            : {}
+        }
         onClick={() => {
           setVisible(true);
         }}
