@@ -104,10 +104,9 @@ const Lyric = ({ initWidthHeight }: IProps) => {
     const target = lyricRefs.current[activeIndex];
     gsap.to(target, {
       fontWeight: 600,
-      height: '50px',
-      lineHeight: '50px',
       fontSize: 22,
       duration: 0.2,
+      ease: 'power2.in',
     });
   }, [activeIndex]);
 
@@ -117,9 +116,9 @@ const Lyric = ({ initWidthHeight }: IProps) => {
   useEffect(() => {
     if (activeIndex < 3) return;
     gsap.to(lyricBoxRef.current, {
-      duration: 0.3,
+      duration: 0.4,
       scrollTo: 40 * (activeIndex - 3),
-      ease: 'power2.inOut',
+      ease: 'power2.in',
     });
   }, [activeIndex]);
 
