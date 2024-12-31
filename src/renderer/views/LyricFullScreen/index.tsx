@@ -20,9 +20,10 @@ const LyricFullScreen = () => {
   const { dragEleRef } = useUpdateWindowPosition(); // 窗口拖拽
   useDoubleClick(dragEleRef); // 双击全屏
 
-  const { showLyrics } = useSelector(
+  const { showLyrics, fullScreen } = useSelector(
     (state: RootState) => ({
       showLyrics: state.playerControl.showLyrics,
+      fullScreen: state.global.fullScreen,
     }),
     shallowEqual,
   );
@@ -65,9 +66,9 @@ const LyricFullScreen = () => {
             <MiniLyricScreen></MiniLyricScreen>
           </div>
           <div className="right">
-            <FullScreen></FullScreen>
-            <MinScreen></MinScreen>
-            <MaxScreen></MaxScreen>
+            <FullScreen fullScreen={fullScreen}></FullScreen>
+            {!fullScreen && <MinScreen></MinScreen>}
+            {!fullScreen && <MaxScreen></MaxScreen>}
           </div>
         </div>
         <div className="juke-lyric" ref={jukeLyricRef}>

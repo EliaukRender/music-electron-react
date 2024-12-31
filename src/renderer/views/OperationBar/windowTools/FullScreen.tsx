@@ -1,24 +1,21 @@
 import { memo } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setFullScreen } from '@/renderer/store/modules/globalReducer';
-import { RootState } from '@/renderer/store';
 import windowUIEmitter from '@/renderer/ipcRenderer/windowUIEmitter';
+
+interface IProps {
+  fullScreen: boolean;
+}
 
 /**
  * @description: APP全屏
  * @param
  * @return
  */
-const FullScreen = memo(() => {
+const FullScreen = memo(({ fullScreen }: IProps) => {
   const dispatch = useDispatch();
 
-  const { fullScreen } = useSelector(
-    (state: RootState) => ({
-      fullScreen: state.global.fullScreen,
-    }),
-    shallowEqual,
-  );
-
+  // 全屏
   const handleFullScreen = () => {
     windowUIEmitter.fullApp();
     dispatch(setFullScreen(!fullScreen));
