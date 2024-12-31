@@ -6,17 +6,19 @@ interface IState {
   maxScreen: boolean; // 最大化
 }
 
+const initialState: IState = {
+  fullScreen: false,
+  minScreen: false,
+  maxScreen: false,
+};
+
 /**
  * @description: 全局数据
  */
 const globalSlice = createSlice({
   name: 'global',
 
-  initialState: {
-    fullScreen: false,
-    minScreen: false,
-    maxScreen: false,
-  },
+  initialState,
 
   // 同步reducers
   reducers: {

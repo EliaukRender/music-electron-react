@@ -11,12 +11,15 @@ import Lyric from '@/renderer/views/LyricFullScreen/components/Lyric';
 import JukeBox from '@/renderer/views/LyricFullScreen/components/JukeBox';
 import MinScreen from '@/renderer/views/OperationBar/windowTools/MinScreen';
 import AnalyzeCanvas from '@/renderer/views/LyricFullScreen/components/AnalyzeCanvas';
+import { useDoubleClick } from '@/renderer/hooks/useDoubleClick';
 
 /**
  * @description:全屏歌词界面
  */
 const LyricFullScreen = () => {
-  const { dragEleRef } = useUpdateWindowPosition();
+  const { dragEleRef } = useUpdateWindowPosition(); // 窗口拖拽
+  useDoubleClick(dragEleRef); // 双击全屏
+
   const { showLyrics } = useSelector(
     (state: RootState) => ({
       showLyrics: state.playerControl.showLyrics,
@@ -29,7 +32,9 @@ const LyricFullScreen = () => {
   });
   const jukeLyricRef = useRef<HTMLDivElement | null>(null);
 
-  // 监听页面视图尺寸变化
+  /**
+   *  监听页面视图尺寸变化
+   */
   useEffect(() => {
     const jukeLyricEle = jukeLyricRef.current;
 

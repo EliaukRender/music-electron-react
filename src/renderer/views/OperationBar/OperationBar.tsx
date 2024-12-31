@@ -8,12 +8,14 @@ import MinScreen from '@/renderer/views/OperationBar/windowTools/MinScreen';
 import MaxScreen from '@/renderer/views/OperationBar/windowTools/MaxScreen';
 import CloseApp from '@/renderer/views/OperationBar/windowTools/CloseApp';
 import { useUpdateWindowPosition } from '@/renderer/hooks/useUpdateWindowPosition';
+import { useDoubleClick } from '@/renderer/hooks/useDoubleClick';
 
 /**
  * @description: 顶部操作栏区域
  */
 const OperationBar: React.FC = () => {
   const { dragEleRef } = useUpdateWindowPosition();
+  useDoubleClick(dragEleRef);
 
   return (
     <OperationBarStyles ref={dragEleRef}>
