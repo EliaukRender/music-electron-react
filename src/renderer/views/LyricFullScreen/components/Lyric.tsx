@@ -42,7 +42,11 @@ const Lyric = ({ initWidthHeight }: IProps) => {
     }),
     shallowEqual,
   );
-  const lyricBoxRef = useRef<HTMLDivElement | null>(null);
+
+  const currentSong = useMemo(() => {
+    return activeSongList.find((song) => song.songId === activeSongId) || {};
+  }, [activeSongId, activeSongList]);
+  const lyricContainerRef = useRef<HTMLDivElement | null>(null);
   const lyricRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [lyricTween, setLyricTween] = useState({}); // 歌词高亮动画
@@ -113,11 +117,13 @@ const Lyric = ({ initWidthHeight }: IProps) => {
   /**
    *  歌词滚动动画
    */
+  const startScrollIndex = 3; // 从第3句歌词开始滚动
   useEffect(() => {
     if (activeIndex < 3) return;
-    gsap.to(lyricBoxRef.current, {
+    console.log('90-9-090-99-0');
+    gsap.to(lyricContainerRef.current, {
       duration: 0.4,
-      scrollTo: 40 * (activeIndex - 3),
+      scrollTo: 40 * (activeIndex - startScrollIndex),
       ease: 'power2.in',
     });
   }, [activeIndex]);
@@ -180,28 +186,33 @@ const Lyric = ({ initWidthHeight }: IProps) => {
   return (
     <LyricStyles style={{ paddingLeft: 0.1 * initWidthHeight.width }}>
       <div
-        ref={lyricBoxRef}
         className="lyric-box"
         style={{
           width: 0.6 * initWidthHeight.width,
-          height: 0.7 * initWidthHeight.width,
+          height: 0.58 * initWidthHeight.width,
         }}
       >
-        {!!lyricList.length &&
-          lyricList.map((item, index) => {
-            return (
-              <div className="lyric-line" key={index}>
-                <div
-                  ref={(el: HTMLDivElement) => {
-                    lyricRefs.current[index] = el;
-                  }}
-                  className="lyric-text"
-                >
-                  {item.lyric}
+        <div className="singer-song">
+          {currentSong?.singer &&
+            `${currentSong.singer}-${currentSong.songName}`}
+        </div>
+        <div className="lyric" ref={lyricContainerRef}>
+          {!!lyricList.length &&
+            lyricList.map((item, index) => {
+              return (
+                <div className="lyric-line ellipsis" key={index}>
+                  <div
+                    ref={(el: HTMLDivElement) => {
+                      lyricRefs.current[index] = el;
+                    }}
+                    className="lyric-text"
+                  >
+                    {item.lyric}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+        </div>
       </div>
     </LyricStyles>
   );

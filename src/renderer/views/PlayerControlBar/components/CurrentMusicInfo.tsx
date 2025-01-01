@@ -7,7 +7,7 @@ import { CurrentMusicInfoStyles } from '@/renderer/views/PlayerControlBar/styles
  * @description: 当前播放的歌曲信息
  */
 const CurrentMusicInfo = () => {
-  const { showLyrics, activeSongId, activeSongList } = useSelector(
+  const { activeSongId, activeSongList } = useSelector(
     (state: RootState) => ({
       showLyrics: state.playerControl.showLyrics,
       activeSongList: state.playerControl.activeSongList,

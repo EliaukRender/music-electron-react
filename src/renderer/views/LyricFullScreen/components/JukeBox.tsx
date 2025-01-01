@@ -43,8 +43,8 @@ const JukeBox = ({ initWidthHeight }: IProps) => {
    */
   const juBoxStyles = useMemo(() => {
     return {
-      width: initWidthHeight.width * 0.6,
-      height: initWidthHeight.width * 0.6,
+      width: initWidthHeight.width * 0.5,
+      height: initWidthHeight.width * 0.5,
     };
   }, [initWidthHeight]);
 

@@ -49,6 +49,7 @@ if (isDebug) {
  */
 const installExtensions = async () => {
   try {
+    console.log('----installExtensions start----');
     await installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS], {
       loadExtensionOptions: {
         allowFileAccess: true,
@@ -64,7 +65,6 @@ const installExtensions = async () => {
  */
 const createWindow = async () => {
   if (isDebug) {
-    console.log('----installExtensions----');
     await installExtensions();
   }
 
@@ -87,12 +87,12 @@ const createWindow = async () => {
     fullscreen: false,
     webPreferences: {
       nodeIntegration: true,
+      /* 预加载脚本 */
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
   });
-  // mainWindow.setHasShadow(true); // 启用窗口阴影
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 
