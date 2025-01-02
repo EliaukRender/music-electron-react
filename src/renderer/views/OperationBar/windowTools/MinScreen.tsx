@@ -6,7 +6,7 @@ import windowUIEmitter from '@/renderer/ipcRenderer/windowUIEmitter';
  */
 const FullScreen = memo(() => {
   return (
-    <div onClick={windowUIEmitter.minApp}>
+    <div onClick={windowUIEmitter.minimize}>
       <i className="iconfont icon-zuixiaohua"></i>
     </div>
   );

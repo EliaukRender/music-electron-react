@@ -1,15 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface IState {
-  fullScreen: boolean; // 全屏
-  minScreen: boolean; // 最小化
-  maxScreen: boolean; // 最大化
+  isFullScreen: boolean; // 是否全屏
+  isMinimize: boolean; // 是否最小化
+  isMaximize: boolean; // 是否最大化
 }
 
 const initialState: IState = {
-  fullScreen: false,
-  minScreen: false,
-  maxScreen: false,
+  isFullScreen: false,
+  isMinimize: false,
+  isMaximize: false,
 };
 
 /**
@@ -22,18 +22,16 @@ const globalSlice = createSlice({
 
   // 同步reducers
   reducers: {
-    setFullScreen(state, { payload }) {
-      console.log('全屏', payload);
-      state.fullScreen = payload;
+    setIsFullScreen(state, { payload }) {
+      state.isFullScreen = payload;
     },
 
-    setMinScreen(state, { payload }) {
-      state.minScreen = payload;
+    setIsMinimize(state, { payload }) {
+      state.isMinimize = payload;
     },
 
-    setMaxScreen(state, { payload }) {
-      console.log('setMaxScreen', payload);
-      state.maxScreen = payload;
+    setIsMaximize(state, { payload }) {
+      state.isMaximize = payload;
     },
   },
 
@@ -41,6 +39,6 @@ const globalSlice = createSlice({
   extraReducers: () => {},
 });
 
-export const { setFullScreen, setMinScreen, setMaxScreen } =
+export const { setIsFullScreen, setIsMinimize, setIsMaximize } =
   globalSlice.actions; // 同步的dispatch
 export default globalSlice.reducer; // reducer

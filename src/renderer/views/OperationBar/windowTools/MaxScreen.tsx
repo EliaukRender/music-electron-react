@@ -8,24 +8,23 @@ import { RootState } from '@/renderer/store';
  * @description: 最大化、退出最大化
  */
 const MaxScreen = memo(() => {
-  const { maxScreen } = useSelector(
+  const { isMaximize } = useSelector(
     (state: RootState) => ({
-      maxScreen: state.global.maxScreen,
+      isMaximize: state.global.isMaximize,
     }),
     shallowEqual,
   );
 
-  // 窗口最大化、退出最大化
-  const handleMaxScreen = async () => {
-    windowUIEmitter.maxApp();
+  const maximize = () => {
+    windowUIEmitter.maximize();
   };
 
   return (
-    <div onClick={handleMaxScreen}>
+    <div onMouseUp={maximize}>
       <i
         className={classNames(
           'iconfont',
-          maxScreen ? 'icon-zuidahua1' : 'icon-zuidahua',
+          isMaximize ? 'icon-zuidahua1' : 'icon-zuidahua',
         )}
       ></i>
     </div>

@@ -20,7 +20,8 @@ import {
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import { windowUIHandler } from './ipcMain/windowUIHandler';
-import { updatePositionHandler } from '@/main/ipcMain/updatePositionHandler';
+import { setWindowData } from '@/main/ipcMain/data/windowData';
+import { keyboardEvent } from '@/main/ipcMain/keyboardEvent';
 
 class AppUpdater {
   constructor() {
@@ -105,6 +106,7 @@ const createWindow = async () => {
       mainWindow.minimize();
     } else {
       mainWindow.show();
+      setWindowData({ bounds: mainWindow.getBounds() });
     }
   });
 
@@ -143,7 +145,7 @@ app
     createWindow()
       .then(() => {
         windowUIHandler(mainWindow!);
-        updatePositionHandler(mainWindow!);
+        keyboardEvent(mainWindow!);
       })
       .catch((err) => {
         console.log('createWindow error!', err);

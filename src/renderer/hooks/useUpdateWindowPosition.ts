@@ -1,4 +1,4 @@
-import updatePositionEmitter from '@/renderer/ipcRenderer/updatePositionEmitter';
+import updatePositionEmitter from '@/renderer/ipcRenderer/windowUIEmitter';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import store from '@/renderer/store';
 import { throttle } from 'lodash';
@@ -8,23 +8,23 @@ import { throttle } from 'lodash';
  */
 export function useUpdateWindowPosition() {
   const dragEleRef = useRef<HTMLDivElement | null>(null);
-  const [dragging, setDragging] = useState(false);
+  const [isMouseDown, setDragging] = useState(false);
   const [clientX, setClientX] = useState(0);
   const [clientY, setClientY] = useState(0);
 
   // 鼠标移动
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
-      console.log('useUpdateWindowPosition-鼠标移动');
+      // console.log('useUpdateWindowPosition-鼠标移动');
       e.preventDefault();
-      if (!dragging) return;
-      const { fullScreen, maxScreen } = store.getState().global;
-      if (fullScreen || maxScreen) return;
+      if (!isMouseDown) return;
+      const { isFullScreen, isMaximize } = store.getState().global;
+      if (isFullScreen || isMaximize) return;
       const x = e.screenX - clientX;
       const y = e.screenY - clientY;
-      updatePositionEmitter.dragApp({ x, y });
+      updatePositionEmitter.setPosition({ x, y });
     },
-    [clientX, clientY, dragging],
+    [clientX, clientY, isMouseDown],
   );
 
   const throttleMove = throttle(handleMouseMove, 10, {
@@ -34,7 +34,7 @@ export function useUpdateWindowPosition() {
 
   // 鼠标按下
   const handleMouseDown = useCallback((e: MouseEvent) => {
-    console.log('useUpdateWindowPosition-鼠标按下');
+    // console.log('useUpdateWindowPosition-鼠标按下');
     e.preventDefault();
     setDragging((prevState) => true);
     setClientX((prevState) => e.clientX);
@@ -43,7 +43,7 @@ export function useUpdateWindowPosition() {
 
   // 鼠标松开
   const handleMouseUp = useCallback(() => {
-    console.log('useUpdateWindowPosition-鼠标松开');
+    // console.log('useUpdateWindowPosition-鼠标松开');
     setDragging((prevState) => false);
     setClientX((prevState) => 0);
     setClientY((prevState) => 0);
@@ -55,7 +55,7 @@ export function useUpdateWindowPosition() {
     if (element) {
       element.addEventListener('mousedown', handleMouseDown);
       document.addEventListener('mouseup', handleMouseUp);
-      dragging && document.addEventListener('mousemove', throttleMove);
+      isMouseDown && document.addEventListener('mousemove', throttleMove);
     }
 
     return () => {
@@ -65,7 +65,7 @@ export function useUpdateWindowPosition() {
         document.removeEventListener('mousemove', throttleMove);
       }
     };
-  }, [handleMouseDown, throttleMove, handleMouseUp]);
+  }, [handleMouseDown, throttleMove, handleMouseUp, isMouseDown]);
 
   return {
     dragEleRef, // 被拖拽的元素

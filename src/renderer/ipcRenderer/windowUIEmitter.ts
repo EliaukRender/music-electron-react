@@ -1,37 +1,57 @@
-import WindowUIEvent from '../../eventNameEnum/windowUIEvent';
-import { setMaxScreen } from '@/renderer/store/modules/globalReducer';
+import WindowUIEvent from '@/InteractionEnum/windowUIEvent';
+import {
+  setIsFullScreen,
+  setIsMaximize,
+  setIsMinimize,
+} from '@/renderer/store/modules/globalReducer';
 import store from '@/renderer/store';
+import { WindowPositionType } from '@/types/commonTypes';
 
 const { dispatch } = store;
 
 /**
- * @description: 窗口UI通信事件
+ * @description: 发给主线程的窗口事件消息
  */
 export default {
   // 最大化app窗口
-  maxApp: () => {
-    window.electron.ipcRenderer
-      .invoke(WindowUIEvent.MAX_APP)
-      .then((res) => {
-        dispatch(setMaxScreen(res));
-      })
-      .catch((err) => {
-        console.error('maxApp error!!!', err);
-      });
+  maximize: () => {
+    window.electron.ipcRenderer.sendMessage(WindowUIEvent.Maximize);
   },
 
   // 最小化app窗口
-  minApp: () => {
-    window.electron.ipcRenderer.sendMessage(WindowUIEvent.MIN_APP);
+  minimize: () => {
+    window.electron.ipcRenderer.sendMessage(WindowUIEvent.Minimize);
   },
 
   // 全屏窗口
-  fullApp: () => {
-    window.electron.ipcRenderer.sendMessage(WindowUIEvent.FULL_APP);
+  fullScreen: () => {
+    window.electron.ipcRenderer.sendMessage(WindowUIEvent.Full_Screen);
   },
 
   // 关闭APP
   closeApp: () => {
-    window.electron.ipcRenderer.sendMessage(WindowUIEvent.CLOSE_APP);
+    window.electron.ipcRenderer.sendMessage(WindowUIEvent.Close);
   },
+
+  // 更新窗口位置
+  setPosition: (data: WindowPositionType) => {
+    window.electron.ipcRenderer.sendMessage(WindowUIEvent.Set_Position, data);
+  },
+};
+
+/**
+ * @description: 监听主线程的窗口事件消息
+ */
+export const windowUiHandler = () => {
+  window.electron.ipcRenderer.on(WindowUIEvent.Maximize, (data) => {
+    dispatch(setIsMaximize(data));
+  });
+
+  window.electron.ipcRenderer.on(WindowUIEvent.Minimize, (data) => {
+    dispatch(setIsMinimize(data));
+  });
+
+  window.electron.ipcRenderer.on(WindowUIEvent.Full_Screen, (data) => {
+    dispatch(setIsFullScreen(data));
+  });
 };

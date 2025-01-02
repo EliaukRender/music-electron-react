@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import windowUIEmitter from '@/renderer/ipcRenderer/windowUIEmitter';
-import { setMaxScreen } from '@/renderer/store/modules/globalReducer';
+import { setIsMaximize } from '@/renderer/store/modules/globalReducer';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 
@@ -8,16 +8,16 @@ import { RootState } from '@/renderer/store';
  *   鼠标双击 全屏 退出全屏
  */
 export const useDoubleClick = (eleRef: any) => {
-  const { maxScreen } = useSelector(
+  const { isMaximize } = useSelector(
     (state: RootState) => ({
-      maxScreen: state.global.maxScreen,
+      isMaximize: state.global.isMaximize,
     }),
     shallowEqual,
   );
   const handleDoubleClick = useCallback(() => {
-    windowUIEmitter.maxApp();
-    setMaxScreen(!maxScreen);
-  }, [maxScreen]);
+    windowUIEmitter.maximize();
+    setIsMaximize(!isMaximize);
+  }, [isMaximize]);
 
   useEffect(() => {
     const ele = eleRef.current;
