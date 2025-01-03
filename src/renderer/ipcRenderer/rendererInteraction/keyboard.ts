@@ -1,6 +1,9 @@
-import { KeyboardEnum, KeyboardEvent } from '@/InteractionEnum/keyboardEnum';
+import {
+  KeyboardEventEnum,
+  KeyboardEnum,
+} from '@/InteractionEnum/keyboardEvent';
 import store from '@/renderer/store';
-import windowUIEmitter from '@/renderer/ipcRenderer/windowUIEmitter';
+import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
 import {
   pauseAudio,
   playSong,
@@ -10,7 +13,7 @@ import {
  * @description: 监听主线程的键盘事件
  */
 export const KeyboardHandler = () => {
-  window.electron.ipcRenderer.on(KeyboardEvent.KeyboardEvent, (data) => {
+  window.electron.ipcRenderer.on(KeyboardEventEnum.Keyboard, (data) => {
     handleKeyboard(data as KeyboardEnum);
   });
 };

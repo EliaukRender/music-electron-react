@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import windowUIEmitter from '@/renderer/ipcRenderer/windowUIEmitter';
+import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
 
 /**
  * @description: 最小化

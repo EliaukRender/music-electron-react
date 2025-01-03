@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import windowUIEmitter from '@/renderer/ipcRenderer/windowUIEmitter';
+import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
 import { setIsMaximize } from '@/renderer/store/modules/globalReducer';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';

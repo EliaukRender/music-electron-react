@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import windowUIEmitter from '@/renderer/ipcRenderer/windowUIEmitter';
+import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
 
 interface IProps {
   isFullScreen: boolean;

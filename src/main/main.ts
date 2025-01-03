@@ -19,9 +19,9 @@ import {
 } from 'electron-extension-installer';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-import { windowUIHandler } from './ipcMain/windowUIHandler';
+import { windowUi } from '@/main/ipcMain/mainInteraction/windowUi';
 import { setWindowData } from '@/main/ipcMain/data/windowData';
-import { keyboardEvent } from '@/main/ipcMain/keyboardEvent';
+import { keyboard } from '@/main/ipcMain/mainInteraction/keyboard';
 
 class AppUpdater {
   constructor() {
@@ -144,8 +144,8 @@ app
   .then(() => {
     createWindow()
       .then(() => {
-        windowUIHandler(mainWindow!);
-        keyboardEvent(mainWindow!);
+        windowUi(mainWindow!);
+        keyboard(mainWindow!);
       })
       .catch((err) => {
         console.log('createWindow error!', err);

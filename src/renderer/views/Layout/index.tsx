@@ -7,8 +7,8 @@ import { useEffect } from 'react';
 import { initAppData } from '@/renderer/store/actions/mainMenuActions';
 import { LayoutStyles } from '@/renderer/views/Layout/styles/LayoutStyles';
 import LyricFullScreen from '@/renderer/views/LyricFullScreen';
-import { windowUiHandler } from '@/renderer/ipcRenderer/windowUIEmitter';
-import { KeyboardHandler } from '@/renderer/ipcRenderer/KeyboardHandler';
+import { windowUiHandler } from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
+import { KeyboardHandler } from '@/renderer/ipcRenderer/rendererInteraction/keyboard';
 
 export default function Layout() {
   useEffect(() => {

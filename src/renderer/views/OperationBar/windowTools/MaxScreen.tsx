@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import windowUIEmitter from '@/renderer/ipcRenderer/windowUIEmitter';
+import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
 import classNames from 'classnames';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';

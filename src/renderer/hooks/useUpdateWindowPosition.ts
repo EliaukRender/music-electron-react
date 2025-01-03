@@ -1,4 +1,4 @@
-import updatePositionEmitter from '@/renderer/ipcRenderer/windowUIEmitter';
+import updatePositionEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import store from '@/renderer/store';
 import { throttle } from 'lodash';
