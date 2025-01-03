@@ -1,6 +1,3 @@
-/**
- * @description: APP首页
- */
 import LeftAside from './components/LeftAside';
 import RightContainer from './components/RightContainer';
 import { useEffect } from 'react';
@@ -10,6 +7,9 @@ import LyricFullScreen from '@/renderer/views/LyricFullScreen';
 import { windowUiHandler } from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
 import { KeyboardHandler } from '@/renderer/ipcRenderer/rendererInteraction/keyboard';
 
+/**
+ * @description: APP首页--框架入口
+ */
 export default function Layout() {
   useEffect(() => {
     windowUiHandler();

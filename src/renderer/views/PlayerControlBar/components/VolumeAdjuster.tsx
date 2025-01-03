@@ -7,12 +7,13 @@ import VolumeSlide from '@/renderer/views/PlayerControlBar/components/VolumeSlid
 
 interface PropsType {
   isHover: boolean; // 鼠标是否进入控制区
+  showLyrics: boolean;
 }
 
 /**
  * @description: 音量调节器
  */
-const VolumeAdjuster = ({ isHover }: PropsType) => {
+const VolumeAdjuster = ({ isHover, showLyrics }: PropsType) => {
   const [open, setOpen] = useState(false);
 
   // 打开音量浮窗
@@ -35,7 +36,8 @@ const VolumeAdjuster = ({ isHover }: PropsType) => {
           className={classNames(
             'iconfont',
             'icon-volume-1',
-            open ? 'sound-active' : '',
+            showLyrics ? 'icon-volume-1-show-lyrics' : '',
+            open ? 'icon-volume-1-active' : '',
           )}
           initial={{ opacity: 0 }}
           animate={

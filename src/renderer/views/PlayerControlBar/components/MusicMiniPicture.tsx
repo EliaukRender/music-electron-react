@@ -6,16 +6,19 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { setShowLyric } from '@/renderer/store/modules/playerControlReducer';
 
+interface IProps {
+  showLyrics: boolean;
+}
+
 /**
  * @description: 歌词封面缩略图
  */
-const MusicMiniPicture = () => {
+const MusicMiniPicture = ({ showLyrics }: IProps) => {
   const dispatch = useDispatch();
   const controls = useAnimationControls();
 
-  const { showLyrics, activeSongId, activeSongList } = useSelector(
+  const { activeSongId, activeSongList } = useSelector(
     (state: RootState) => ({
-      showLyrics: state.playerControl.showLyrics,
       activeSongList: state.playerControl.activeSongList,
       activeSongId: state.playerControl.activeSongId,
     }),
@@ -30,7 +33,7 @@ const MusicMiniPicture = () => {
       // 全屏歌词打开时
       controls.start({ opacity: 1, transition: { duration: 0.5 } });
     }
-  }, [showLyrics]);
+  }, [controls, showLyrics]);
 
   // 鼠标进入
   const onMouseEnter = () => {

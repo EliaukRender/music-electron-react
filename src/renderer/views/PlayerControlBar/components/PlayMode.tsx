@@ -7,12 +7,13 @@ import { changeMusicMode } from '@/renderer/store/actions/PlayerControlActions';
 
 interface PropsType {
   isHover: boolean; // 鼠标是否进入控制区
+  showLyrics: boolean;
 }
 
 /**
  * @description: 音乐播放模式：随机播放、顺序播放、单曲循环
  */
-const PlayMode = ({ isHover }: PropsType) => {
+const PlayMode = ({ isHover, showLyrics }: PropsType) => {
   const [open, setOpen] = useState(false);
   const [curModeIcon, setCurModeIcon] = useState('icon-shunxubofang');
   const modeList = [
@@ -64,6 +65,7 @@ const PlayMode = ({ isHover }: PropsType) => {
           className={classNames(
             'iconfont',
             curModeIcon,
+            showLyrics ? 'icon-show-lyrics' : '',
             open ? 'icon-active' : '',
           )}
           initial={{ opacity: 0 }}

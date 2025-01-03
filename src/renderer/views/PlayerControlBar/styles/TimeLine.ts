@@ -13,8 +13,12 @@ export const TimeLineStyles = styled.div`
     margin: 0 20px;
   }
 
+  .time-show-lyric {
+    color: ${(props) => props.theme.textColor.gray};
+  }
+
   .ant-slider {
-    width: 280px;
+    width: 60%;
     margin: 0;
 
     .ant-slider-handle:focus::after {

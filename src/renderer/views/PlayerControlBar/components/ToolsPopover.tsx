@@ -6,10 +6,14 @@ import MoveMusicPopover from '@/renderer/views/components/MoveSongPopover/MoveSo
 import { Popover } from 'antd';
 import DeleteSong from '@/renderer/views/components/DeleteSong/DeleteSong';
 
+interface IProps {
+  showLyrics: boolean;
+}
+
 /**
  * @description: 歌曲控制工具popover
  */
-const ToolsPopover = () => {
+const ToolsPopover = ({ showLyrics }: IProps) => {
   const [open, setOpen] = useState(false);
 
   // 打开功能操作浮窗
@@ -33,7 +37,7 @@ const ToolsPopover = () => {
                 <i className="iconfont icon-youjiantou"></i>
               </div>
             </MoveMusicPopover>
-            <DeleteSong isFromActiveList></DeleteSong>
+            <DeleteSong onlyShowDeleteIcon={false}></DeleteSong>
           </>
         }
         placement="top"
@@ -45,6 +49,7 @@ const ToolsPopover = () => {
           className={classNames(
             'iconfont',
             'icon-shenglve',
+            showLyrics ? 'icon-shenglve-show-lyrics' : '',
             open ? 'icon-shenglve-active' : '',
           )}
         ></i>

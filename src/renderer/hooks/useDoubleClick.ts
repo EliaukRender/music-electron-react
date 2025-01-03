@@ -1,23 +1,15 @@
 import { useCallback, useEffect } from 'react';
-import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
-import { setIsMaximize } from '@/renderer/store/modules/globalReducer';
-import { shallowEqual, useSelector } from 'react-redux';
-import { RootState } from '@/renderer/store';
 
 /**
- *   鼠标双击 全屏 退出全屏
+ *   ref元素身上的鼠标双击事件
+ *
+ *   eleRef : 被双击的元素
+ *   callBack：元素被双击后执行的回调函数
  */
-export const useDoubleClick = (eleRef: any) => {
-  const { isMaximize } = useSelector(
-    (state: RootState) => ({
-      isMaximize: state.global.isMaximize,
-    }),
-    shallowEqual,
-  );
+export const useDoubleClick = (eleRef: any, callBack: () => void) => {
   const handleDoubleClick = useCallback(() => {
-    windowUIEmitter.maximize();
-    setIsMaximize(!isMaximize);
-  }, [isMaximize]);
+    callBack();
+  }, [callBack]);
 
   useEffect(() => {
     const ele = eleRef.current;

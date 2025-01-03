@@ -31,7 +31,7 @@ const AnalyzeChart = () => {
               <div className="item">
                 <img className="img" src={item.chartImg} alt="" />
                 {canvasOptions.mode === item.mode && (
-                  <i className="iconfont icon-duigou1 checked"></i>
+                  <i className="iconfont icon-duigou1"></i>
                 )}
                 <div className="name">{item.name}</div>
               </div>

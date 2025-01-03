@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { OperationBarStyles } from '@/renderer/views/OperationBar/styles/OperationBarStyles';
 import Search from '@/renderer/views/OperationBar/components/Search';
 import UserInfo from '@/renderer/views/OperationBar/components/UserInfo';
@@ -9,13 +9,29 @@ import MaxScreen from '@/renderer/views/OperationBar/windowTools/MaxScreen';
 import CloseApp from '@/renderer/views/OperationBar/windowTools/CloseApp';
 import { useUpdateWindowPosition } from '@/renderer/hooks/useUpdateWindowPosition';
 import { useDoubleClick } from '@/renderer/hooks/useDoubleClick';
+import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
+import { setIsMaximize } from '@/renderer/store/modules/globalReducer';
+import { shallowEqual, useSelector } from 'react-redux';
+import { RootState } from '@/renderer/store';
 
 /**
  * @description: 顶部操作栏区域
  */
 const OperationBar: React.FC = () => {
-  const { dragEleRef } = useUpdateWindowPosition();
-  useDoubleClick(dragEleRef);
+  const { isMaximize } = useSelector(
+    (state: RootState) => ({
+      isMaximize: state.global.isMaximize,
+    }),
+    shallowEqual,
+  );
+  const { dragEleRef } = useUpdateWindowPosition(); // 拖拽窗口
+
+  // 双击后最大窗口
+  const handleDoubleClick = useCallback(() => {
+    windowUIEmitter.maximize();
+    setIsMaximize(!isMaximize);
+  }, [isMaximize]);
+  useDoubleClick(dragEleRef, handleDoubleClick);
 
   return (
     <OperationBarStyles ref={dragEleRef}>

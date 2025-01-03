@@ -9,6 +9,10 @@ export const ActiveSongEntryStyles = styled.div`
   cursor: pointer;
   overflow: hidden;
 
+  .iconfont.icon-zhankai-show-lyrics {
+    color: ${(props) => props.theme.textColor.gray};
+  }
+
   .ant-drawer-body {
     display: flex;
     flex-direction: column;
@@ -26,6 +30,7 @@ export const ActiveSongEntryStyles = styled.div`
       flex-direction: column;
       justify-content: flex-start;
       overflow-y: auto;
+      padding-right: 5px;
     }
   }
 `;

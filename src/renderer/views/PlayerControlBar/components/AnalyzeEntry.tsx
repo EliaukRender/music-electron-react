@@ -6,16 +6,19 @@ import AnalyzeColor from '@/renderer/views/PlayerControlBar/components/AnalyzeCo
 import { darkenHexColor } from '@/renderer/utils/color/transformColor';
 import { lightTheme } from '@/renderer/theme/config/lightTheme';
 
+interface IProps {
+  showLyrics: boolean;
+}
 /**
  * @description: 频谱
  */
-const AnalyzeEntry: React.FC = () => {
+const AnalyzeEntry = memo(({ showLyrics }: IProps) => {
   const [visible, setVisible] = useState(false);
 
   return (
     <AnalyzeEntryStyles>
       <i
-        className="iconfont icon-pinpu"
+        className={`iconfont icon-pinpu ${showLyrics ? 'icon-pinpu-show-lyrics' : ''}`}
         style={
           visible
             ? {
@@ -39,6 +42,6 @@ const AnalyzeEntry: React.FC = () => {
       )}
     </AnalyzeEntryStyles>
   );
-};
+});
 
-export default memo(AnalyzeEntry);
+export default AnalyzeEntry;

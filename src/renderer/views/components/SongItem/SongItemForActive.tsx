@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import { SongItemForActiveStyles } from '@/renderer/views/components/SongItem/styles/SongItemForActiveStyles';
 import classNames from 'classnames';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -8,11 +8,17 @@ import DeleteSong from '@/renderer/views/components/DeleteSong/DeleteSong';
 import MoveMusicPopover from '@/renderer/views/components/MoveSongPopover/MoveSongPopover';
 import MusicInfo from '@/renderer/views/components/SongItem/components/MusicInfo';
 import gsap from 'gsap';
+import {
+  pauseAudio,
+  playSong,
+} from '@/renderer/store/actions/audioPlayerActions';
+import { useDoubleClick } from '@/renderer/hooks/useDoubleClick';
 
 interface PropsType {
   songInfo: any;
   index: number;
 }
+
 /**
  * @description: 播放队列弹窗 的歌曲item
  */
@@ -25,6 +31,7 @@ const SongItemForActive = ({ songInfo, index }: PropsType) => {
     shallowEqual,
   );
 
+  // 当前歌曲是否被选中激活
   const isActiveSong = useMemo(() => {
     return activeSongId === songInfo.songId;
   }, [activeSongId, songInfo]);
@@ -45,19 +52,31 @@ const SongItemForActive = ({ songInfo, index }: PropsType) => {
     });
   };
 
-  // 出现
   const showAnimation = () => {
     gsap.to(classList, { opacity: 1, duration: 0.2 });
   };
 
-  // 隐藏
   const hiddenAnimation = () => {
     if (isActiveSong) return;
     gsap.to(classList, { opacity: 0, duration: 0.2 });
   };
 
+  /**
+   * 双击播放歌曲
+   */
+  const songItemRef = useRef<HTMLDivElement | null>(null);
+  const handleDoubleClick = useCallback(() => {
+    if (isActiveSong) {
+      !isPlaying && playSong();
+    } else {
+      playSong(songInfo);
+    }
+  }, [songInfo, isActiveSong, isPlaying]);
+  useDoubleClick(songItemRef, handleDoubleClick);
+
   return (
     <SongItemForActiveStyles
+      ref={songItemRef}
       className={classNames(
         'song-item-for-active',
         index % 2 === 0 ? 'odd' : '',

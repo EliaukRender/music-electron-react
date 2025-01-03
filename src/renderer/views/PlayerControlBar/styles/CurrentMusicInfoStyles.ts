@@ -19,4 +19,16 @@ export const CurrentMusicInfoStyles = styled.div`
       color: #626262;
     }
   }
+
+  /* 展示歌词的时候修改样式 */
+
+  .info-text-show-lyrics {
+    .singer {
+      color: ${(props) => props.theme.textColor.gray_white} !important;
+    }
+
+    .song-name {
+      color: ${(props) => props.theme.textColor.gray} !important;
+    }
+  }
 `;

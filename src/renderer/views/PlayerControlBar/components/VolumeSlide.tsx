@@ -43,6 +43,7 @@ const VolumeSlide = memo(({ visible }: IProps) => {
     [volume],
   );
 
+  // 处理鼠标滑轮事件
   const handleWheel = useCallback(
     (e: WheelEvent) => {
       if (!visible) return;
@@ -90,7 +91,7 @@ const VolumeSlide = memo(({ visible }: IProps) => {
     [handleChange, isMouseDown, startY, volume],
   );
 
-  const throttleHandleMouseMove = throttle(handleMouseMove, 100, {
+  const throttleHandleMouseMove = throttle(handleMouseMove, 50, {
     trailing: true,
     leading: true,
   });

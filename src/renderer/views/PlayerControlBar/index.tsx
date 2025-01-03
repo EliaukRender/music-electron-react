@@ -12,6 +12,8 @@ import TimeLine from '@/renderer/views/PlayerControlBar/components/TimeLine';
 import AnalyzeEntry from '@/renderer/views/PlayerControlBar/components/AnalyzeEntry';
 import ActiveSongEntry from '@/renderer/views/PlayerControlBar/components/ActiveSongEntry';
 import LyricEntry from '@/renderer/views/PlayerControlBar/components/LyricEntry';
+import { RootState } from '@/renderer/store';
+import { shallowEqual, useSelector } from 'react-redux';
 
 /**
  * @description: 音乐控制栏
@@ -19,6 +21,12 @@ import LyricEntry from '@/renderer/views/PlayerControlBar/components/LyricEntry'
 const PlayControlBar = () => {
   const { forbidMouseDownEleRef } = useForbidMouseDown();
   const [isHover, setIsHover] = useState(false);
+  const { showLyrics } = useSelector(
+    (state: RootState) => ({
+      showLyrics: state.playerControl.showLyrics,
+    }),
+    shallowEqual,
+  );
 
   return (
     <PlayControlBarStyles
@@ -27,10 +35,10 @@ const PlayControlBar = () => {
     >
       <div className="box">
         <div className="left">
-          <MusicMiniPicture></MusicMiniPicture>
-          <CurrentMusicInfo></CurrentMusicInfo>
+          <MusicMiniPicture showLyrics={showLyrics}></MusicMiniPicture>
+          <CurrentMusicInfo showLyrics={showLyrics}></CurrentMusicInfo>
           <LikeSong></LikeSong>
-          <ToolsPopover></ToolsPopover>
+          <ToolsPopover showLyrics={showLyrics}></ToolsPopover>
         </div>
         <div
           className="middle"
@@ -38,18 +46,21 @@ const PlayControlBar = () => {
           onMouseLeave={() => setIsHover(false)}
         >
           <div className="top">
-            <PlayMode isHover={isHover}></PlayMode>
-            <ControlBtnGroup></ControlBtnGroup>
-            <VolumeAdjuster isHover={isHover}></VolumeAdjuster>
+            <PlayMode isHover={isHover} showLyrics={showLyrics}></PlayMode>
+            <ControlBtnGroup showLyrics={showLyrics}></ControlBtnGroup>
+            <VolumeAdjuster
+              isHover={isHover}
+              showLyrics={showLyrics}
+            ></VolumeAdjuster>
           </div>
           <div className="bottom">
-            <TimeLine></TimeLine>
+            <TimeLine showLyrics={showLyrics}></TimeLine>
           </div>
         </div>
         <div className="right">
-          <AnalyzeEntry></AnalyzeEntry>
-          <LyricEntry></LyricEntry>
-          <ActiveSongEntry></ActiveSongEntry>
+          <AnalyzeEntry showLyrics={showLyrics}></AnalyzeEntry>
+          <LyricEntry showLyrics={showLyrics}></LyricEntry>
+          <ActiveSongEntry showLyrics={showLyrics}></ActiveSongEntry>
         </div>
       </div>
     </PlayControlBarStyles>

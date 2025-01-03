@@ -20,7 +20,14 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { RootState } from '@/renderer/store';
 
-const ControlBtnGroup = () => {
+interface IProps {
+  showLyrics: boolean;
+}
+
+/**
+ * @description: 音乐控制按钮组
+ */
+const ControlBtnGroup = ({ showLyrics }: IProps) => {
   const { isPlaying } = useSelector(
     (state: RootState) => ({
       isPause: state.audioPlayer.isPause,
@@ -35,7 +42,7 @@ const ControlBtnGroup = () => {
 
   return (
     <ControlBtnGroupStyles>
-      <motion.div className="btns">
+      <motion.div className={`btns ${showLyrics ? 'btns-show-lyric' : ''}`}>
         {/* 后退 */}
         <BackwardOutlined
           onClick={() => {

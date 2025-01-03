@@ -7,10 +7,14 @@ import DrawerCmp from '@/renderer/components/Drawer/Drawer';
 import { darkenHexColor } from '@/renderer/utils/color/transformColor';
 import { lightTheme } from '@/renderer/theme/config/lightTheme';
 
+interface IProps {
+  showLyrics: boolean;
+}
+
 /**
  * @description: 当前歌曲播放列表
  */
-const ActiveSongEntry = () => {
+const ActiveSongEntry = ({ showLyrics }: IProps) => {
   const [visible, setVisible] = useState(false);
   const { activeSongList } = useSelector(
     (state: RootState) => ({
@@ -22,7 +26,7 @@ const ActiveSongEntry = () => {
   return (
     <ActiveSongEntryStyles>
       <i
-        className="iconfont icon-zhankai"
+        className={`iconfont icon-zhankai ${showLyrics ? 'icon-zhankai-show-lyrics' : ''}`}
         style={
           visible
             ? {

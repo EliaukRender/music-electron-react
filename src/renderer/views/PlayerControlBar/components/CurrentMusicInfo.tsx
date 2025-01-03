@@ -2,14 +2,18 @@ import React, { memo, useMemo } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { CurrentMusicInfoStyles } from '@/renderer/views/PlayerControlBar/styles/CurrentMusicInfoStyles';
+import classNames from 'classnames';
+
+interface IProps {
+  showLyrics: boolean;
+}
 
 /**
  * @description: 当前播放的歌曲信息
  */
-const CurrentMusicInfo = () => {
+const CurrentMusicInfo = ({ showLyrics }: IProps) => {
   const { activeSongId, activeSongList } = useSelector(
     (state: RootState) => ({
-      showLyrics: state.playerControl.showLyrics,
       activeSongList: state.playerControl.activeSongList,
       activeSongId: state.playerControl.activeSongId,
     }),
@@ -22,8 +26,13 @@ const CurrentMusicInfo = () => {
   }, [activeSongId, activeSongList]);
 
   return (
-    <CurrentMusicInfoStyles className="current-music-info">
-      <div className="info-text">
+    <CurrentMusicInfoStyles>
+      <div
+        className={classNames(
+          'info-text',
+          showLyrics ? 'info-text-show-lyrics' : '',
+        )}
+      >
         <div className="singer">{currentSong?.singer || 'Eliauk'}</div>
         <div className="song-name">{currentSong?.songName || '音乐一下'}</div>
       </div>

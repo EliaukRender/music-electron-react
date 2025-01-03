@@ -70,41 +70,6 @@ export const LyricFullScreenStyles = styled.div`
         margin-top: 0;
         background-color: transparent;
       }
-
-      /* 重置原组件的元素样式 */
-
-      .current-music-info {
-        .singer {
-          color: ${(props) => props.theme.textColor.gray_white};
-        }
-
-        .song-name {
-          color: ${(props) => props.theme.textColor.gray};
-        }
-      }
-
-      /* 重置 TimeLine组件 的元素样式 */
-
-      .time-line {
-        .time {
-          color: ${(props) => props.theme.textColor.gray};
-        }
-      }
-
-      /* 重置原组件的 svg和iconfont元素 样式 */
-
-      .iconfont,
-      svg {
-        cursor: pointer;
-        color: ${(props) => props.theme.textColor.gray};
-      }
-
-      .anticon-pause,
-      .anticon-caret-right {
-        svg {
-          color: #666666;
-        }
-      }
     }
   }
 `;

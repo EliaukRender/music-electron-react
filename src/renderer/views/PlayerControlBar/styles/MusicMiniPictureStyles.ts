@@ -17,11 +17,16 @@ export const MusicMiniPictureStyles = styled.div`
       bottom: 0;
       width: 50px;
       height: 50px;
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgba(0, 0, 0, 0.5);
       display: flex;
       justify-content: center;
       align-items: center;
       border-radius: 6px;
+
+      .iconfont.icon-zhankaiup-copy,
+      .iconfont.icon-zhankaidown {
+        color: ${(props) => props.theme.textColor.gray};
+      }
     }
 
     .music-pic {

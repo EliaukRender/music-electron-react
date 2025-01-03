@@ -38,12 +38,13 @@ export const AnalyzeChartStyles = styled.div`
         font-size: 12px;
       }
 
-      .checked {
+      .iconfont.icon-duigou1 {
         position: absolute;
         top: 10px;
         left: 10px;
         width: 10px;
         height: 10px;
+        color: ${(props) => props.theme.textColor.gray};
       }
     }
   }

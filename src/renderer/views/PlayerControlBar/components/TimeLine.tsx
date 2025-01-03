@@ -5,11 +5,15 @@ import moment from 'moment';
 import { RootState } from '@/renderer/store';
 import { TimeLineStyles } from '@/renderer/views/PlayerControlBar/styles/TimeLine';
 import { changeCurrentTime } from '@/renderer/store/actions/audioPlayerActions';
+import classNames from 'classnames';
 
+interface IProps {
+  showLyrics: boolean;
+}
 /**
  * @description: 歌曲时间进度条
  */
-const TimeLine = () => {
+const TimeLine = ({ showLyrics }: IProps) => {
   const { currentTime, duration } = useSelector(
     (state: RootState) => ({
       currentTime: state.audioPlayer.currentTime,
@@ -30,7 +34,9 @@ const TimeLine = () => {
 
   return (
     <TimeLineStyles className="time-line">
-      <div className="time">{formatTime(currentTime)}</div>
+      <div className={classNames('time', showLyrics ? 'time-show-lyric' : '')}>
+        {formatTime(currentTime)}
+      </div>
       <ConfigProvider
         theme={{
           components: {
@@ -58,7 +64,9 @@ const TimeLine = () => {
           onChange={onChange}
         />
       </ConfigProvider>
-      <div className="time">{formatTime(duration)}</div>
+      <div className={classNames('time', showLyrics ? 'time-show-lyric' : '')}>
+        {formatTime(duration)}
+      </div>
     </TimeLineStyles>
   );
 };

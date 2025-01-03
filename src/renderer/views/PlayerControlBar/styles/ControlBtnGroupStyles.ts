@@ -33,5 +33,23 @@ export const ControlBtnGroupStyles = styled.div`
         font-size: 24px;
       }
     }
+
+    /* 暂停、播放按钮颜色保持不变 */
+    .anticon-pause,
+    .anticon-caret-right {
+      svg {
+        color: #666666 !important;
+      }
+    }
+  }
+
+  .btns-show-lyric {
+    svg {
+      color: ${(props) => props.theme.textColor.gray};
+
+      &:hover {
+        color: ${(props) => props.theme.themeColor.active};
+      }
+    }
   }
 `;

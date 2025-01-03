@@ -1,17 +1,28 @@
 import React, { memo } from 'react';
 import { MusicInfoStyles } from '@/renderer/views/components/SongItem/components/MusicInfoStyles';
 import classNames from 'classnames';
+import {
+  playSong,
+  pauseAudio,
+} from '@/renderer/store/actions/audioPlayerActions';
 
 interface IMusicInfo {
   songInfo: any;
-  isActiveSong: boolean;
+  isActiveSong: boolean; // 当前这首歌是否被激活
   isPlaying: boolean;
 }
 
+/**
+ * @description: 歌曲item 的 歌曲信息组件
+ */
 const MusicInfo = memo(({ songInfo, isPlaying, isActiveSong }: IMusicInfo) => {
   // 暂停 / 播放
   const pauseOrPlay = () => {
-    //
+    if (isActiveSong) {
+      !isPlaying ? playSong() : pauseAudio();
+    } else {
+      playSong(songInfo);
+    }
   };
 
   return (
