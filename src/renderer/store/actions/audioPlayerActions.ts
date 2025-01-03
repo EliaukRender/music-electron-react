@@ -15,9 +15,9 @@ import {
   setActiveSongUrl,
   setIsLoadingSong,
 } from '@/renderer/store/modules/playerControlReducer';
-import MessageToast from '@/renderer/components/MessageToast';
 import Emitter from '@/renderer/eventBus/event-emitter';
 import { LyricInteraction } from '@/renderer/eventBus/modules/lyricInteraction';
+import { message } from 'antd';
 
 const { dispatch } = store;
 export const audio = new Audio();
@@ -65,7 +65,7 @@ export const playSong = async (song?: any, songList?: any[]) => {
     playAudio({ songId: activeSongId, songUrl: activeSongUrl });
     return;
   }
-  MessageToast.warning('请选择歌曲播放');
+  message.open({ type: 'warning', content: '请选择歌曲播放' });
 };
 
 /**
@@ -107,7 +107,7 @@ const playAudio = ({
       dispatch(setIsLoadingSong(false)); // 歌曲加载完毕
     })
     .catch(() => {
-      MessageToast.warning('歌曲播放失败');
+      message.open({ type: 'error', content: '歌曲播放失败' });
       dispatch(setIsLoadingSong(false)); // 歌曲加载完毕
     });
 };
