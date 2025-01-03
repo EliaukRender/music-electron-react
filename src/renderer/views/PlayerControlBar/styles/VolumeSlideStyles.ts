@@ -20,6 +20,7 @@ export const VolumeSlideStyles = styled.div`
       height: 100%;
       border-radius: 2px;
       background-color: ${(props) => props.theme.bgcColor.active};
+      cursor: pointer;
     }
 
     .active-line {
@@ -29,6 +30,7 @@ export const VolumeSlideStyles = styled.div`
       left: 50%;
       transform: translateX(-50%);
       background-color: ${(props) => props.theme.themeColor.hover};
+      cursor: pointer;
     }
 
     .dot {
@@ -40,6 +42,7 @@ export const VolumeSlideStyles = styled.div`
       height: 12px;
       border-radius: 50%;
       background-color: ${(props) => props.theme.themeColor.hover};
+      cursor: pointer;
     }
   }
 

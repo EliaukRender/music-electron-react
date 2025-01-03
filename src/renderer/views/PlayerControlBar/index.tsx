@@ -24,8 +24,6 @@ const PlayControlBar = () => {
     <PlayControlBarStyles
       className="player-control-bar"
       ref={forbidMouseDownEleRef}
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
     >
       <div className="box">
         <div className="left">
@@ -34,7 +32,11 @@ const PlayControlBar = () => {
           <LikeSong></LikeSong>
           <ToolsPopover></ToolsPopover>
         </div>
-        <div className="middle">
+        <div
+          className="middle"
+          onMouseEnter={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
+        >
           <div className="top">
             <PlayMode isHover={isHover}></PlayMode>
             <ControlBtnGroup></ControlBtnGroup>

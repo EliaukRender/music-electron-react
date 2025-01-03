@@ -12,7 +12,7 @@ export const PlayControlBarStyles = styled.div`
     background-color: ${(props) => props.theme.bgcColor.light_gray_white};
 
     .left {
-      flex: 1;
+      flex: 0.2;
       display: flex;
       align-items: center;
       justify-content: flex-start;
@@ -20,6 +20,7 @@ export const PlayControlBarStyles = styled.div`
     }
 
     .middle {
+      flex: 0.6;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -32,7 +33,7 @@ export const PlayControlBarStyles = styled.div`
     }
 
     .right {
-      flex: 1;
+      flex: 0.2;
       display: flex;
       align-items: center;
       justify-content: flex-end;
