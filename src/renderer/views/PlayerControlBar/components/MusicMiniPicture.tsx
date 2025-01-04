@@ -1,10 +1,11 @@
-import React, { memo, useEffect, useMemo } from 'react';
+import React, { memo, useCallback, useEffect, useMemo } from 'react';
 import { MusicMiniPictureStyles } from '@/renderer/views/PlayerControlBar/styles/MusicMiniPictureStyles';
 import { motion, useAnimationControls } from 'framer-motion';
 import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { setShowLyric } from '@/renderer/store/modules/playerControlReducer';
+import windowUi from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
 
 interface IProps {
   showLyrics: boolean;
@@ -16,52 +17,49 @@ interface IProps {
 const MusicMiniPicture = ({ showLyrics }: IProps) => {
   const dispatch = useDispatch();
   const controls = useAnimationControls();
-
-  const { activeSongId, activeSongList } = useSelector(
+  const { activeSongId, activeSongList, isFullScreen } = useSelector(
     (state: RootState) => ({
       activeSongList: state.playerControl.activeSongList,
       activeSongId: state.playerControl.activeSongId,
+      isFullScreen: state.global.isFullScreen,
     }),
     shallowEqual,
   );
 
+  const getCurSongPic = useMemo(() => {
+    return activeSongList.find((item) => item.songId === activeSongId)?.songPic;
+  }, [activeSongId, activeSongList]);
+
   useEffect(() => {
     if (!showLyrics) {
-      // 全屏歌词关闭时
       controls.start({ opacity: 0, transition: { duration: 0.5 } });
     } else {
-      // 全屏歌词打开时
       controls.start({ opacity: 1, transition: { duration: 0.5 } });
     }
   }, [controls, showLyrics]);
 
-  // 鼠标进入
   const onMouseEnter = () => {
     if (!showLyrics) {
       controls.start({ opacity: 1, transition: { duration: 0.5 } });
     }
   };
 
-  // 鼠标离开
   const onMouseLeave = () => {
     if (!showLyrics) {
       controls.start({ opacity: 0, transition: { duration: 0.5 } });
     }
   };
 
-  // 获取当前歌曲的缩略图
-  const getCurSongPic = useMemo(() => {
-    return activeSongList.find((item) => item.songId === activeSongId)?.songPic;
-  }, [activeSongId, activeSongList]);
+  const handleClick = useCallback(() => {
+    dispatch(setShowLyric(!showLyrics));
+    if (isFullScreen) {
+      windowUi.fullScreen();
+    }
+  }, [dispatch, isFullScreen, showLyrics]);
 
   return (
     <MusicMiniPictureStyles>
-      <div
-        className="music-pic-area"
-        onClick={() => {
-          dispatch(setShowLyric(!showLyrics));
-        }}
-      >
+      <div className="music-pic-area" onClick={handleClick}>
         <motion.div
           className="full-screen"
           animate={controls}
