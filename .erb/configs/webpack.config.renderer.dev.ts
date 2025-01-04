@@ -74,7 +74,12 @@ const configuration: webpack.Configuration = {
               importLoaders: 1,
             },
           },
-          'sass-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              additionalData: `@import "~@/renderer/assets/css/constant.scss";`, // 注入全局 SCSS 文件
+            },
+          },
         ],
         include: /\.module\.s?(c|a)ss$/,
       },

@@ -120,7 +120,6 @@ const Lyric = ({ initWidthHeight }: IProps) => {
   const startScrollIndex = 3; // 从第3句歌词开始滚动
   useEffect(() => {
     if (activeIndex < 3) return;
-    console.log('90-9-090-99-0');
     gsap.to(lyricContainerRef.current, {
       duration: 0.4,
       scrollTo: 40 * (activeIndex - startScrollIndex),

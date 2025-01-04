@@ -6,7 +6,8 @@ import { ThemeProvider } from 'styled-components';
 import { lightTheme } from '@/renderer/theme/config/lightTheme';
 import store, { persistor } from '@/renderer/store/index';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react'; // redux数据
+import { PersistGate } from 'redux-persist/integration/react';
+import { CustomModalStyles } from '@/renderer/assets/css/globalStyles/customModalStyles'; // redux数据
 
 export default function App() {
   // 当前主题配置
@@ -18,6 +19,10 @@ export default function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider theme={currentTheme}>
+          {/* 全局样式 */}
+          <CustomModalStyles></CustomModalStyles>
+          {/* 全局样式 */}
+
           <AppStyles>
             <Router>
               <Routes>

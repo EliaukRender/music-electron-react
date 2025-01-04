@@ -1,19 +1,16 @@
 import React, { memo, useState } from 'react';
 import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
 import { Modal } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { set } from 'lodash';
 import { CloseAppStyles } from '@/renderer/views/OperationBar/styles/CloseAppStyles';
 
 /**
  * @description: 关闭app按钮
  */
 const CloseApp = memo(() => {
-  // windowUIEmitter.closeApp
-  const [modal, contextHolder] = Modal.useModal();
   const [open, setOpen] = useState(false);
 
   const onOk = () => {
+    windowUIEmitter.closeApp();
     setOpen(false);
   };
 
@@ -23,10 +20,19 @@ const CloseApp = memo(() => {
 
   return (
     <CloseAppStyles>
-      <i
-        className="iconfont icon-guanbi"
-        onClick={windowUIEmitter.closeApp}
-      ></i>
+      <i className="iconfont icon-guanbi" onClick={() => setOpen(true)}></i>
+      <Modal
+        className="close-app-modal"
+        title="退出APP"
+        centered
+        open={open}
+        okText="退出"
+        cancelText="取消"
+        onOk={() => onOk()}
+        onCancel={() => onCancel()}
+      >
+        <p>您确认退出Eliauk音乐吗？</p>
+      </Modal>
     </CloseAppStyles>
   );
 });
