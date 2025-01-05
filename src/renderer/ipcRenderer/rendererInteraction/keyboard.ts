@@ -8,6 +8,9 @@ import {
   pauseAudio,
   playSong,
 } from '@/renderer/store/actions/audioPlayerActions';
+import { setShowLyric } from '@/renderer/store/modules/playerControlReducer';
+
+const { dispatch } = store;
 
 /**
  * @description: 监听主线程的键盘事件
@@ -25,8 +28,10 @@ function handleKeyboard(data: KeyboardEnum) {
       handleEnter();
       break;
     case KeyboardEnum.Space:
-      console.log('space');
       handleSpace();
+      break;
+    case KeyboardEnum.Esc:
+      handleEsc();
       break;
     default:
       break;
@@ -64,4 +69,19 @@ function handleSpace() {
   }
   // 播放歌曲
   playSong();
+}
+
+/**
+ * Esc
+ */
+function handleEsc() {
+  const { isFullScreen } = store.getState().global;
+  if (isFullScreen) {
+    windowUIEmitter.fullScreen(); // 退出全屏
+    return;
+  }
+  const { showLyrics } = store.getState().playerControl;
+  if (showLyrics) {
+    dispatch(setShowLyric(false)); // 关闭歌词
+  }
 }

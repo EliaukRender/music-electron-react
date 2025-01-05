@@ -1,5 +1,8 @@
 import { BrowserWindow } from 'electron';
-import { KeyboardEventEnum, KeyboardEnum } from '@/InteractionEnum/keyboardEvent';
+import {
+  KeyboardEventEnum,
+  KeyboardEnum,
+} from '@/InteractionEnum/keyboardEvent';
 
 const localshortcut = require('electron-localshortcut');
 
@@ -16,6 +19,10 @@ export const keyboard = (browserWindow: BrowserWindow) => {
 
   localshortcut.register(browserWindow, KeyboardEnum.Space, () => {
     keyboardEmitter(KeyboardEnum.Space);
+  });
+
+  localshortcut.register(browserWindow, KeyboardEnum.Esc, () => {
+    keyboardEmitter(KeyboardEnum.Esc);
   });
 };
 

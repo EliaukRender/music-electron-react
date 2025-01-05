@@ -9,4 +9,5 @@ export enum KeyboardEventEnum {
 export enum KeyboardEnum {
   Enter = 'Enter',
   Space = 'Space',
+  Esc = 'Esc',
 }
