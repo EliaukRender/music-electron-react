@@ -32,6 +32,7 @@ const SheetMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
 
   // 点击歌单
   const clickSheet = () => {
+    if (menuItemInfo?.sheetId === activeSheet?.sheetId) return;
     dispatch(setActiveSheet(menuItemInfo));
     dispatch(setActiveMenu({}));
 
@@ -41,8 +42,6 @@ const SheetMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
       sheetId: menuItemInfo.sheetId,
       isOnline: false,
     });
-    // 路由跳转
-    navigate('/sheet');
   };
 
   return (

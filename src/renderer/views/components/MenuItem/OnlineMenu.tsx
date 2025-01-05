@@ -28,6 +28,7 @@ const OnlineMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
 
   // 点击菜单
   const clickMenu = () => {
+    if (menuItemInfo.menuId === activeMenu?.menuId) return;
     dispatch(setActiveMenu(menuItemInfo));
     dispatch(setActiveSheet({}));
   };
