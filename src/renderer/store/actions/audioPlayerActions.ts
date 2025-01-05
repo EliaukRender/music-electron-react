@@ -18,7 +18,6 @@ import {
 import Emitter from '@/renderer/eventBus/event-emitter';
 import { LyricInteraction } from '@/renderer/eventBus/modules/lyricInteraction';
 import { message } from 'antd';
-import { setActiveSheet } from '@/renderer/store/modules/mainMenuReducer';
 
 const { dispatch } = store;
 export const audio = new Audio();

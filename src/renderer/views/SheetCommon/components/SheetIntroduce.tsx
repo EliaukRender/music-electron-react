@@ -1,7 +1,8 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { SheetIntroduceStyles } from '@/renderer/views/SheetCommon/styles/SheetIntroduceStyles';
 import { RootState } from '@/renderer/store';
+import { playNextSong } from '@/renderer/store/actions/audioPlayerActions';
 
 /**
  * @description: 歌单信息
@@ -13,6 +14,10 @@ const SheetIntroduce = memo(() => {
     }),
     shallowEqual,
   );
+
+  const handlePlay = useCallback(() => {
+    playNextSong(true); // 播放下一首歌曲
+  }, []);
 
   return (
     <SheetIntroduceStyles>
@@ -35,7 +40,7 @@ const SheetIntroduce = memo(() => {
           </div>
           <div className="intro-text ellipsis">{activeSheet?.sheetInfo}</div>
           <div className="operation">
-            <div className="btn">
+            <div className="btn" onClick={handlePlay}>
               <i className="iconfont icon-bofang"></i>播放
             </div>
             <div className="btn">
