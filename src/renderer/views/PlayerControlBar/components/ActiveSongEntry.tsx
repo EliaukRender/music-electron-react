@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { ActiveSongEntryStyles } from '@/renderer/views/PlayerControlBar/styles/ActiveSongEntryStyles';
@@ -6,6 +6,7 @@ import SongItemForActive from '@/renderer/views/components/SongItem/SongItemForA
 import DrawerCmp from '@/renderer/components/Drawer/Drawer';
 import { darkenHexColor } from '@/renderer/utils/color/transformColor';
 import { lightTheme } from '@/renderer/theme/config/lightTheme';
+import { useScrollSongVisible } from '@/renderer/hooks/useScrollSongVisible';
 
 interface IProps {
   showLyrics: boolean;
@@ -16,12 +17,22 @@ interface IProps {
  */
 const ActiveSongEntry = ({ showLyrics }: IProps) => {
   const [visible, setVisible] = useState(false);
-  const { activeSongList } = useSelector(
+  const { activeSongList, activeSongId } = useSelector(
     (state: RootState) => ({
       activeSongList: state.playerControl.activeSongList,
+      activeSongId: state.playerControl.activeSongId,
     }),
     shallowEqual,
   );
+
+  // 歌曲滚动到可视区域
+  const { songRefs } = useScrollSongVisible({
+    songList: activeSongList,
+    activeSongId,
+  });
+
+  //
+  useEffect(() => {}, [visible]);
 
   return (
     <ActiveSongEntryStyles>
@@ -48,11 +59,18 @@ const ActiveSongEntry = ({ showLyrics }: IProps) => {
           <div className="song-list">
             {activeSongList.map((song: any, index: number) => {
               return (
-                <SongItemForActive
-                  songInfo={song}
-                  index={index}
+                <div
+                  ref={(el) => {
+                    songRefs.current[index] = el;
+                  }}
                   key={song.songId}
-                ></SongItemForActive>
+                >
+                  <SongItemForActive
+                    songInfo={song}
+                    activeSongId={activeSongId}
+                    index={index}
+                  ></SongItemForActive>
+                </div>
               );
             })}
           </div>

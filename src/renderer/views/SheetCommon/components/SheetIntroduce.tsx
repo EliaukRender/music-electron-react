@@ -2,22 +2,30 @@ import React, { memo, useCallback } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { SheetIntroduceStyles } from '@/renderer/views/SheetCommon/styles/SheetIntroduceStyles';
 import { RootState } from '@/renderer/store';
-import { playNextSong } from '@/renderer/store/actions/audioPlayerActions';
+import {
+  playNextSong,
+  playSong,
+} from '@/renderer/store/actions/audioPlayerActions';
 
 /**
  * @description: 歌单信息
  */
 const SheetIntroduce = memo(() => {
-  const { activeSheet } = useSelector(
+  const { activeSheet, isPlaying } = useSelector(
     (state: RootState) => ({
       activeSheet: state.mainMenu.activeSheet,
+      isPlaying: state.audioPlayer.isPlaying,
     }),
     shallowEqual,
   );
 
   const handlePlay = useCallback(() => {
-    playNextSong(true); // 播放下一首歌曲
-  }, []);
+    if (isPlaying) {
+      playNextSong(true); // 播放下一首歌曲
+    } else {
+      playSong(); // 播放歌曲
+    }
+  }, [isPlaying]);
 
   return (
     <SheetIntroduceStyles>

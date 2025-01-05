@@ -1,40 +1,48 @@
 import styled from 'styled-components';
+import { hexToRgba } from '@/renderer/utils/color/transformColor';
 
 export const SongItemForSheetStyles = styled.div`
-  min-height: 60px;
-  height: 60px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 10px;
-  border-radius: 6px;
-  cursor: pointer;
-
-  .music-info {
-    flex: 0.25;
-  }
-
-  .operation-group {
-    flex: 0.25;
+  .song-item-for-sheet {
+    min-height: 60px;
+    height: 60px;
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    padding-right: 40px;
+    padding: 0 10px;
+    border-radius: 6px;
+    cursor: pointer;
 
-    .move-music {
-      margin-right: 15px;
+    .music-info {
+      flex: 0.25;
     }
-  }
 
-  .album {
-    flex: 0.25;
-    text-align: center;
-  }
+    .operation-group {
+      flex: 0.25;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-right: 40px;
 
-  .duration {
-    flex: 0.25;
-    text-align: center;
+      .move-music {
+        margin-right: 15px;
+      }
+    }
+
+    .album {
+      flex: 0.25;
+      text-align: center;
+    }
+
+    .duration {
+      flex: 0.25;
+      text-align: center;
+    }
+
+    &:hover {
+      background-color: #ebebeb;
+      border-radius: 6px;
+    }
   }
 
   .odd {
@@ -42,13 +50,9 @@ export const SongItemForSheetStyles = styled.div`
     border-radius: 6px;
   }
 
-  &:hover {
-    background-color: #ebebeb;
-    border-radius: 6px;
-  }
-
   .active {
     border-radius: 6px;
-    background-color: chartreuse;
+    background-color: ${({ theme }) =>
+      hexToRgba(theme.themeColor.primary, 0.08)} !important;
   }
 `;

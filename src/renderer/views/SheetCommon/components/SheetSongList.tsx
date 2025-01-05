@@ -1,23 +1,31 @@
-import { memo, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { SheetSongListStyles } from '@/renderer/views/SheetCommon/styles/SheetSongListStyles';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import SongItemForSheet from '@/renderer/views/components/SongItem/SongItemForSheet';
 import NonSong from '@/renderer/views/SheetCommon/components/NonSong';
 import classNames from 'classnames';
+import { useScrollSongVisible } from '@/renderer/hooks/useScrollSongVisible';
 
 /**
  * @description: 歌单的 歌曲列表
  */
 const SheetSongList = memo(() => {
-  const { curSheetSongList } = useSelector((state: RootState) => ({
-    curSheetSongList: state.mainMenu.curSheetSongList,
-  }));
+  const { curSheetSongList, activeSongId } = useSelector(
+    (state: RootState) => ({
+      curSheetSongList: state.mainMenu.curSheetSongList,
+      activeSongId: state.playerControl.activeSongId,
+    }),
+  );
   const [curTitleId, setCurTitleId] = useState(1);
   const titleList = [
     { id: 1, title: '歌曲' },
     { id: 2, title: '评论' },
   ];
+  const { songRefs } = useScrollSongVisible({
+    songList: curSheetSongList,
+    activeSongId,
+  }); // 歌曲滚动到可视区域
 
   return (
     <SheetSongListStyles>
@@ -60,11 +68,18 @@ const SheetSongList = memo(() => {
         {curSheetSongList.length ? (
           curSheetSongList?.map((item: any, index: number) => {
             return (
-              <SongItemForSheet
-                songInfo={item}
-                index={index}
+              <div
+                ref={(el) => {
+                  songRefs.current[index] = el;
+                }}
                 key={index}
-              ></SongItemForSheet>
+              >
+                <SongItemForSheet
+                  songInfo={item}
+                  activeSongId={activeSongId}
+                  index={index}
+                ></SongItemForSheet>
+              </div>
             );
           })
         ) : (
