@@ -5,10 +5,12 @@ import { SheetMenuItemType } from '@/renderer/types/menuTypes';
 import {
   setActiveMenu,
   setActiveSheet,
+  setCurSheetSongList,
 } from '@/renderer/store/modules/mainMenuReducer';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { getSongListBySheetId } from '@/renderer/store/actions/mainMenuActions';
+import { useNavigate } from 'react-router-dom';
 
 interface PropsType {
   menuItemInfo: SheetMenuItemType; // 歌单
@@ -19,6 +21,7 @@ interface PropsType {
  */
 const SheetMenu: React.FC<PropsType> = ({ menuItemInfo }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { activeSheet, isCollapseMenu } = useSelector(
     (state: RootState) => ({
       activeSheet: state.mainMenu.activeSheet,
@@ -31,11 +34,15 @@ const SheetMenu: React.FC<PropsType> = ({ menuItemInfo }) => {
   const clickSheet = () => {
     dispatch(setActiveSheet(menuItemInfo));
     dispatch(setActiveMenu({}));
-    // 获取歌曲列表
+
+    dispatch(setCurSheetSongList([])); // 清空当前歌单的歌曲列表
+    // 获取歌单对应的歌曲列表
     getSongListBySheetId({
       sheetId: menuItemInfo.sheetId,
       isOnline: false,
     });
+    // 路由跳转
+    navigate('/sheet');
   };
 
   return (

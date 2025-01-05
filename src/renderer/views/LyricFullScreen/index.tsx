@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { LyricFullScreenStyles } from '@/renderer/views/LyricFullScreen/styles/LyricFullScreenStyles';
 import PlayControlBar from '@/renderer/views/PlayerControlBar';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -12,18 +12,18 @@ import JukeBox from '@/renderer/views/LyricFullScreen/components/JukeBox';
 import MinScreen from '@/renderer/views/OperationBar/windowTools/MinScreen';
 import AnalyzeCanvas from '@/renderer/views/LyricFullScreen/components/AnalyzeCanvas';
 import { useDoubleClick } from '@/renderer/hooks/useDoubleClick';
+import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
+import { setIsMaximize } from '@/renderer/store/modules/globalReducer';
 
 /**
  * @description:全屏歌词界面
  */
 const LyricFullScreen = () => {
-  const { dragEleRef } = useUpdateWindowPosition(); // 窗口拖拽
-  useDoubleClick(dragEleRef); // 双击全屏
-
-  const { showLyrics, isFullScreen } = useSelector(
+  const { showLyrics, isFullScreen, isMaximize } = useSelector(
     (state: RootState) => ({
       showLyrics: state.playerControl.showLyrics,
       isFullScreen: state.global.isFullScreen,
+      isMaximize: state.global.isMaximize,
     }),
     shallowEqual,
   );
@@ -32,6 +32,15 @@ const LyricFullScreen = () => {
     height: 0,
   });
   const jukeLyricRef = useRef<HTMLDivElement | null>(null);
+
+  const { dragEleRef } = useUpdateWindowPosition(); // 窗口拖拽
+
+  // 双击后最大窗口
+  const handleDoubleClick = useCallback(() => {
+    windowUIEmitter.maximize();
+    setIsMaximize(!isMaximize);
+  }, [isMaximize]);
+  useDoubleClick(dragEleRef, handleDoubleClick);
 
   /**
    *  监听页面视图尺寸变化

@@ -8,10 +8,7 @@ import DeleteSong from '@/renderer/views/components/DeleteSong/DeleteSong';
 import MoveMusicPopover from '@/renderer/views/components/MoveSongPopover/MoveSongPopover';
 import MusicInfo from '@/renderer/views/components/SongItem/components/MusicInfo';
 import gsap from 'gsap';
-import {
-  pauseAudio,
-  playSong,
-} from '@/renderer/store/actions/audioPlayerActions';
+import { playSong } from '@/renderer/store/actions/audioPlayerActions';
 import { useDoubleClick } from '@/renderer/hooks/useDoubleClick';
 
 interface PropsType {

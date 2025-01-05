@@ -18,6 +18,7 @@ import {
 import Emitter from '@/renderer/eventBus/event-emitter';
 import { LyricInteraction } from '@/renderer/eventBus/modules/lyricInteraction';
 import { message } from 'antd';
+import { setActiveSheet } from '@/renderer/store/modules/mainMenuReducer';
 
 const { dispatch } = store;
 export const audio = new Audio();
@@ -71,7 +72,6 @@ export const playSong = async (song?: any, songList?: any[]) => {
 /**
  * @description: 播放音频
  */
-
 const playAudio = ({
   songId,
   songUrl,
@@ -105,6 +105,7 @@ const playAudio = ({
       dispatch(setIsPlaying(true)); // 正在播放
       dispatch(setIsPause(false)); // 没有暂停
       dispatch(setIsLoadingSong(false)); // 歌曲加载完毕
+      dispatch(setActiveSongList(store.getState().mainMenu.curSheetSongList)); // 更新播放队列歌曲
     })
     .catch(() => {
       message.open({ type: 'error', content: '歌曲播放失败' });
