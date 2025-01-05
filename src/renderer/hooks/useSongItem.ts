@@ -11,11 +11,11 @@ import { useDoubleClick } from '@/renderer/hooks/useDoubleClick';
 export const useSongItem = ({
   songInfo,
   activeSongId,
-  index,
+  classList,
 }: {
   songInfo: any;
   activeSongId: number;
-  index: number;
+  classList: string[];
 }) => {
   const { isPlaying } = useSelector(
     (state: RootState) => ({
@@ -28,11 +28,6 @@ export const useSongItem = ({
   const isActiveSong = useMemo(() => {
     return activeSongId === songInfo.songId;
   }, [activeSongId, songInfo]);
-
-  // song-item的操作按钮区域、缩略图遮罩的clsss类名
-  const classList = useMemo(() => {
-    return [`.operation-group-${index}`, `.music-info-${index} .img-mask`];
-  }, [index]);
 
   // 初始化css样式
   const initNonVisible = useCallback(() => {

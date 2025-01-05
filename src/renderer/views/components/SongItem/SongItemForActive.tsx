@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { SongItemForActiveStyles } from '@/renderer/views/components/SongItem/styles/SongItemForActiveStyles';
 import classNames from 'classnames';
 import LikeSong from '@/renderer/views/PlayerControlBar/components/LikeSong';
@@ -17,13 +17,21 @@ interface PropsType {
  * @description: 播放队列弹窗 的歌曲item
  */
 const SongItemForActive = ({ songInfo, index, activeSongId }: PropsType) => {
+  // song-item的操作按钮区域、缩略图遮罩的class类名
+  const classList = useMemo(() => {
+    return [
+      `.operation-group-${index}-for-active`,
+      `.music-info-${index}-for-active .img-mask`,
+    ];
+  }, [index]);
+
   const {
     isPlaying,
     songItemRef,
     isActiveSong,
     hiddenAnimation,
     showAnimation,
-  } = useSongItem({ songInfo, index, activeSongId });
+  } = useSongItem({ songInfo, activeSongId, classList });
 
   return (
     <SongItemForActiveStyles>
@@ -43,7 +51,7 @@ const SongItemForActive = ({ songInfo, index, activeSongId }: PropsType) => {
         }}
       >
         {/* 歌曲信息 */}
-        <div className={`music-info music-info-${index}`}>
+        <div className={`music-info music-info-${index}-for-active`}>
           <MusicInfo
             isActiveSong={isActiveSong}
             songInfo={songInfo}
@@ -51,7 +59,7 @@ const SongItemForActive = ({ songInfo, index, activeSongId }: PropsType) => {
           ></MusicInfo>
         </div>
         {/* 操作按钮 */}
-        <div className={`operation-group operation-group-${index}`}>
+        <div className={`operation-group operation-group-${index}-for-active`}>
           <LikeSong></LikeSong>
           <div className="move-music">
             <MoveMusicPopover curSong={songInfo}>

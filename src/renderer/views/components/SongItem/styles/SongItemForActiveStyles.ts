@@ -37,6 +37,6 @@ export const SongItemForActiveStyles = styled.div`
   .active {
     border-radius: 6px;
     background-color: ${({ theme }) =>
-      hexToRgba(theme.themeColor.primary, 0.08)};
+      hexToRgba(theme.themeColor.primary, 0.08)} !important;
   }
 `;
