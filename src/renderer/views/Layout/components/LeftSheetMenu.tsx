@@ -27,7 +27,7 @@ function LeftSheetMenu() {
 
       <div className="sheet-menu-list">
         {sheetMenuList.map((item) => {
-          return <SheetMenu key={item.sheetId} menuItemInfo={item}></SheetMenu>;
+          return <SheetMenu key={item.sheetId} menuItemInfo={item} isCollapseMenu={isCollapseMenu}></SheetMenu>;
         })}
       </div>
     </SheetMenuStyles>

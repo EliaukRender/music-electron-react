@@ -36,7 +36,7 @@ export const MenuItemStyles = styled.div`
     justify-content: center;
 
     .iconfont {
-      font-size: 30px;
+      font-size: 26px;
     }
   }
 `;

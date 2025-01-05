@@ -13,6 +13,7 @@ import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi
 import { setIsMaximize } from '@/renderer/store/modules/globalReducer';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
+import MiniPlayer from '@/renderer/views/OperationBar/windowTools/MiniPlayer';
 
 /**
  * @description: 顶部操作栏区域
@@ -44,6 +45,8 @@ const OperationBar: React.FC = () => {
         <UserInfo></UserInfo>
         {/* 主题切换 */}
         <ChangeTheme></ChangeTheme>
+        {/* mini播放器 */}
+        <MiniPlayer></MiniPlayer>
         {/* 最小化 */}
         <MinScreen></MinScreen>
         {/* 最大化 */}

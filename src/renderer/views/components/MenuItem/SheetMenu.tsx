@@ -14,18 +14,18 @@ import { useNavigate } from 'react-router-dom';
 
 interface PropsType {
   menuItemInfo: SheetMenuItemType; // 歌单
+  isCollapseMenu: boolean; // 是否折叠
 }
 
 /**
  * @description: 个人歌单item组件
  */
-const SheetMenu: React.FC<PropsType> = ({ menuItemInfo }) => {
+const SheetMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { activeSheet, isCollapseMenu } = useSelector(
+  const { activeSheet } = useSelector(
     (state: RootState) => ({
       activeSheet: state.mainMenu.activeSheet,
-      isCollapseMenu: state.mainMenu.isCollapseMenu,
     }),
     shallowEqual,
   );

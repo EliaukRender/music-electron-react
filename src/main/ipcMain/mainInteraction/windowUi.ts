@@ -78,6 +78,8 @@ export const windowUi = (browserWindow: BrowserWindow) => {
     browserWindow.setPosition(data.x, data.y);
   });
 
+  /* ==================================================================== */
+
   /**
    *  进入全屏时触发
    */

@@ -18,10 +18,11 @@ import {
   REDUX_DEVTOOLS,
 } from 'electron-extension-installer';
 import MenuBuilder from './menu';
-import { resolveHtmlPath } from './util';
+import { createBrowserWindow, resolveHtmlPath } from './util';
 import { windowUi } from '@/main/ipcMain/mainInteraction/windowUi';
 import { setWindowData } from '@/main/ipcMain/data/windowData';
 import { keyboard } from '@/main/ipcMain/mainInteraction/keyboard';
+import { miniPlayer } from '@/main/miniPlayer';
 
 class AppUpdater {
   constructor() {
@@ -77,7 +78,7 @@ const createWindow = async () => {
     return path.join(RESOURCES_PATH, ...paths);
   };
 
-  mainWindow = new BrowserWindow({
+  mainWindow = createBrowserWindow({
     width: 1200,
     height: 800,
     minWidth: 1100,
@@ -146,6 +147,7 @@ app
       .then(() => {
         windowUi(mainWindow!);
         keyboard(mainWindow!);
+        miniPlayer();
       })
       .catch((err) => {
         console.log('createWindow error!', err);

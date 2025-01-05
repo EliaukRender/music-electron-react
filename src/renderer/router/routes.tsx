@@ -5,6 +5,9 @@ const Layout = React.lazy(() => import('@/renderer/views/Layout/index'));
 const SheetCommon = React.lazy(
   () => import('@/renderer/views/SheetCommon/SheetCommon'),
 );
+const MiniPlayer = React.lazy(
+  () => import('@/renderer/views/MiniPlayer/MiniPlayer'),
+);
 
 const routes: RouteObject[] = [
   {
@@ -20,6 +23,14 @@ const routes: RouteObject[] = [
         element: <SheetCommon></SheetCommon>,
       },
     ],
+  },
+  {
+    path: '/mini-player',
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <MiniPlayer />
+      </Suspense>
+    ),
   },
 ];
 

@@ -23,6 +23,7 @@ export const OperationBarStyles = styled.div`
   .bar-right {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 
     &:first-child {
       margin-right: 5px;

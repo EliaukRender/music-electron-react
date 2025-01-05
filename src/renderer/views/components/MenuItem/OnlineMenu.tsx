@@ -11,17 +11,17 @@ import { RootState } from '@/renderer/store';
 
 interface PropsType {
   menuItemInfo: OnlineMenuItemType; // 在线菜单
+  isCollapseMenu: boolean; // 是否折叠
 }
 
 /**
  * @description:  在线菜单item组件
  */
-const OnlineMenu: React.FC<PropsType> = ({ menuItemInfo }) => {
+const OnlineMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
   const dispatch = useDispatch();
-  const { activeMenu, isCollapseMenu } = useSelector(
+  const { activeMenu } = useSelector(
     (state: RootState) => ({
       activeMenu: state.mainMenu.activeMenu,
-      isCollapseMenu: state.mainMenu.isCollapseMenu,
     }),
     shallowEqual,
   );

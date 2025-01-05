@@ -27,7 +27,11 @@ export default function LeftOnlineMenu() {
       <div>
         {onlineMenuList?.map((item: any) => {
           return (
-            <OnlineMenu key={item.menuId} menuItemInfo={item}></OnlineMenu>
+            <OnlineMenu
+              key={item.menuId}
+              menuItemInfo={item}
+              isCollapseMenu={isCollapseMenu}
+            ></OnlineMenu>
           );
         })}
       </div>

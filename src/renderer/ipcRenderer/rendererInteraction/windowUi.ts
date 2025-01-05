@@ -37,6 +37,11 @@ export default {
   setPosition: (data: WindowPositionType) => {
     window.electron.ipcRenderer.sendMessage(WindowUIEvent.Set_Position, data);
   },
+
+  // mini播放器
+  miniPlayer: () => {
+    window.electron.ipcRenderer.sendMessage(WindowUIEvent.Mini_Player);
+  },
 };
 
 /**
