@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
 import { PlayControlBarStyles } from '@/renderer/views/PlayerControlBar/styles/PlayControlBarStyles';
-import { useForbidMouseDown } from '@/renderer/hooks/useForbidMouseDown';
+import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
 import MusicMiniPicture from '@/renderer/views/PlayerControlBar/components/MusicMiniPicture';
 import CurrentMusicInfo from '@/renderer/views/PlayerControlBar/components/CurrentMusicInfo';
 import LikeSong from '@/renderer/views/PlayerControlBar/components/LikeSong';
@@ -19,7 +19,7 @@ import { shallowEqual, useSelector } from 'react-redux';
  * @description: 音乐控制栏
  */
 const PlayControlBar = () => {
-  const { forbidMouseDownEleRef } = useForbidMouseDown();
+  const { stopPropagationEleRef } = useStopPropagation();
   const [isHover, setIsHover] = useState(false);
   const { showLyrics } = useSelector(
     (state: RootState) => ({
@@ -31,7 +31,7 @@ const PlayControlBar = () => {
   return (
     <PlayControlBarStyles
       className="player-control-bar"
-      ref={forbidMouseDownEleRef}
+      ref={stopPropagationEleRef}
     >
       <div className="box">
         <div className="left">

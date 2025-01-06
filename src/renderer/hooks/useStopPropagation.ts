@@ -1,33 +1,32 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 /**
- * @description: 阻止元素冒泡
+ *   阻止元素 Mousedown事件 、dblclick事件 冒泡
  */
-export const useStopPropagation = () => {
-  const stopPropagationRef = useRef<HTMLDivElement | HTMLImageElement | null>(
-    null,
-  );
+export function useStopPropagation() {
+  const stopPropagationEleRef = useRef<HTMLDivElement | null>(null);
 
-  const handleClick = useCallback((event: MouseEvent) => {
-    const ele = stopPropagationRef.current;
-    if (ele) {
-      event.stopPropagation();
-      event.preventDefault();
-    }
-  }, []);
+  function handler(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
 
   useEffect(() => {
-    const ele = stopPropagationRef.current;
-    // @ts-ignore
-    ele && ele.addEventListener('click', handleClick);
+    const element = stopPropagationEleRef.current;
+    if (element) {
+      element.addEventListener('mousedown', handler);
+      element.addEventListener('dblclick', handler);
+    }
 
     return () => {
-      // @ts-ignore
-      ele && ele.removeEventListener('click', handleClick);
+      if (element) {
+        element.removeEventListener('mousedown', handler);
+        element.removeEventListener('dblclick', handler);
+      }
     };
-  }, [handleClick]);
+  }, []);
 
   return {
-    stopPropagationRef,
+    stopPropagationEleRef,
   };
-};
+}

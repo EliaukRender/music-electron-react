@@ -3,11 +3,13 @@ import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi
 import classNames from 'classnames';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
+import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
 
 /**
  * @description: 最大化、退出最大化
  */
 const MaxScreen = memo(() => {
+  const { stopPropagationEleRef } = useStopPropagation();
   const { isMaximize } = useSelector(
     (state: RootState) => ({
       isMaximize: state.global.isMaximize,
@@ -20,7 +22,7 @@ const MaxScreen = memo(() => {
   };
 
   return (
-    <div onMouseUp={maximize}>
+    <div ref={stopPropagationEleRef} onClick={maximize}>
       <i
         className={classNames(
           'iconfont',

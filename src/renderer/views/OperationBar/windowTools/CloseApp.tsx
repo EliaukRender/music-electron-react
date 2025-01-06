@@ -2,11 +2,13 @@ import React, { memo, useState } from 'react';
 import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
 import { Modal } from 'antd';
 import { CloseAppStyles } from '@/renderer/views/OperationBar/styles/CloseAppStyles';
+import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
 
 /**
  * @description: 关闭app按钮
  */
-const CloseApp = memo(() => {
+const CloseApp: React.FC = memo(() => {
+  const { stopPropagationEleRef } = useStopPropagation();
   const [open, setOpen] = useState(false);
 
   const onOk = () => {
@@ -19,7 +21,7 @@ const CloseApp = memo(() => {
   };
 
   return (
-    <CloseAppStyles>
+    <CloseAppStyles ref={stopPropagationEleRef}>
       <i className="iconfont icon-guanbi" onClick={() => setOpen(true)}></i>
       <Modal
         className="close-app-modal"

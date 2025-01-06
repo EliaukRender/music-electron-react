@@ -1,13 +1,14 @@
 /**
- * @description: 主题切换
- * @param
- * @return
+ *  主题切换入口
  */
 import React, { memo } from 'react';
+import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
 
-const ChangeTheme = memo(() => {
+const ChangeTheme: React.FC = memo(() => {
+  const { stopPropagationEleRef } = useStopPropagation();
+
   return (
-    <div>
+    <div ref={stopPropagationEleRef}>
       <i className="iconfont icon-pifu"></i>
     </div>
   );

@@ -1,13 +1,16 @@
 import React, { memo } from 'react';
 import { ContentContainerStyles } from '@/renderer/views/Layout/styles/ContentContainerStyles';
 import { Outlet } from 'react-router-dom';
+import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
 
 /**
  * @description: 动态显示内容的区域
  */
 const ContentContainer = () => {
+  const { stopPropagationEleRef } = useStopPropagation();
+
   return (
-    <ContentContainerStyles>
+    <ContentContainerStyles ref={stopPropagationEleRef}>
       {/* 嵌套路由占位 */}
       <Outlet></Outlet>
     </ContentContainerStyles>

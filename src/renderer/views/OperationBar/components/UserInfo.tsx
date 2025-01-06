@@ -1,15 +1,15 @@
 import { memo } from 'react';
 import { UserInfoStyles } from '@/renderer/views/OperationBar/styles/UserInfoStyles';
-import { useForbidMouseDown } from '@/renderer/hooks/useForbidMouseDown';
+import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
 
 /**
  * @description: 用户个人信息
  */
 function UserInfo() {
-  const { forbidMouseDownEleRef } = useForbidMouseDown();
+  const { stopPropagationEleRef } = useStopPropagation();
 
   return (
-    <UserInfoStyles ref={forbidMouseDownEleRef}>
+    <UserInfoStyles ref={stopPropagationEleRef}>
       <img
         className="img"
         src={require('@/renderer/assets/images/user-icon.png')}

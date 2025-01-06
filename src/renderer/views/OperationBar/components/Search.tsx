@@ -1,7 +1,7 @@
 import React, { memo, useRef, useState } from 'react';
 import { SearchStyles } from '@/renderer/views/OperationBar/styles/SearchStyles';
 import classNames from 'classnames';
-import { useForbidMouseDown } from '@/renderer/hooks/useForbidMouseDown';
+import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
 
 /**
  * @description: 页面跳转按钮、 音乐搜索框
@@ -10,7 +10,7 @@ const Search: React.FC = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isFocus, setIsFocus] = useState(false);
   const [keyWord, setKeyWord] = useState('');
-  const { forbidMouseDownEleRef } = useForbidMouseDown();
+  const { stopPropagationEleRef } = useStopPropagation();
 
   const handleInputClick = () => {
     inputRef.current?.focus();
@@ -33,7 +33,7 @@ const Search: React.FC = () => {
 
   return (
     <SearchStyles
-      ref={forbidMouseDownEleRef}
+      ref={stopPropagationEleRef}
       onMouseDown={(event) => {
         console.log('down');
         event.preventDefault();

@@ -118,6 +118,7 @@
     "react-dom": "^18.2.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^6.16.0",
+    "react-use": "^17.6.0",
     "redux": "^5.0.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-persist": "^6.0.0"
