@@ -6,6 +6,7 @@ import { memo } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import SheetMenu from '@/renderer/views/components/MenuItem/SheetMenu';
+import CreateSheet from '@/renderer/views/Layout/components/CreateSheet';
 
 function LeftSheetMenu() {
   const { sheetMenuList, isCollapseMenu } = useSelector(
@@ -21,7 +22,8 @@ function LeftSheetMenu() {
       {!isCollapseMenu && (
         <div className="title-box">
           <div className="title">我的歌单</div>
-          <i className="iconfont icon-jia"></i>
+          {/* 创建歌单 */}
+          <CreateSheet></CreateSheet>
         </div>
       )}
 

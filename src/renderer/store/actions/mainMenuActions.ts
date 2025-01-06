@@ -2,6 +2,7 @@
  * @description: 关于播放器 主菜单 的异步事件
  */
 import {
+  createSheet,
   queryCommonMenuList,
   querySheetList,
   querySongListBySheetId,
@@ -18,6 +19,7 @@ import {
   setActiveSongList,
   setActiveSongUrl,
 } from '@/renderer/store/modules/playerControlReducer';
+import { message } from 'antd';
 
 const { dispatch } = store;
 
@@ -76,5 +78,30 @@ export const getSongListBySheetId = async ({
     dispatch(setCurSheetSongList(data || []));
   } catch (e) {
     console.log('error-getSongListBySheetId', e);
+  }
+};
+
+/**
+ * @description: 创建歌单
+ */
+export const handleCreateSheet = async ({
+  sheetName,
+  sheetIcon,
+  sheetDesc,
+}: {
+  sheetName: string;
+  sheetIcon: string;
+  sheetDesc?: string;
+}) => {
+  try {
+    await createSheet({ sheetName, sheetIcon, sheetDesc });
+    message.success('创建歌单成功');
+    const { data } = await querySheetList(); // 更新歌单列表
+    data && dispatch(setSheetMenuList(data));
+    return true;
+  } catch (e: any) {
+    console.log('error-handleCreateSheet', e);
+    message.error(e?.message || '创建歌单失败');
+    return false;
   }
 };
