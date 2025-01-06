@@ -72,9 +72,10 @@ const CreateSheet: React.FC = memo(() => {
           <div className="content-item">
             <div className="title">歌单图标：</div>
             <div className="icon-list">
-              {addSheetIconList.map((item: string) => {
+              {addSheetIconList.map((item: string, index: number) => {
                 return (
                   <i
+                    key={index}
                     className={classNames(
                       'iconfont',
                       item,

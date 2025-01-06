@@ -12,6 +12,7 @@ export interface MainMenuState {
   activeMenu: OnlineMenuItemType;
   curSheetSongList: any;
   isCollapseMenu: boolean;
+  sheetSongListMap: Record<string, any[]>;
 }
 
 // 初始state
@@ -19,9 +20,10 @@ const initialState: MainMenuState = {
   onlineMenuList: [], // 在线菜单
   sheetMenuList: [], // 歌单菜单
 
-  activeSheet: {} as SheetMenuItemType, // 当前激活的 个人歌单
   activeMenu: {} as OnlineMenuItemType, // 当前激活的 在线菜单
-  curSheetSongList: [], // 当前歌单 对应的 歌曲列表
+  activeSheet: {} as SheetMenuItemType, // 当前激活的 个人歌单
+  curSheetSongList: [], // 当前激活的歌单 对应的 歌曲列表
+  sheetSongListMap: {}, // 歌单列表对应的歌曲列表
 
   isCollapseMenu: false, // 菜单是否折叠
 };
@@ -59,6 +61,10 @@ const mainMenuSlice = createSlice({
     setIsCollapseMenu(state, { payload }) {
       state.isCollapseMenu = payload;
     },
+
+    setSheetSongListMap(state, { payload }) {
+      state.sheetSongListMap = payload;
+    },
   },
 
   // 异步reducers
@@ -72,6 +78,7 @@ export const {
   setActiveSheet,
   setCurSheetSongList,
   setIsCollapseMenu,
+  setSheetSongListMap,
 } = mainMenuSlice.actions; // 同步的dispatch
 
 export default mainMenuSlice.reducer; // reducer

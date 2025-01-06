@@ -13,6 +13,7 @@ import {
   setCurSheetSongList,
   setOnlineMenuList,
   setSheetMenuList,
+  setSheetSongListMap,
 } from '@/renderer/store/modules/mainMenuReducer';
 import {
   setActiveSongId,
@@ -20,6 +21,7 @@ import {
   setActiveSongUrl,
 } from '@/renderer/store/modules/playerControlReducer';
 import { message } from 'antd';
+import { SheetMenuItemType } from '@/renderer/types/menuTypes';
 
 const { dispatch } = store;
 
@@ -35,14 +37,22 @@ export const initAppData = async () => {
 
     // 有歌单数据
     if (sheetMenuList.length) {
-      dispatch(setActiveSheet(sheetMenuList[0]));
-      await getSongListBySheetId({ sheetId: sheetMenuList[0].sheetId });
-      const list = store.getState().mainMenu.curSheetSongList;
-      if (list?.length) {
-        dispatch(setActiveSongList(list)); // 默认的播放队列
-        dispatch(setActiveSongId(list[0].songId)); // 默认的一首歌
-        dispatch(setActiveSongUrl(list[0].songUrl)); // 默认的一首歌
-      }
+      dispatch(setActiveSheet(sheetMenuList[0])); // 默认激活第一个歌单
+      // 遍历获取所有歌单中的歌曲列表
+      const resultList = await Promise.all(
+        sheetMenuList.map(async (item: SheetMenuItemType) => {
+          const list = await getSongListBySheetId({ sheetId: item.sheetId });
+          return { [item.sheetId]: list };
+        }),
+      );
+      const temp = resultList.reduce((cur, acc) => ({ ...acc, ...cur }), {});
+      // console.log('temp', temp);
+      dispatch(setSheetSongListMap(temp));
+      const firstSongList = temp[sheetMenuList[0].sheetId] || [];
+      dispatch(setCurSheetSongList(firstSongList)); // 第一个歌单的歌曲列表
+      dispatch(setActiveSongList(firstSongList)); // 默认的播放队列
+      dispatch(setActiveSongId(firstSongList[0].songId)); // 默认的一首歌
+      dispatch(setActiveSongUrl(firstSongList[0].songUrl)); // 默认的一首歌
     } else {
       // todo 进入音乐馆
     }
@@ -72,10 +82,10 @@ export const getSongListBySheetId = async ({
 }: {
   sheetId: number;
   isOnline?: boolean;
-}) => {
+}): Promise<any[] | undefined> => {
   try {
-    const { data } = await querySongListBySheetId({ sheetId, isOnline });
-    dispatch(setCurSheetSongList(data || []));
+    const res = await querySongListBySheetId({ sheetId, isOnline });
+    return res?.data as unknown as any[];
   } catch (e) {
     console.log('error-getSongListBySheetId', e);
   }
