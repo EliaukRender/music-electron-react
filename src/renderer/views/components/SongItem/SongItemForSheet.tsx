@@ -6,6 +6,7 @@ import MoveMusicPopover from '@/renderer/views/components/MoveSongPopover/MoveSo
 import DeleteSong from '@/renderer/views/components/DeleteSong/DeleteSong';
 import classNames from 'classnames';
 import { useSongItem } from '@/renderer/hooks/useSongItem';
+import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
 
 interface PropsType {
   songInfo: any;
@@ -17,6 +18,7 @@ interface PropsType {
  * @description: 歌单列表(歌单) 中的歌曲item
  */
 const SongItemForSheet = ({ songInfo, index, activeSongId }: PropsType) => {
+  const { stopPropagationEleRef } = useStopPropagation();
   // song-item的操作按钮区域、缩略图遮罩的class类名
   const classList = useMemo(() => {
     return [
@@ -60,7 +62,10 @@ const SongItemForSheet = ({ songInfo, index, activeSongId }: PropsType) => {
         </div>
 
         {/* 操作按钮 */}
-        <div className={`operation-group operation-group-${index}-for-sheet`}>
+        <div
+          className={`operation-group operation-group-${index}-for-sheet`}
+          ref={stopPropagationEleRef}
+        >
           <LikeSong></LikeSong>
           <div className="move-music">
             <MoveMusicPopover curSong={songInfo}>
