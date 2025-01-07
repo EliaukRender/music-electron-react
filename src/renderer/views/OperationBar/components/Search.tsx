@@ -1,36 +1,22 @@
 import React, { memo, useRef, useState } from 'react';
 import { SearchStyles } from '@/renderer/views/OperationBar/styles/SearchStyles';
-import classNames from 'classnames';
 import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
+import { Input, InputRef } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 
 /**
  * @description: 页面跳转按钮、 音乐搜索框
  */
 const Search: React.FC = () => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const [isFocus, setIsFocus] = useState(false);
+  const inputRef = useRef<InputRef | null>(null);
   const [keyWord, setKeyWord] = useState('');
   const { stopPropagationEleRef } = useStopPropagation();
 
-  const handleInputClick = () => {
-    inputRef.current?.focus();
+  const handleInputChange = (event: any) => {
+    setKeyWord(event.target.value);
   };
 
-  const handleInputFocus = () => {
-    setIsFocus(true);
-  };
-
-  const handleInputBlur = () => {
-    setIsFocus(false);
-    if (!inputRef.current) return;
-    inputRef.current.value = '';
-  };
-
-  const handleInputChange = () => {
-    if (!inputRef.current) return;
-    setKeyWord(inputRef.current.value);
-  };
-
+  // @ts-ignore
   return (
     <SearchStyles
       ref={stopPropagationEleRef}
@@ -41,22 +27,14 @@ const Search: React.FC = () => {
       }}
     >
       <div className="input-box">
-        <input
-          type="text"
-          className="input"
-          placeholder=""
+        <Input
           ref={inputRef}
-          onClick={handleInputClick}
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
+          className="search-input"
+          placeholder="搜索音乐"
+          variant="filled"
+          prefix={<SearchOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
           onChange={handleInputChange}
         />
-        <i
-          className={classNames(
-            'iconfont icon-sousuo',
-            isFocus ? 'icon-sousuo-focus' : 'icon-sousuo-nonfocus',
-          )}
-        ></i>
       </div>
     </SearchStyles>
   );

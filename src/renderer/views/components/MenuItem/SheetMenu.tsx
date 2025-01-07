@@ -10,7 +10,7 @@ import {
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { getSongListBySheetId } from '@/renderer/store/actions/mainMenuActions';
-import defaultPic from '@/renderer/assets/images/music-info.png';
+import defaultPic from '@/renderer/assets/images/default-sheet-pic.png';
 
 interface PropsType {
   menuItemInfo: SheetMenuItemType; // 歌单

@@ -1,111 +1,63 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import { CreateSheetStyles } from '@/renderer/views/Layout/styles/CreateSheetStyles';
-import { Input, Modal } from 'antd';
+import { Input, InputRef } from 'antd';
 import { handleCreateSheet } from '@/renderer/store/actions/mainMenuActions';
-import { addSheetIconList } from '@/renderer/constant';
-import classNames from 'classnames';
+import defaultPic from '@/renderer/assets/images/default-sheet-pic.png';
+import { SheetMenuItemType } from '@/renderer/types/menuTypes';
 
-const { TextArea } = Input;
+interface IProps {
+  showCreateInput: boolean;
+  sheetMenuList: SheetMenuItemType[];
+  finishCreate: (success: boolean) => void;
+}
 
 /**
  * 新建歌单
  */
-const CreateSheet: React.FC = memo(() => {
-  const [open, setOpen] = useState(false);
-  const [curIconName, setCurIconName] = useState('');
-  const [inputValue, setInputValue] = useState('');
-  const [textAreaValue, setTextAreaValue] = useState('');
+const CreateSheet = memo(
+  ({ finishCreate, showCreateInput, sheetMenuList }: IProps) => {
+    const [inputValue, setInputValue] = useState('');
+    const inputRef = useRef<InputRef | null>(null);
 
-  const onChange = (e: any) => {
-    setInputValue(e.target.value.trim());
-  };
+    const onChange = (e: any) => {
+      setInputValue(e.target.value.trim());
+    };
 
-  const onTextareaChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setTextAreaValue(e.target.value.trim());
-  };
+    // Input失焦的时候请求接口创建歌单
+    const onBlur = async () => {
+      // todo 成功后直接返回新建的歌单信息
+      const res = await handleCreateSheet({
+        sheetName: inputValue,
+        sheetIcon: 'aaaa',
+      });
+      finishCreate(res);
+    };
 
-  const onCancel = () => {
-    setOpen(false);
-  };
+    useEffect(() => {
+      if (!showCreateInput) return;
+      setInputValue(`新建歌单${sheetMenuList.length + 1}`);
+      setTimeout(() => {
+        inputRef.current?.focus();
 
-  const onOk = async () => {
-    if (!inputValue) {
-      return;
-    }
-    if (!curIconName) {
-      return;
-    }
-    const res = await handleCreateSheet({
-      sheetName: inputValue,
-      sheetIcon: curIconName,
-    });
-    res && setOpen(false);
-  };
+        inputRef.current?.select();
+      });
+    }, [sheetMenuList.length, showCreateInput]);
 
-  return (
-    <CreateSheetStyles>
-      <i className="iconfont icon-jia" onClick={() => setOpen(true)}></i>
-      <Modal
-        className="create-sheet-modal"
-        mask={false}
-        title="创建歌单"
-        centered
-        open={open}
-        okText="创建"
-        cancelText="取消"
-        onOk={() => onOk()}
-        onCancel={() => onCancel()}
-      >
-        <div className="content">
-          <div className="content-item">
-            <div className="title">歌单名称：</div>
-            <Input
-              value={inputValue}
-              onChange={onChange}
-              rootClassName="input-text"
-              showCount
-              maxLength={8}
-            ></Input>
-          </div>
-          <div className="content-item">
-            <div className="title">歌单图标：</div>
-            <div className="icon-list">
-              {addSheetIconList.map((item: string, index: number) => {
-                return (
-                  <i
-                    key={index}
-                    className={classNames(
-                      'iconfont',
-                      item,
-                      item === curIconName ? 'selected' : '',
-                    )}
-                    onClick={() => {
-                      setCurIconName(item);
-                    }}
-                  ></i>
-                );
-              })}
-            </div>
-          </div>
-          <div className="content-item">
-            <div className="title">歌单描述：</div>
-            <div className="desc">
-              <TextArea
-                className="input-text"
-                showCount
-                maxLength={50}
-                onChange={onTextareaChange}
-                placeholder="请输入歌单描述说明~"
-                style={{ height: 50 }}
-              />
-            </div>
-          </div>
+    return (
+      <CreateSheetStyles>
+        <div className="create-sheet">
+          <img className="song-pic" src={defaultPic} alt="" />
+          <Input
+            ref={inputRef}
+            className="input-create-sheet"
+            value={inputValue}
+            onChange={onChange}
+            onBlur={onBlur}
+          ></Input>
         </div>
-      </Modal>
-    </CreateSheetStyles>
-  );
-});
+      </CreateSheetStyles>
+    );
+  },
+);
 
 export default CreateSheet;

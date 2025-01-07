@@ -35,7 +35,6 @@ export function useUpdateWindowPosition() {
   // 鼠标按下
   const handleMouseDown = useCallback((e: MouseEvent) => {
     // console.log('useUpdateWindowPosition-鼠标按下');
-    e.preventDefault();
     setDragging((prevState) => true);
     setClientX((prevState) => e.clientX);
     setClientY((prevState) => e.clientY);

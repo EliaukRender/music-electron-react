@@ -2,11 +2,12 @@
  * @description: 我的歌单：歌单菜单
  */
 import { SheetMenuStyles } from '@/renderer/views/Layout/styles/SheetMenuStyles';
-import { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import SheetMenu from '@/renderer/views/components/MenuItem/SheetMenu';
 import CreateSheet from '@/renderer/views/Layout/components/CreateSheet';
+import { initAppMenuData } from '@/renderer/store/actions/mainMenuActions';
 
 function LeftSheetMenu() {
   const { sheetMenuList, isCollapseMenu } = useSelector(
@@ -16,6 +17,14 @@ function LeftSheetMenu() {
     }),
     shallowEqual,
   );
+  const [showCreateInput, setShowCreateInput] = useState(false);
+
+  const finishCreate = (success: boolean) => {
+    setShowCreateInput(false);
+    if (success) {
+      initAppMenuData();
+    }
+  };
 
   return (
     <SheetMenuStyles>
@@ -23,11 +32,21 @@ function LeftSheetMenu() {
         <div className="title-box">
           <div className="title">我的歌单</div>
           {/* 创建歌单 */}
-          <CreateSheet></CreateSheet>
+          <i
+            className="iconfont icon-jia"
+            onClick={() => setShowCreateInput(true)}
+          ></i>
         </div>
       )}
 
       <div className="sheet-menu-list">
+        {showCreateInput && (
+          <CreateSheet
+            sheetMenuList={sheetMenuList}
+            showCreateInput={showCreateInput}
+            finishCreate={finishCreate}
+          ></CreateSheet>
+        )}
         {sheetMenuList.map((item) => {
           return (
             <SheetMenu

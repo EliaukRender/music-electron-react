@@ -2,16 +2,13 @@ import OperationBar from '@/renderer/views/OperationBar/OperationBar';
 import { RightContainerStyles } from '../styles/RightContainerStyles';
 import PlayControlBar from '@/renderer/views/PlayerControlBar';
 import ContentContainer from '@/renderer/views/Layout/components/ContentContainer';
-import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
 
 /**
  * @description: APP右侧区域
  */
-export default function LeftAside() {
-  const { stopPropagationEleRef } = useStopPropagation();
-
+export default function RightContainer() {
   return (
-    <RightContainerStyles ref={stopPropagationEleRef}>
+    <RightContainerStyles>
       <div className="container">
         {/* 顶部操作区域 */}
         <OperationBar></OperationBar>

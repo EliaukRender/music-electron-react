@@ -14,5 +14,9 @@ export const SheetMenuStyles = styled.div`
       font-size: 14px;
       font-weight: 600;
     }
+
+    .iconfont.icon-jia {
+      cursor: pointer;
+    }
   }
 `;
