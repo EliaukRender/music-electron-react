@@ -4,6 +4,8 @@
 import {
   createSheet,
   deleteSheet,
+  deleteSongFromSheet,
+  moveSongToSheet,
   queryCommonMenuList,
   querySheetList,
   querySongListBySheetId,
@@ -26,6 +28,7 @@ import {
   OnlineMenuItemType,
   SheetMenuItemType,
 } from '@/renderer/types/menuTypes';
+import cloneDeep from 'lodash/cloneDeep';
 
 const { dispatch } = store;
 
@@ -164,5 +167,59 @@ export const handleDeleteSheet = async (sheetId: number) => {
   } catch (e: any) {
     console.log('error-handleDeleteSheet', e);
     message.error(e?.message || '删除失败');
+  }
+};
+
+/**
+ * @description: 删除歌单中的歌曲
+ */
+export interface IDeleteSongReq {
+  sheetId: number;
+  songId: number;
+}
+export const handleDeleteSongFromSheet = async ({
+  songId,
+  sheetId,
+}: IDeleteSongReq) => {
+  try {
+    await deleteSongFromSheet({ songId, sheetId });
+    message.success('删除成功');
+    const { sheetSongListMap } = store.getState().mainMenu;
+    const map = cloneDeep(sheetSongListMap);
+    map[sheetId] = map[sheetId].filter((item: any) => item.songId !== songId);
+    dispatch(setSheetSongListMap(map));
+    dispatch(setCurSheetSongList(map[sheetId]));
+  } catch (e: any) {
+    console.log('error-handleDeleteSongFromSheet', e);
+    message.error(e.message || '删除失败');
+  }
+};
+
+/**
+ * @description: 添加指 定歌曲 到 指定歌单
+ */
+export const handleMoveSongToSheet = async ({
+  curSong,
+  sheetId,
+}: {
+  curSong: any;
+  sheetId: number;
+}) => {
+  const { activeSongId } = store.getState().playerControl;
+  const { activeSheet } = store.getState().mainMenu;
+  try {
+    // 歌单列表中移动歌曲，则有curSong
+    // 待播放列表中移动歌曲，则没有curSong
+    await moveSongToSheet({
+      songId: curSong ? curSong.songId : activeSongId,
+      sheetId,
+    });
+    message.success('添加成功');
+    if (sheetId === activeSheet.sheetId) {
+      await getSongListBySheetId({ sheetId });
+    }
+  } catch (e: any) {
+    console.log('error-handleMoveSongToSheet', e);
+    message.error(e.message || '添加失败');
   }
 };

@@ -17,10 +17,11 @@ interface IProps {
  */
 const ActiveSongEntry = ({ showLyrics }: IProps) => {
   const [visible, setVisible] = useState(false);
-  const { activeSongList, activeSongId } = useSelector(
+  const { activeSongList, activeSongId, activeSheet } = useSelector(
     (state: RootState) => ({
       activeSongList: state.playerControl.activeSongList,
       activeSongId: state.playerControl.activeSongId,
+      activeSheet: state.mainMenu.activeSheet,
     }),
     shallowEqual,
   );
@@ -67,7 +68,9 @@ const ActiveSongEntry = ({ showLyrics }: IProps) => {
                 >
                   <SongItemForActive
                     songInfo={song}
+                    activeSongList={activeSongList}
                     activeSongId={activeSongId}
+                    activeSheet={activeSheet}
                     index={index}
                   ></SongItemForActive>
                 </div>

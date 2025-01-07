@@ -10,11 +10,19 @@ export const ContextMenuStyles = styled.div`
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
 
     .context-menu-item {
-      width: 150px;
+      min-width: 150px;
       height: 34px;
+      display: flex;
+      align-items: center;
       line-height: 34px;
       padding: 0 15px;
       cursor: pointer;
+
+      .iconfont {
+        font-size: 20px;
+        margin-right: 10px;
+        color: #333333;
+      }
 
       &:hover {
         background-color: ${({ theme }) => theme.bgcColor.hover};

@@ -1,10 +1,9 @@
 import React, { memo, useState } from 'react';
 import { Popover } from 'antd';
-import classNames from 'classnames';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
-import { handleMoveSongToSheet } from '@/renderer/store/actions/PlayerControlActions';
 import { MoveSongPopoverStyles } from '@/renderer/views/components/MoveSongPopover/MoveSongPopoverStyles';
+import { handleMoveSongToSheet } from '@/renderer/store/actions/mainMenuActions';
 
 interface PropsType {
   curSong: any;
@@ -45,7 +44,6 @@ const MoveMusicPopover = ({ curSong, children }: PropsType) => {
                     handleMoveSongToSheet({ curSong, sheetId: item.sheetId });
                   }}
                 >
-                  <i className={classNames('iconfont', item.sheetIcon)}></i>
                   <div>{item.sheetName}</div>
                 </div>
               );

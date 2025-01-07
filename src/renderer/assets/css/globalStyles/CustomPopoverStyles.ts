@@ -170,7 +170,7 @@ export const CustomPopoverStyles = createGlobalStyle`
         line-height: 30px;
         text-align: left;
         position: relative;
-        padding: 0 15px;
+        padding: 0 24px;
         box-sizing: border-box;
         cursor: pointer;
 

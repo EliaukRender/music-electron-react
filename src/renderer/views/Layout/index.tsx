@@ -15,18 +15,16 @@ import { useContextMenu } from '@/renderer/hooks/useContextMenu';
  * @description: APP首页--框架入口
  */
 function Layout() {
+  const navigate = useNavigate();
+  const { x, y, menu, contextMenuVisible, hideContextMenu } = useContextMenu(); // 鼠标右键
+
+  // 初始化数据
   useEffect(() => {
     windowUiHandler();
     KeyboardHandler();
     initAppData(); // 初始化app的菜单数据
-  }, []);
-
-  const navigate = useNavigate();
-  useEffect(() => {
     navigate(RouteEnum.Sheet);
   }, [navigate]);
-
-  const { x, y, menu, contextMenuVisible, hideContextMenu } = useContextMenu(); // 鼠标右键
 
   return (
     <LayoutStyles onContextMenu={(event) => event.preventDefault()}>

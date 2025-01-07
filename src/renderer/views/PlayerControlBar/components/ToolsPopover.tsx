@@ -37,7 +37,6 @@ const ToolsPopover = ({ showLyrics }: IProps) => {
                 <i className="iconfont icon-youjiantou"></i>
               </div>
             </MoveMusicPopover>
-            <DeleteSong onlyShowDeleteIcon={false}></DeleteSong>
           </>
         }
         placement="top"

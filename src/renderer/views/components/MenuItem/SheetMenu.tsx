@@ -71,21 +71,21 @@ const SheetMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
       {
         label: '播放',
         onClick: playHandler,
-        icon: 'icon',
+        icon: 'icon-bofang1',
         disabled: !curSongList?.length,
       },
       {
-        label: '删除',
+        label: '删除歌单',
         onClick: deleteHandler,
-        icon: 'icon',
+        icon: 'icon-shanchu',
         disabled: menuItemInfo.sheetType === SheetTypeEnum.DEFAULT,
       },
-      { label: '重命名', onClick: renameHandler, icon: 'icon' },
+      { label: '重命名', onClick: renameHandler, icon: 'icon-rename' },
     ];
   }, [curSongList, deleteHandler, menuItemInfo, playHandler, renameHandler]);
 
   // 鼠标右键
-  const onContextMenu = (event: React.MouseEvent) => {
+  const onContextMenuHandler = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
     clickSheet();
@@ -119,7 +119,7 @@ const SheetMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
   }, [activeSheet?.sheetId, curSongList, dispatch, menuItemInfo]);
 
   return (
-    <MenuItemStyles onClick={clickSheet} onContextMenu={onContextMenu}>
+    <MenuItemStyles onClick={clickSheet} onContextMenu={onContextMenuHandler}>
       <div
         className={classNames(
           'item',

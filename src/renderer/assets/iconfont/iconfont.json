@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "2118485",
+      "name": "播放",
+      "font_class": "bofang1",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
+      "icon_id": "5638787",
+      "name": "编辑",
+      "font_class": "rename",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
       "icon_id": "20764004",
       "name": "折叠菜单",
       "font_class": "zhediecaidan",

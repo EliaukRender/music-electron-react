@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { IContextMenuItem } from '@/renderer/types/contextMenu';
 import { ContextMenuStyles } from '@/renderer/types/ContextMenuStyles';
 import { useClickOutside } from '@/renderer/hooks/useClickOutside';
@@ -14,7 +14,7 @@ interface IProps {
  * @description: 鼠标右键组件
  */
 const ContextMenu = memo(({ x, y, contextMenu, hideContextMenu }: IProps) => {
-  const { isClickOutside } = useClickOutside({
+  const { isClickOutside, clickOutSideRef } = useClickOutside({
     needWatch: !!contextMenu?.length,
   });
 
@@ -36,7 +36,7 @@ const ContextMenu = memo(({ x, y, contextMenu, hideContextMenu }: IProps) => {
   }, [hideContextMenu, isClickOutside]);
 
   return (
-    <ContextMenuStyles>
+    <ContextMenuStyles ref={clickOutSideRef}>
       <div
         className="context-menu"
         style={{
@@ -51,7 +51,8 @@ const ContextMenu = memo(({ x, y, contextMenu, hideContextMenu }: IProps) => {
               key={index}
               onClick={() => handleClickContextMenu(item)}
             >
-              {item.label}
+              <i className={`iconfont ${item.icon}`}></i>
+              <span>{item.label}</span>
             </div>
           );
         })}

@@ -10,34 +10,6 @@ import {
 
 const { dispatch } = store;
 
-/**
- * @description: 添加指 定歌曲 到 指定歌单
- */
-export const handleMoveSongToSheet = async ({
-  curSong,
-  sheetId,
-}: {
-  curSong: any;
-  sheetId: number;
-}) => {
-  const { activeSongId } = store.getState().playerControl;
-  const { activeSheet } = store.getState().mainMenu;
-  try {
-    // 歌单列表中移动歌曲，则有curSong
-    // 待播放列表中移动歌曲，则没有curSong
-    await moveSongToSheet({
-      songId: curSong ? curSong.songId : activeSongId,
-      sheetId,
-    });
-    MessageToast.success('添加成功');
-    if (sheetId === activeSheet.sheetId) {
-      await getSongListBySheetId({ sheetId });
-    }
-  } catch (e) {
-    console.log('error-handleMoveSongToSheet', e);
-    MessageToast.error('添加失败');
-  }
-};
 
 /**
  * @description: 删除播放队列中的歌曲

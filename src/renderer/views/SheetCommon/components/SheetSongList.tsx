@@ -1,6 +1,6 @@
 import { memo, useEffect, useRef, useState } from 'react';
 import { SheetSongListStyles } from '@/renderer/views/SheetCommon/styles/SheetSongListStyles';
-import { useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import SongItemForSheet from '@/renderer/views/components/SongItem/SongItemForSheet';
 import NonSong from '@/renderer/views/SheetCommon/components/NonSong';
@@ -11,11 +11,13 @@ import { useScrollSongVisible } from '@/renderer/hooks/useScrollSongVisible';
  * @description: 歌单的 歌曲列表
  */
 const SheetSongList = memo(() => {
-  const { curSheetSongList, activeSongId } = useSelector(
+  const { curSheetSongList, activeSongId, activeSheet } = useSelector(
     (state: RootState) => ({
       curSheetSongList: state.mainMenu.curSheetSongList,
       activeSongId: state.playerControl.activeSongId,
+      activeSheet: state.mainMenu.activeSheet,
     }),
+    shallowEqual,
   );
   const [curTitleId, setCurTitleId] = useState(1);
   const titleList = [
@@ -78,6 +80,7 @@ const SheetSongList = memo(() => {
                   songInfo={item}
                   activeSongId={activeSongId}
                   index={index}
+                  activeSheet={activeSheet}
                 ></SongItemForSheet>
               </div>
             );

@@ -14,6 +14,7 @@ export const useClickOutside = ({
 
   useEffect(() => {
     const handleClick = (event: any) => {
+      event.preventDefault();
       if (
         clickOutSideRef.current &&
         event?.target &&

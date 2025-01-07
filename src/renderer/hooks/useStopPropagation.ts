@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 /**
  *   阻止元素 Mousedown事件 、dblclick事件 冒泡
@@ -6,10 +6,10 @@ import { useEffect, useRef } from 'react';
 export function useStopPropagation() {
   const stopPropagationEleRef = useRef<HTMLDivElement | null>(null);
 
-  function handler(event: MouseEvent) {
+  const handler = useCallback((event: MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
-  }
+  }, []);
 
   useEffect(() => {
     const element = stopPropagationEleRef.current;

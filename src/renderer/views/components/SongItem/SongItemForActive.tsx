@@ -2,7 +2,6 @@ import React, { memo, useMemo } from 'react';
 import { SongItemForActiveStyles } from '@/renderer/views/components/SongItem/styles/SongItemForActiveStyles';
 import classNames from 'classnames';
 import LikeSong from '@/renderer/views/PlayerControlBar/components/LikeSong';
-import DeleteSong from '@/renderer/views/components/DeleteSong/DeleteSong';
 import MoveMusicPopover from '@/renderer/views/components/MoveSongPopover/MoveSongPopover';
 import MusicInfo from '@/renderer/views/components/SongItem/components/MusicInfo';
 import { useSongItem } from '@/renderer/hooks/useSongItem';
@@ -71,7 +70,6 @@ const SongItemForActive = ({ songInfo, index, activeSongId }: PropsType) => {
               <i className="iconfont icon-tianjia1"></i>
             </MoveMusicPopover>
           </div>
-          <DeleteSong onlyShowDeleteIcon></DeleteSong>
         </div>
       </div>
     </SongItemForActiveStyles>
