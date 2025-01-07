@@ -1,10 +1,8 @@
 /*
-    统一管理导入项目的css
+    导入项目的css
  */
 @use './reset.scss';
-@use 'resetAntd/resetAntd';
-@use 'resetAntd/customPopover';
-@use "./commonStyles";
+@use './commonStyles';
 @import '../iconfont/iconfont.css';
 
 /*

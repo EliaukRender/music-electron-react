@@ -31,7 +31,7 @@ export const transformLyric = (lyricStr = ''): ILyric[] => {
         return null;
       })
       .filter((obj) => obj !== null) || [];
-  console.log('initList', initList);
+  // console.log('initList', initList);
   const lastList = initList.map((item, index) => {
     const duration = (
       index !== initList.length - 1
@@ -44,8 +44,8 @@ export const transformLyric = (lyricStr = ''): ILyric[] => {
       endTime: item.startTime + Number(duration),
     };
   });
-  console.log('lastList', lastList);
-  for (let i = 0; i < 6; i++) {
+  // console.log('lastList', lastList);
+  for (let i = 0; i < 8; i++) {
     lastList.push({});
   }
   return lastList;

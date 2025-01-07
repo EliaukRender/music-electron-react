@@ -30,7 +30,6 @@ export const useScrollSongVisible = ({
     const index = songList.findIndex(
       (item: any) => item.songId === activeSongId,
     );
-    console.log('index', index);
     if (index !== -1 && songRefs.current[index]) {
       setCurActiveSongEle((prevState) => songRefs.current[index]);
     }

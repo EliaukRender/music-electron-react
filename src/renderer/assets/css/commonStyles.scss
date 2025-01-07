@@ -1,5 +1,6 @@
+/* 文字省略显示 */
 .ellipsis {
-  white-space: nowrap;       /* 不换行 */
-  overflow: hidden;          /* 超出部分隐藏 */
-  text-overflow: ellipsis;   /* 使用省略号显示超出部分 */
+  white-space: nowrap; /* 不换行 */
+  overflow: hidden; /* 超出部分隐藏 */
+  text-overflow: ellipsis; /* 使用省略号显示超出部分 */
 }
