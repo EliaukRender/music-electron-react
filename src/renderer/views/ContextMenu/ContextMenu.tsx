@@ -1,0 +1,63 @@
+import { memo, useEffect } from 'react';
+import { IContextMenuItem } from '@/renderer/types/contextMenu';
+import { ContextMenuStyles } from '@/renderer/types/ContextMenuStyles';
+import { useClickOutside } from '@/renderer/hooks/useClickOutside';
+
+interface IProps {
+  x: number;
+  y: number;
+  contextMenu: IContextMenuItem[];
+  hideContextMenu: () => void;
+}
+
+/**
+ * @description: 鼠标右键组件
+ */
+const ContextMenu = memo(({ x, y, contextMenu, hideContextMenu }: IProps) => {
+  const { isClickOutside } = useClickOutside({
+    needWatch: !!contextMenu?.length,
+  });
+
+  // 点击菜单项
+  const handleClickContextMenu = (item: IContextMenuItem) => {
+    if (!item.onClick || item?.disabled) {
+      hideContextMenu();
+      return;
+    }
+    item.onClick();
+    hideContextMenu();
+  };
+
+  // 点击外部时关闭右键菜单
+  useEffect(() => {
+    if (isClickOutside) {
+      hideContextMenu();
+    }
+  }, [hideContextMenu, isClickOutside]);
+
+  return (
+    <ContextMenuStyles>
+      <div
+        className="context-menu"
+        style={{
+          left: `${x + 15}px`,
+          top: `${y - 10}px`,
+        }}
+      >
+        {contextMenu.map((item, index) => {
+          return (
+            <div
+              className={`context-menu-item ${item.disabled ? 'context-menu-item-disabled' : ''}`}
+              key={index}
+              onClick={() => handleClickContextMenu(item)}
+            >
+              {item.label}
+            </div>
+          );
+        })}
+      </div>
+    </ContextMenuStyles>
+  );
+});
+
+export default ContextMenu;

@@ -38,7 +38,6 @@ const CreateSheet = memo(
       setInputValue(`新建歌单${sheetMenuList.length + 1}`);
       setTimeout(() => {
         inputRef.current?.focus();
-
         inputRef.current?.select();
       });
     }, [sheetMenuList.length, showCreateInput]);

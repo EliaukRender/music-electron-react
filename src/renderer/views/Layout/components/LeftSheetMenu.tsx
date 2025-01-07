@@ -2,12 +2,12 @@
  * @description: 我的歌单：歌单菜单
  */
 import { SheetMenuStyles } from '@/renderer/views/Layout/styles/SheetMenuStyles';
-import React, { memo, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import SheetMenu from '@/renderer/views/components/MenuItem/SheetMenu';
 import CreateSheet from '@/renderer/views/Layout/components/CreateSheet';
-import { initAppMenuData } from '@/renderer/store/actions/mainMenuActions';
+import { initSheetMenu } from '@/renderer/store/actions/mainMenuActions';
 
 function LeftSheetMenu() {
   const { sheetMenuList, isCollapseMenu } = useSelector(
@@ -19,12 +19,13 @@ function LeftSheetMenu() {
   );
   const [showCreateInput, setShowCreateInput] = useState(false);
 
-  const finishCreate = (success: boolean) => {
+  // 创建歌单回调
+  const finishCreate = useCallback((success: boolean) => {
     setShowCreateInput(false);
     if (success) {
-      initAppMenuData();
+      initSheetMenu(); // 重新获取歌单菜单
     }
-  };
+  }, []);
 
   return (
     <SheetMenuStyles>

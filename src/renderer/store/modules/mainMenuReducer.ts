@@ -10,9 +10,9 @@ export interface MainMenuState {
   sheetMenuList: SheetMenuItemType[];
   activeSheet: SheetMenuItemType;
   activeMenu: OnlineMenuItemType;
-  curSheetSongList: any;
+  curSheetSongList: any[];
   isCollapseMenu: boolean;
-  sheetSongListMap: Record<string, any[]>;
+  sheetSongListMap: Record<number, any[]>;
 }
 
 // 初始state
@@ -24,7 +24,6 @@ const initialState: MainMenuState = {
   activeSheet: {} as SheetMenuItemType, // 当前激活的 个人歌单
   curSheetSongList: [], // 当前激活的歌单 对应的 歌曲列表
   sheetSongListMap: {}, // 歌单列表对应的歌曲列表
-
   isCollapseMenu: false, // 菜单是否折叠
 };
 
