@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * @description: 判断点击事件是否发生在元素内部/外部
+ * @description: 判断 click / contextmenu 事件是否发生 目标元素 内部/外部
  * @param needWatch 是否需要监听  true-监听  false-移除监听
  */
 export const useClickOutside = ({
@@ -29,10 +29,12 @@ export const useClickOutside = ({
 
     setTimeout(() => {
       needWatch && document.addEventListener('click', handleClick);
+      needWatch && document.addEventListener('contextmenu', handleClick);
     }, 50);
 
     return () => {
       document.removeEventListener('click', handleClick);
+      document.removeEventListener('contextmenu', handleClick);
     };
   }, [needWatch]);
 
