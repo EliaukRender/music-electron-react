@@ -1,69 +1,62 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { RootState } from '@/renderer/store';
 
 /**
- * @description: 正在播放的歌曲自动滚动到可视区域
+ * @description: 被激活的歌曲 自动滚动到 可视区域
+ * @param isSheet 歌曲列表的场景
+ * @param isActiveVisible 播放队列弹窗动画结束标志
  */
-export const useScrollSongVisible = ({
-  songList,
-  activeSongId,
-}: {
-  songList: any[];
-  activeSongId: number;
-}) => {
-  const songRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [curActiveSongEle, setCurActiveSongEle] =
-    useState<HTMLDivElement | null>();
+export const useScrollSongVisible = (
+  isSheet = false,
+  isActiveVisible = false,
+) => {
+  const { curSheetSongList, activeSongId, activeSongList } = useSelector(
+    (state: RootState) => ({
+      activeSongId: state.playerControl.activeSongId,
+      curSheetSongList: state.mainMenu.curSheetSongList,
+      activeSongList: state.playerControl.activeSongList,
+    }),
+    shallowEqual,
+  );
+  const songRefs = useRef<(HTMLDivElement | null)[]>([]); // 歌曲的ref列表
 
+  // 歌曲列表中的index
+  const curIndexForSheet = useMemo(() => {
+    return curSheetSongList.findIndex((item) => item.songId === activeSongId);
+  }, [activeSongId, curSheetSongList]);
+
+  // 播放队列中的index
+  const curIndexForActive = useMemo(() => {
+    return activeSongList.findIndex((item) => item.songId === activeSongId);
+  }, [activeSongId, activeSongList]);
+
+  // 满足场景则需要自动滚动
   useEffect(() => {
-    const index = songList.findIndex(
-      (item: any) => item.songId === activeSongId,
-    );
-    if (index !== -1 && songRefs.current[index]) {
-      setCurActiveSongEle((prevState) => songRefs.current[index]);
+    if (curIndexForSheet !== -1 && isSheet) {
+      const index = curSheetSongList.findIndex(
+        (item) => item.songId === activeSongId,
+      );
+      songRefs.current[curIndexForSheet]?.scrollIntoView({
+        behavior: 'instant',
+        block: 'center',
+      });
     }
-  }, [activeSongId, songList]);
-
-  /**
-   * 当前播放歌曲对应的element
-   */
-  useEffect(() => {
-    const index = songList.findIndex(
-      (item: any) => item.songId === activeSongId,
-    );
-    if (index !== -1 && songRefs.current[index]) {
-      setCurActiveSongEle((prevState) => songRefs.current[index]);
+    if (curIndexForActive !== -1 && isActiveVisible) {
+      songRefs.current[curIndexForActive]?.scrollIntoView({
+        behavior: 'instant',
+        block: 'center',
+      });
     }
-  }, [activeSongId, songList]); // 当 currentSongId 变化时触发滚动
-
-  /**
-   * 监听当前播放歌曲对应的element的可见性
-   */
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // 只要不是完全可见就自动滚动
-        if (!entry.isIntersecting || entry.intersectionRatio !== 1) {
-          curActiveSongEle?.scrollIntoView({
-            behavior: 'instant',
-            block: 'center',
-          });
-        }
-      },
-      {
-        threshold: 1.0,
-      },
-    );
-
-    if (curActiveSongEle) {
-      observer.observe(curActiveSongEle);
-    }
-
-    return () => {
-      if (curActiveSongEle) {
-        observer.unobserve(curActiveSongEle);
-      }
-    };
-  }, [curActiveSongEle]);
+  }, [
+    activeSongId,
+    activeSongList,
+    curIndexForActive,
+    curIndexForSheet,
+    curSheetSongList,
+    isActiveVisible,
+    isSheet,
+  ]);
 
   return {
     songRefs,

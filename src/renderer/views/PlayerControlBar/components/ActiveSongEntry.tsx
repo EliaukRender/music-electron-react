@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { ActiveSongEntryStyles } from '@/renderer/views/PlayerControlBar/styles/ActiveSongEntryStyles';
@@ -26,14 +26,14 @@ const ActiveSongEntry = ({ showLyrics }: IProps) => {
     shallowEqual,
   );
 
-  // 歌曲滚动到可视区域
-  const { songRefs } = useScrollSongVisible({
-    songList: activeSongList,
-    activeSongId,
-  });
-
-  //
-  useEffect(() => {}, [visible]);
+  const [isActiveVisible, setIsActiveVisible] = useState(false); // 弹窗完全可见的标志位
+  const handleAfterOpenChange = useCallback((flag: boolean) => {
+    setIsActiveVisible(flag);
+    setTimeout(() => {
+      setIsActiveVisible(false); // 还原
+    }, 100);
+  }, []);
+  const { songRefs } = useScrollSongVisible(false, isActiveVisible); // 歌曲滚动到可视区域的hooks
 
   return (
     <ActiveSongEntryStyles>
@@ -55,6 +55,7 @@ const ActiveSongEntry = ({ showLyrics }: IProps) => {
         <DrawerCmp
           drawerVisible={visible}
           closeDrawer={() => setVisible(false)}
+          handleAfterOpenChange={handleAfterOpenChange}
         >
           <div className="title">当前播放歌曲列表</div>
           <div className="song-list">
@@ -68,9 +69,7 @@ const ActiveSongEntry = ({ showLyrics }: IProps) => {
                 >
                   <SongItemForActive
                     songInfo={song}
-                    activeSongList={activeSongList}
                     activeSongId={activeSongId}
-                    activeSheet={activeSheet}
                     index={index}
                   ></SongItemForActive>
                 </div>

@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useState } from 'react';
 import { SheetSongListStyles } from '@/renderer/views/SheetCommon/styles/SheetSongListStyles';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
@@ -24,10 +24,7 @@ const SheetSongList = memo(() => {
     { id: 1, title: '歌曲' },
     { id: 2, title: '评论' },
   ];
-  const { songRefs } = useScrollSongVisible({
-    songList: curSheetSongList,
-    activeSongId,
-  }); // 歌曲滚动到可视区域
+  const { songRefs } = useScrollSongVisible(true, false); // 歌曲滚动到可视区域
 
   return (
     <SheetSongListStyles>
