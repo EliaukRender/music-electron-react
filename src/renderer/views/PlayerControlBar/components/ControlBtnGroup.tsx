@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useCallback } from 'react';
 import {
   BackwardOutlined,
   CaretRightOutlined,
@@ -36,41 +36,21 @@ const ControlBtnGroup = ({ showLyrics }: IProps) => {
     shallowEqual,
   );
 
-  const handleForward = () => {
+  const handleForward = useCallback(() => {
     addCurrentTime();
-  };
+  }, []);
 
   return (
     <ControlBtnGroupStyles>
       <motion.div className={`btns ${showLyrics ? 'btns-show-lyric' : ''}`}>
         {/* 后退 */}
-        <BackwardOutlined
-          onClick={() => {
-            decreaseCurrentTime();
-          }}
-        />
+        <BackwardOutlined onClick={() => decreaseCurrentTime} />
         {/* 上一首 */}
-        <StepBackwardOutlined
-          onClick={() => {
-            playPreSong();
-          }}
-        />
+        <StepBackwardOutlined onClick={() => playPreSong} />
         {/* 播放暂停 */}
         <div className="play-pause">
-          {!isPlaying && (
-            <CaretRightOutlined
-              onClick={() => {
-                playSong();
-              }}
-            />
-          )}
-          {isPlaying && (
-            <PauseOutlined
-              onClick={() => {
-                pauseAudio();
-              }}
-            />
-          )}
+          {!isPlaying && <CaretRightOutlined onClick={() => playSong} />}
+          {isPlaying && <PauseOutlined onClick={() => pauseAudio()} />}
         </div>
         {/* 下一首 */}
         <StepForwardOutlined

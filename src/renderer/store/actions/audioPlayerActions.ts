@@ -66,6 +66,7 @@ export const playSong = async (song?: any, songList?: any[]) => {
     return;
   }
   message.open({ type: 'warning', content: '请选择歌曲播放' });
+  dispatch(setIsLoadingSong(false));
 };
 
 /**
