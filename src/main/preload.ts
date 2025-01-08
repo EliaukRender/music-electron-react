@@ -1,11 +1,12 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 import WindowUIEvent from '@/InteractionEnum/windowUIEvent';
-import { KeyboardEvent } from '@/InteractionEnum/keyboardEvent';
+import { KeyboardEnum } from '@/InteractionEnum/keyboardEvent';
+import { MiniPlayerEnum } from '@/InteractionEnum/miniPlayerEvent';
 
 /**
  * note: Channels是消息通道的消息名称约束，所有消息的Enum类型都必须在这里定义
  */
-export type Channels = WindowUIEvent | KeyboardEvent;
+export type Channels = WindowUIEvent | KeyboardEnum;
 
 /*
  *  渲染进程 与 主线程 事件通信对象

@@ -151,7 +151,7 @@ export const windowUi = (browserWindow: BrowserWindow) => {
    *  调整窗口大小后触发
    */
   browserWindow.on('resized', () => {
-    console.log('resized');
+    // console.log('resized');
     const bounds = browserWindow.getBounds();
     setWindowData({ bounds });
   });
