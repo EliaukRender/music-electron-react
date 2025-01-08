@@ -12,6 +12,8 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "allowJs": true,
+    "noImplicitAny": false,  // 防止隐式 any 类型
+    "skipLibCheck": true,  // 跳过库文件检查，提高性能
     "outDir": ".erb/dll",
     "baseUrl": "./",
     "paths": {

@@ -6,7 +6,7 @@ import { useClickOutside } from '@/renderer/hooks/useClickOutside';
 interface DrawerProps {
   drawerVisible: boolean;
   closeDrawer: () => void;
-  handleAfterOpenChange: (flag: boolean) => void;
+  handleAfterOpenChange?: (flag: boolean) => void;
   children: React.ReactNode;
 }
 
@@ -17,7 +17,7 @@ const DrawerCmp = ({
   children,
   drawerVisible,
   closeDrawer,
-  handleAfterOpenChange,
+  handleAfterOpenChange = () => {},
 }: DrawerProps) => {
   const { isClickOutside, clickOutSideRef } = useClickOutside({
     needWatch: drawerVisible,
@@ -34,7 +34,7 @@ const DrawerCmp = ({
 
   // 弹窗动画结束时触发，flag===true
   const afterOpenChange = (flag: boolean) => {
-    handleAfterOpenChange(flag);
+    handleAfterOpenChange && handleAfterOpenChange(flag);
   };
 
   return (
