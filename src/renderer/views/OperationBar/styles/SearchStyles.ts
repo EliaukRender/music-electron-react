@@ -8,9 +8,8 @@ export const SearchStyles = styled.div`
 
   .input-box {
     .search-input {
-      &:focus {
-        border-color: ${({ theme }) => theme.bgcColor.active};
-        box-shadow: none;
+      &:focus-within {
+        border-color: ${({ theme }) => theme.bgcColor.active} !important;
       }
     }
   }
