@@ -56,8 +56,8 @@ const SheetMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
   }, [curSongList]);
 
   // 鼠标右键--删除
-  const deleteHandler = useCallback(() => {
-    handleDeleteSheet(menuItemInfo.sheetId);
+  const deleteHandler = useCallback(async () => {
+    await handleDeleteSheet(menuItemInfo.sheetId);
   }, [menuItemInfo]);
 
   // 鼠标右键--重命名

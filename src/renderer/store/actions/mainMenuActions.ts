@@ -157,13 +157,17 @@ export const handleDeleteSheet = async (sheetId: number) => {
     const { sheetSongListMap, sheetMenuList } = store.getState().mainMenu;
     const obj = JSON.parse(JSON.stringify(sheetSongListMap));
     delete obj[sheetId];
-    dispatch(setSheetSongListMap(obj));
+    dispatch(setSheetSongListMap(obj)); // 更新redux
     const sheet = JSON.parse(JSON.stringify(sheetMenuList));
     const index = sheet.findIndex(
       (item: SheetMenuItemType) => item.sheetId === sheetId,
     );
     sheet.splice(index, 1);
-    dispatch(setSheetMenuList(sheet));
+
+    // 删除歌单后默认去激活显示第一个歌单
+    dispatch(setSheetMenuList(sheet)); // 更新歌单列表
+    dispatch(setActiveSheet(sheet[0])); // 更新默认激活的歌单
+    dispatch(setCurSheetSongList(obj[sheet[0].sheetId])); // 更新列表歌单
   } catch (e: any) {
     console.log('error-handleDeleteSheet', e);
     message.error(e?.message || '删除失败');
