@@ -21,7 +21,10 @@ export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
 
 // 请求配置
 const baseConfig = {
-  baseURL: '/blog', // 请求根路径
+  baseURL:
+    process.env.NODE_ENV === 'development'
+      ? '/blog'
+      : 'http://47.113.177.51/blog', // 请求根路径
   timeout: 1000 * 30, // 超时时间
 };
 
