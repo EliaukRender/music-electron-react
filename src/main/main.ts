@@ -41,13 +41,14 @@ if (process.env.NODE_ENV === 'production') {
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
+console.log('---isDebug---', isDebug);
 
 if (isDebug) {
   require('electron-debug')();
 }
 
 /**
- * @description: 安装拓展工具: react开发工具、redux
+ *  安装拓展工具: react开发工具、redux
  */
 const installExtensions = async () => {
   try {
@@ -63,7 +64,7 @@ const installExtensions = async () => {
 };
 
 /**
- * @description: 创建窗口实例
+ *  创建窗口实例
  */
 const createWindow = async () => {
   if (isDebug) {

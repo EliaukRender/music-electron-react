@@ -24,6 +24,14 @@ const routes: RouteObject[] = [
       },
     ],
   },
+  {
+    path: '/mini-player',
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <MiniPlayer />
+      </Suspense>
+    ),
+  },
 ];
 
 export default routes;

@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import WindowUIEvent from '@/InteractionEnum/windowUIEvent';
 import { createBrowserWindow, resolveHtmlPath } from '@/main/util';
 import path from 'path';
+import { RouteEnum } from '@/renderer/constant/routeEnum';
 
 let miniPlayerWindow: BrowserWindow;
 
@@ -11,9 +12,6 @@ export const miniPlayer = () => {
    */
   ipcMain.on(WindowUIEvent.Mini_Player, (event, data) => {
     console.log('Mini_Player');
-    // if (miniPlayerWindow) {
-    //   //
-    // } else {
     miniPlayerWindow = createBrowserWindow({
       width: 1200,
       height: 800,
@@ -25,7 +23,13 @@ export const miniPlayer = () => {
           : path.join(__dirname, '../../.erb/dll/preload.js'),
       },
     });
-    miniPlayerWindow.loadURL(resolveHtmlPath('index.html/mini-player'));
-    // }
+    // miniPlayerWindow.loadURL(resolveHtmlPath('index.html/mini-player'));
+    console.log(
+      '路径',
+      resolveHtmlPath('http://localhost:5173', RouteEnum.MiniPlayer),
+    );
+    miniPlayerWindow.loadURL(
+      resolveHtmlPath('http://localhost:5173', RouteEnum.MiniPlayer),
+    );
   });
 };
