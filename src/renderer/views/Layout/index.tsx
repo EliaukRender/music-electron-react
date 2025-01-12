@@ -12,17 +12,28 @@ import ContextMenu from '@/renderer/views/ContextMenu/ContextMenu';
 import { useContextMenu } from '@/renderer/hooks/useContextMenu';
 
 /**
- * @description: APP首页--框架入口
+ *  APP首页--框架入口
  */
 function Layout() {
-  const navigate = useNavigate();
-  const { x, y, menu, contextMenuVisible, hideContextMenu } = useContextMenu(); // 鼠标右键
+  /**
+   * 鼠标右键hooks
+   */
+  const { x, y, menu, contextMenuVisible, hideContextMenu } = useContextMenu();
 
-  // 初始化数据
+  /**
+   *  监听主线程消息
+   */
   useEffect(() => {
     windowUiHandler();
     KeyboardHandler();
     initAppData(); // 初始化app的菜单数据
+  }, []);
+
+  /**
+   * 默认路由跳转到我的歌单
+   */
+  const navigate = useNavigate();
+  useEffect(() => {
     navigate(RouteEnum.Sheet);
   }, [navigate]);
 

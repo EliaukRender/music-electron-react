@@ -1,6 +1,7 @@
 {
-  "name": "musix-electron-react",
-  "description": "music-app",
+  "name": "eliauk-music",
+  "description": "Eliauk音乐",
+  "version": "1.0.0",
   "keywords": [
     "electron",
     "boilerplate",

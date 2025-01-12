@@ -10,7 +10,7 @@ import { WindowPositionType } from '@/types/commonTypes';
 const { dispatch } = store;
 
 /**
- * @description: 发给主线程的窗口事件消息
+ * 给主线程的窗口事件消息
  */
 export default {
   // 最大化app窗口
@@ -45,7 +45,7 @@ export default {
 };
 
 /**
- * @description: 监听主线程的窗口事件消息
+ *  监听主线程的窗口事件消息
  */
 export const windowUiHandler = () => {
   window.electron.ipcRenderer.on(WindowUIEvent.Maximize, (data) => {
