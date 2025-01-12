@@ -196,8 +196,8 @@
     "webpack-merge": "^5.9.0"
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "EliaukMusic",
+    "appId": "org.erb.EliaukMusic",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
@@ -235,7 +235,17 @@
         }
       ]
     },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": true,
+      "deleteAppDataOnUninstall": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Eliauk音乐"
+    },
     "win": {
+      "icon": "./assets/logo/eliauk_music_logo_256.png",
       "target": [
         "nsis"
       ]
