@@ -97,7 +97,7 @@ const createWindow = async () => {
     },
   });
 
-  mainWindow.loadURL(resolveHtmlPath('index.html'));
+  mainWindow.loadURL(resolveHtmlPath());
 
   // ready-to-show事件后显示窗口将没有视觉闪烁
   mainWindow.on('ready-to-show', () => {

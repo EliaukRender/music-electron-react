@@ -24,7 +24,7 @@ export function useStopPropagation() {
         element.removeEventListener('dblclick', handler);
       }
     };
-  }, []);
+  }, [handler]);
 
   return {
     stopPropagationEleRef,

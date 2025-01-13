@@ -11,7 +11,6 @@ export const miniPlayer = () => {
    * 监听 打开mini播放器
    */
   ipcMain.on(WindowUIEvent.Mini_Player, (event, data) => {
-    console.log('Mini_Player');
     miniPlayerWindow = createBrowserWindow({
       width: 1200,
       height: 800,
@@ -23,13 +22,13 @@ export const miniPlayer = () => {
           : path.join(__dirname, '../../.erb/dll/preload.js'),
       },
     });
-    // miniPlayerWindow.loadURL(resolveHtmlPath('index.html/mini-player'));
-    console.log(
-      '路径',
-      resolveHtmlPath('http://localhost:5173', RouteEnum.MiniPlayer),
-    );
-    miniPlayerWindow.loadURL(
-      resolveHtmlPath('http://localhost:5173', RouteEnum.MiniPlayer),
-    );
+    miniPlayerWindow
+      .loadURL(resolveHtmlPath(RouteEnum.MiniPlayer))
+      .then(() => {
+        if (process.env.NODE_ENV === 'production') {
+          miniPlayerWindow.webContents.openDevTools();
+        }
+      })
+      .catch(() => {});
   });
 };

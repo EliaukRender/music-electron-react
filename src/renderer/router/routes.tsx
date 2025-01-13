@@ -25,7 +25,7 @@ const routes: RouteObject[] = [
     ],
   },
   {
-    path: '/mini-player',
+    path: 'mini-player',
     element: (
       <Suspense fallback={<div>Loading...</div>}>
         <MiniPlayer />

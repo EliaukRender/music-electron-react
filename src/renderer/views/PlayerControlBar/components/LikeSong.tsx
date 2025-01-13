@@ -6,7 +6,7 @@ import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
  * @description: 喜欢歌曲
  */
 const LikeSong = () => {
-  const { stopPropagationRef } = useStopPropagation();
+  const { stopPropagationEleRef } = useStopPropagation();
 
   const clickLikeSong = (event: any) => {
     event.stopPropagation();
@@ -14,7 +14,7 @@ const LikeSong = () => {
   };
 
   return (
-    <LikeSongStyles ref={stopPropagationRef}>
+    <LikeSongStyles ref={stopPropagationEleRef}>
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <img
         className="heart no-click-bubble"
