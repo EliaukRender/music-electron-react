@@ -1,4 +1,4 @@
-import WindowUIEvent from '@/InteractionEnum/windowUIEvent';
+import WindowUIEvent from '@/main/mainWindow/eventEnum/windowUIEvent';
 import {
   setIsFullScreen,
   setIsMaximize,

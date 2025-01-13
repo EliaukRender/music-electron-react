@@ -1,7 +1,7 @@
 /* eslint import/prefer-default-export: off */
 import { URL, format } from 'url';
 import path from 'path';
-import { BrowserWindow } from 'electron';
+import { app, BrowserWindow } from 'electron';
 
 const url = require('url');
 
@@ -38,5 +38,30 @@ export function resolveHtmlPath(routePath?: string) {
  * @param options 配置参数
  */
 export const createBrowserWindow = (options: any) => {
-  return new BrowserWindow(options);
+  const RESOURCES_PATH = app.isPackaged
+    ? path.join(process.resourcesPath, 'assets')
+    : path.join(__dirname, '../../assets');
+
+  const getAssetPath = (...paths: string[]): string => {
+    return path.join(RESOURCES_PATH, ...paths);
+  };
+
+  return new BrowserWindow({
+    width: 1200,
+    height: 800,
+    minWidth: 1100,
+    minHeight: 700,
+    frame: false, // 隐藏窗口的工具栏
+    transparent: true, // 窗口是否透明
+    icon: getAssetPath('icon.png'),
+    fullscreen: false,
+    webPreferences: {
+      nodeIntegration: true,
+      /* 预加载脚本 */
+      preload: app.isPackaged
+        ? path.join(__dirname, 'preload.js')
+        : path.join(__dirname, '../../.erb/dll/preload.js'),
+    },
+    ...options,
+  });
 };

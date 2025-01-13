@@ -19,10 +19,14 @@ import {
 } from 'electron-extension-installer';
 import MenuBuilder from './menu';
 import { createBrowserWindow, resolveHtmlPath } from './util';
-import { windowUi } from '@/main/ipcMain/mainInteraction/windowUi';
-import { setWindowData } from '@/main/ipcMain/data/windowData';
-import { keyboard } from '@/main/ipcMain/mainInteraction/keyboard';
-import { miniPlayer } from '@/main/miniPlayer';
+import { setMainWindowData } from '@/main/mainWindow/windowData';
+import { mainWindowListener } from '@/main/mainWindow/handler';
+import { mainWinKeyboardListener } from '@/main/mainWindow/handler/keyboard';
+import {
+  createMiniPlayerWindow,
+  miniPlayerWinListener,
+} from '@/main/miniPlayer/handler';
+import { RouteEnum } from '@/renderer/constant/routeEnum';
 
 class AppUpdater {
   constructor() {
@@ -66,35 +70,17 @@ const installExtensions = async () => {
 /**
  *  创建窗口实例
  */
-const createWindow = async () => {
+const createMainWin = async () => {
   if (isDebug) {
     await installExtensions();
   }
 
-  const RESOURCES_PATH = app.isPackaged
-    ? path.join(process.resourcesPath, 'assets')
-    : path.join(__dirname, '../../assets');
-
-  const getAssetPath = (...paths: string[]): string => {
-    return path.join(RESOURCES_PATH, ...paths);
-  };
-
+  // 主窗口
   mainWindow = createBrowserWindow({
     width: 1200,
     height: 800,
     minWidth: 1100,
     minHeight: 700,
-    frame: false, // 隐藏窗口的工具栏
-    transparent: true, // 窗口是否透明
-    icon: getAssetPath('icon.png'),
-    fullscreen: false,
-    webPreferences: {
-      nodeIntegration: true,
-      /* 预加载脚本 */
-      preload: app.isPackaged
-        ? path.join(__dirname, 'preload.js')
-        : path.join(__dirname, '../../.erb/dll/preload.js'),
-    },
   });
 
   mainWindow.loadURL(resolveHtmlPath());
@@ -108,7 +94,7 @@ const createWindow = async () => {
       mainWindow.minimize();
     } else {
       mainWindow.show();
-      setWindowData({ bounds: mainWindow.getBounds() });
+      setMainWindowData({ bounds: mainWindow.getBounds() });
     }
   });
 
@@ -142,18 +128,23 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(() => {
-    createWindow()
+    // 1、创建主窗口
+    createMainWin()
       .then(() => {
-        windowUi(mainWindow!);
-        keyboard(mainWindow!);
-        miniPlayer();
+        mainWindowListener(mainWindow!);
+        mainWinKeyboardListener(mainWindow!);
       })
       .catch((err) => {
-        console.log('createWindow error!', err);
+        console.log('createMainWin error!', err);
       });
 
+    /// 2、创建mini-player窗口
+    const miniPlayerWindow = createMiniPlayerWindow();
+
+    // App激活的时候
     app.on('activate', () => {
-      if (mainWindow === null) createWindow();
+      if (mainWindow === null) createMainWin();
+      if (miniPlayerWindow === null) createMiniPlayerWindow();
     });
   })
   .catch(console.log);

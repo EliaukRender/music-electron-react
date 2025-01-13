@@ -7,6 +7,7 @@ import mainMenuReducer from '@/renderer/store/modules/mainMenuReducer';
 import playerControlReducer from '@/renderer/store/modules/playerControlReducer';
 import audioPlayerReducer from '@/renderer/store/modules/audioPlayerReducer';
 import analyzeReducer from '@/renderer/store/modules/analyzeReducer';
+import miniPlayerReducer from '@/renderer/store/modules/miniPlayerReducer';
 
 // store
 const store = configureStore({
@@ -16,6 +17,7 @@ const store = configureStore({
     playerControl: playerControlReducer, // 控制栏数据
     audioPlayer: audioPlayerReducer, // 音频播放数据
     analyze: analyzeReducer, // 频谱图数据
+    miniPlayer: miniPlayerReducer, // mini播放器数据
     user: persistReducer(userReducerPersisCfg, userReducer) as Reducer, // persistReducer对reducer实现持久化
   },
   middleware: (getDefaultMiddleware) =>

@@ -33,7 +33,7 @@ const LyricFullScreen = () => {
   });
   const jukeLyricRef = useRef<HTMLDivElement | null>(null);
 
-  const { dragEleRef } = useUpdateWindowPosition(); // 窗口拖拽
+  const { dragEleRef } = useUpdateWindowPosition({}); // 窗口拖拽
 
   // 双击后最大窗口
   const handleDoubleClick = useCallback(() => {

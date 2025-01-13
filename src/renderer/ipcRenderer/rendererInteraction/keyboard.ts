@@ -1,7 +1,7 @@
 import {
   KeyboardEventEnum,
   KeyboardEnum,
-} from '@/InteractionEnum/keyboardEvent';
+} from '@/main/mainWindow/eventEnum/keyboardEvent';
 import store from '@/renderer/store';
 import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
 import {

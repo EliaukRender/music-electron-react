@@ -19,7 +19,7 @@ import MiniPlayer from '@/renderer/views/OperationBar/windowTools/MiniPlayer';
  * @description: 顶部操作栏区域
  */
 const OperationBar: React.FC = () => {
-  const { dragEleRef } = useUpdateWindowPosition(); // 拖拽窗口
+  const { dragEleRef } = useUpdateWindowPosition({}); // 拖拽窗口
   const { isMaximize } = useSelector(
     (state: RootState) => ({
       isMaximize: state.global.isMaximize,

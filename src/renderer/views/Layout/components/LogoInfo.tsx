@@ -8,7 +8,7 @@ import classNames from 'classnames';
  * @description: Logo区域
  */
 export default function LogoInfo() {
-  const { dragEleRef } = useUpdateWindowPosition();
+  const { dragEleRef } = useUpdateWindowPosition({});
   const { isCollapseMenu } = useSelector(
     (state: RootState) => ({
       isCollapseMenu: state.mainMenu.isCollapseMenu,

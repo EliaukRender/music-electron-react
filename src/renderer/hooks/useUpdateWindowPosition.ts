@@ -2,11 +2,16 @@ import updatePositionEmitter from '@/renderer/ipcRenderer/rendererInteraction/wi
 import { useCallback, useEffect, useRef, useState } from 'react';
 import store from '@/renderer/store';
 import { throttle } from 'lodash';
+import { updateMiniPlayerPosition } from '@/renderer/ipcRenderer/miniPlayer/miniPlayerEmitter';
 
 /**
  * @description: 窗口被拖拽时 更新窗口位置信息
  */
-export function useUpdateWindowPosition() {
+export function useUpdateWindowPosition({
+  isMiniPlayer = false,
+}: {
+  isMiniPlayer?: boolean;
+}) {
   const dragEleRef = useRef<HTMLDivElement | null>(null);
   const [isMouseDown, setDragging] = useState(false);
   const [clientX, setClientX] = useState(0);
@@ -22,7 +27,8 @@ export function useUpdateWindowPosition() {
       if (isFullScreen || isMaximize) return;
       const x = e.screenX - clientX;
       const y = e.screenY - clientY;
-      updatePositionEmitter.setPosition({ x, y });
+      !isMiniPlayer && updatePositionEmitter.setPosition({ x, y });
+      isMiniPlayer && updateMiniPlayerPosition({ x, y });
     },
     [clientX, clientY, isMouseDown],
   );

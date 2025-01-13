@@ -1,4 +1,4 @@
-interface IWindowData {
+interface IMainWindow {
   isFullScreen?: boolean;
   isMaximized?: boolean;
   isMinimized?: boolean;
@@ -15,7 +15,7 @@ interface IBounds {
 /**
  *  主窗口数据
  */
-let windowData: IWindowData = {
+let mainWindowData: IMainWindow = {
   isFullScreen: false,
   isMaximized: false,
   isMinimized: false,
@@ -27,13 +27,19 @@ let windowData: IWindowData = {
   },
 };
 
-export const getWindowData = (): IWindowData => {
-  return windowData;
+/**
+ * 获取主窗口数据
+ */
+export const getMainWindowData = (): IMainWindow => {
+  return mainWindowData;
 };
 
-export const setWindowData = (data: IWindowData) => {
-  windowData = {
-    ...getWindowData(),
+/**
+ * 存储主窗口数据
+ */
+export const setMainWindowData = (data: IMainWindow) => {
+  mainWindowData = {
+    ...getMainWindowData(),
     ...data,
   };
   // console.log('windowData', windowData);

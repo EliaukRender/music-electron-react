@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
-import { openMiniPlayer } from '@/renderer/ipcRenderer/rendererInteraction/miniPlayer';
+import { openMiniPlayer } from '@/renderer/ipcRenderer/miniPlayer/miniPlayerEmitter';
 
 /**
  *  mini播放器入口按钮
