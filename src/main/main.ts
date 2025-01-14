@@ -1,5 +1,4 @@
 /* eslint global-require: off, no-console: off, promise/always-return: off */
-
 /**
  * This module executes inside of electron's main process. You can start
  * electron renderer process from here and communicate with the other processes
@@ -8,47 +7,51 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import path from 'path';
 import { app, BrowserWindow, shell } from 'electron';
-import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
+import { mainWindowListener } from '@/main/mainWindow/handler';
+import { mainWinKeyboardListener } from '@/main/mainWindow/handler/keyboard';
+import {
+  getMiniPlayerWinBounds,
+  miniPlayerWinListener,
+} from '@/main/miniPlayer/handler';
+import path from 'path';
+import { createBrowserWindow, resolveHtmlPath } from '@/main/util';
+import { setMainWindowData } from '@/main/mainWindow/windowData';
 import {
   installExtension,
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } from 'electron-extension-installer';
-import MenuBuilder from './menu';
-import { createBrowserWindow, resolveHtmlPath } from './util';
-import { setMainWindowData } from '@/main/mainWindow/windowData';
-import { mainWindowListener } from '@/main/mainWindow/handler';
-import { mainWinKeyboardListener } from '@/main/mainWindow/handler/keyboard';
-import {
-  createMiniPlayerWindow,
-  miniPlayerWinListener,
-} from '@/main/miniPlayer/handler';
+import log from 'electron-log';
+import { autoUpdater } from 'electron-updater';
 import { RouteEnum } from '@/renderer/constant/routeEnum';
+import MenuBuilder from '@/main/menu';
 
+// 生产环境下安装并启用源映射支持
+if (process.env.NODE_ENV === 'production') {
+  const sourceMapSupport = require('source-map-support');
+  sourceMapSupport.install();
+}
+
+// debug模式
+const isDebug =
+  process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
+
+// 获取静态资源路径
+const getAssetPath = (...paths: string[]): string => {
+  const RESOURCES_PATH = app.isPackaged
+    ? path.join(process.resourcesPath, 'assets')
+    : path.join(__dirname, '../../assets');
+  return path.join(RESOURCES_PATH, ...paths);
+};
+
+// APP更新
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
     autoUpdater.logger = log;
     autoUpdater.checkForUpdatesAndNotify();
   }
-}
-
-let mainWindow: BrowserWindow | null = null;
-
-if (process.env.NODE_ENV === 'production') {
-  const sourceMapSupport = require('source-map-support');
-  sourceMapSupport.install();
-}
-
-const isDebug =
-  process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
-console.log('---isDebug---', isDebug);
-
-if (isDebug) {
-  require('electron-debug')();
 }
 
 /**
@@ -68,25 +71,45 @@ const installExtensions = async () => {
 };
 
 /**
- *  创建窗口实例
+ *  窗口
  */
-const createMainWin = async () => {
+let mainWindow: BrowserWindow | null; // 主窗口
+let miniPlayerWindow: BrowserWindow | null; // mini-player窗口
+
+/**
+ *  创建窗口
+ */
+const createWindow = async () => {
+  // 安装拓展工具
   if (isDebug) {
+    console.log('===isDebug===');
     await installExtensions();
   }
 
-  // 主窗口
+  /**
+   *  主窗口
+   */
   mainWindow = createBrowserWindow({
     width: 1200,
     height: 800,
     minWidth: 1100,
     minHeight: 700,
+    frame: false, // 隐藏窗口的工具栏
+    transparent: true, // 窗口是否透明
+    icon: getAssetPath('icon.png'),
+    fullscreen: false,
+    webPreferences: {
+      nodeIntegration: true,
+      /* 预加载脚本 */
+      preload: app.isPackaged
+        ? path.join(__dirname, 'preload.js')
+        : path.join(__dirname, '../../.erb/dll/preload.js'),
+    },
   });
 
   mainWindow.loadURL(resolveHtmlPath());
 
-  // ready-to-show事件后显示窗口将没有视觉闪烁
-  mainWindow.on('ready-to-show', () => {
+  mainWindow.once('ready-to-show', () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
     }
@@ -98,18 +121,64 @@ const createMainWin = async () => {
     }
   });
 
-  mainWindow.on('closed', () => {
+  mainWindow.once('closed', () => {
     mainWindow = null;
   });
 
-  const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
+  /**
+   * mini-player窗口
+   */
+  miniPlayerWindow = createBrowserWindow({
+    width: 330,
+    height: 290,
+    // width: 600,
+    // height: 600,
+    minWidth: 330,
+    minHeight: 290,
+    skipTaskbar: true, // 窗口不出现在任务栏上
+    frame: false, // 隐藏窗口的工具栏
+    transparent: true, // 窗口是否透明
+    alwaysOnTop: true, // 设置窗口始终置顶
+    icon: getAssetPath('icon.png'),
+    fullscreen: false,
+    webPreferences: {
+      nodeIntegration: true,
+      /* 预加载脚本 */
+      preload: app.isPackaged
+        ? path.join(__dirname, 'preload.js')
+        : path.join(__dirname, '../../.erb/dll/preload.js'),
+    },
+  });
+
+  miniPlayerWindow.loadURL(resolveHtmlPath(RouteEnum.MiniPlayer)); // 加载mini-player页面
+
+  const bounds = getMiniPlayerWinBounds(miniPlayerWindow);
+
+  miniPlayerWindow.once('ready-to-show', () => {
+    if (!miniPlayerWindow) {
+      throw new Error('miniPlayerWindow is not defined');
+    }
+    miniPlayerWindow.show();
+    // @ts-ignore
+    miniPlayerWindow.setBounds(bounds); // 设置到屏幕右下角
+    miniPlayerWindow.minimize(); // 最小化
+  });
+
+  miniPlayerWindow.once('closed', () => {
+    miniPlayerWindow = null;
+  });
+
+  /**
+   * 其他操作
+   */
+  // const menuBuilder = new MenuBuilder(mainWindow);
+  // menuBuilder.buildMenu();
 
   // Open urls in the user's browser
-  mainWindow.webContents.setWindowOpenHandler((edata) => {
-    shell.openExternal(edata.url);
-    return { action: 'deny' };
-  });
+  // mainWindow.webContents.setWindowOpenHandler((edata) => {
+  //   shell.openExternal(edata.url);
+  //   return { action: 'deny' };
+  // });
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
@@ -117,34 +186,32 @@ const createMainWin = async () => {
 };
 
 /**
- * 监听所有的窗口都被关闭
+ * app准备就绪
+ */
+app
+  .whenReady()
+  .then(() => {
+    createWindow()
+      .then(() => {
+        // 监听窗口中的事件
+        mainWindowListener(mainWindow);
+        mainWinKeyboardListener(mainWindow);
+        miniPlayerWinListener(miniPlayerWindow);
+      })
+      .catch(() => {});
+
+    // App激活的时候
+    app.on('activate', () => {
+      if (mainWindow === null) createWindow();
+    });
+  })
+  .catch(console.log);
+
+/**
+ *  app所有窗口被关闭
  */
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
-
-app
-  .whenReady()
-  .then(() => {
-    // 1、创建主窗口
-    createMainWin()
-      .then(() => {
-        mainWindowListener(mainWindow!);
-        mainWinKeyboardListener(mainWindow!);
-      })
-      .catch((err) => {
-        console.log('createMainWin error!', err);
-      });
-
-    /// 2、创建mini-player窗口
-    const miniPlayerWindow = createMiniPlayerWindow();
-
-    // App激活的时候
-    app.on('activate', () => {
-      if (mainWindow === null) createMainWin();
-      if (miniPlayerWindow === null) createMiniPlayerWindow();
-    });
-  })
-  .catch(console.log);

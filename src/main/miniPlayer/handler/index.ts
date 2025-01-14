@@ -1,5 +1,3 @@
-import { createBrowserWindow, resolveHtmlPath } from '@/main/util';
-import { RouteEnum } from '@/renderer/constant/routeEnum';
 import { BrowserWindow, ipcMain } from 'electron';
 import { MiniPlayerEventEnum } from '@/main/miniPlayer/eventEnum/miniPlayerEvent';
 import {
@@ -7,54 +5,33 @@ import {
   setMiniPlayerWinData,
 } from '@/main/miniPlayer/windowData';
 
-let miniPlayerWindow: BrowserWindow | null = null;
-
 /**
- * 新建mini-player窗口
+ * @description: 监听miniPlayerWin窗口的事件消息
  */
-export const createMiniPlayerWindow = () => {
-  miniPlayerWindow = createBrowserWindow({
-    // width: 330,
-    // height: 290,
-    width: 600,
-    height: 600,
-    minWidth: 330,
-    minHeight: 290,
-  });
-  miniPlayerWindow.setSkipTaskbar(true); // 窗口不显示在任务栏
-  miniPlayerWindow
-    .loadURL(resolveHtmlPath(RouteEnum.MiniPlayer)) // 加载mini-player页面
-    .then(() => {
-      miniPlayerWinListener(miniPlayerWindow!); // 监听mini窗口事件
-    })
-    .catch(() => {});
-  return miniPlayerWindow;
-};
-
-/**
- * 监听miniPlayerWin窗口的事件消息
- */
-export function miniPlayerWinListener(miniPlayerWin: BrowserWindow) {
+export function miniPlayerWinListener(miniPlayerWin: BrowserWindow | null) {
+  if (!miniPlayerWin) return;
   /**
    * 显示 或者 隐藏 mini-player窗口
    */
   ipcMain.on(MiniPlayerEventEnum.Show_Hidden_Mini_Player, (event, data) => {
-    if (!miniPlayerWin) {
-      createMiniPlayerWindow();
+    miniPlayerWin.webContents.send(
+      MiniPlayerEventEnum.Update_Mini_Player_Data,
+      data,
+    );
+    if (miniPlayerWin.isVisible()) {
+      console.log('******打开mini111111111111');
+      miniPlayerWin.minimize();
     } else {
-      miniPlayerWin.webContents.send(
-        MiniPlayerEventEnum.Update_Mini_Player_Data,
-        data,
+      console.log(
+        '******打开mini222222222',
+        getMiniPlayerWinData().bounds.x,
+        getMiniPlayerWinData().bounds.y,
       );
-      const bounds = miniPlayerWin.getBounds(); // 窗口是否可见
-      if (bounds.x === -9999 && bounds.y === -9999) {
-        miniPlayerWin.setBounds(getMiniPlayerWinData().bounds!);
-      } else {
-        miniPlayerWin.setBounds({
-          x: -9999,
-          y: -9999,
-        });
-      }
+      miniPlayerWin.setPosition(
+        getMiniPlayerWinData().bounds.x,
+        getMiniPlayerWinData().bounds.y,
+      );
+      miniPlayerWin.restore();
     }
   });
 
@@ -70,19 +47,22 @@ export function miniPlayerWinListener(miniPlayerWin: BrowserWindow) {
   });
 
   /**
-   * mini-player窗口显示工作准备完毕时触发（避免窗口闪烁）
+   *  窗口移动到新位置时触发
    */
-  miniPlayerWin.on('ready-to-show', () => {
-    setDefaultBounds();
-    miniPlayerWin.show();
-    miniPlayerWin.setBounds({ x: -9999, y: -9999 }); // 位移到屏幕外面隐藏窗口
+  miniPlayerWin.on('move', () => {
+    handleMove(miniPlayerWin);
   });
 
   /**
-   *  窗口移动到新位置时触发
+   *  关闭mini-player
    */
-  // @ts-ignore
-  miniPlayerWin.on('move', handleMove(miniPlayerWin));
+  ipcMain.on(MiniPlayerEventEnum.Close_Mini_Player, (event, data) => {
+    if (!miniPlayerWin) {
+      console.error('mini-player窗口不存在');
+      return;
+    }
+    miniPlayerWin.close();
+  });
 }
 
 // =================================================
@@ -90,20 +70,28 @@ export function miniPlayerWinListener(miniPlayerWin: BrowserWindow) {
 // 窗口move时暂存窗口位置信息
 function handleMove(miniPlayerWin: BrowserWindow): void {
   const bounds = miniPlayerWin.getBounds();
+  if (bounds.x === -9999) return;
   setMiniPlayerWinData({ bounds });
 }
 
 // 设置mini窗口的默认bounds
-function setDefaultBounds() {
-  const { screen } = require('electron'); // 获取主显示器的信息
-  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+export function getMiniPlayerWinBounds(miniPlayerWindow: BrowserWindow | null) {
+  if (!miniPlayerWindow) return;
   const bounds = miniPlayerWindow?.getBounds();
-  setMiniPlayerWinData({
-    bounds: {
-      x: width - 500,
-      y: height - 500,
-      width: bounds?.width || 0,
-      height: bounds?.height || 0,
-    },
+  if (!bounds?.width) return;
+  const { screen } = require('electron');
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+  console.log('初始化默认数据', {
+    x: width - bounds.width - 100,
+    y: height - bounds.height - 100,
+    width: bounds.width,
+    height: bounds.height,
   });
+  // 保存窗口位置数据
+  return {
+    x: width - bounds.width - 100,
+    y: height - bounds.height - 100,
+    width: bounds.width,
+    height: bounds.height,
+  };
 }

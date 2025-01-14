@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darkenHexColor } from '@/renderer/utils/color/transformColor';
 
 export const MiniPlayerStyles = styled.div`
   .mini-player {
@@ -38,6 +39,8 @@ export const MiniPlayerStyles = styled.div`
         justify-content: center;
         align-items: center;
 
+        /* 歌曲信息 */
+
         .info-text {
           height: 100%;
           display: flex;
@@ -47,6 +50,66 @@ export const MiniPlayerStyles = styled.div`
 
           .name {
             margin-bottom: 5px;
+          }
+        }
+
+        /* 操作按钮 */
+
+        .btn-group {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 2;
+          position: relative;
+
+          .play-pause {
+            width: 40px;
+            height: 32px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #00f268;
+          }
+
+          .anticon {
+            margin: 0 10px;
+            padding: 5px;
+            font-size: 26px !important;
+            cursor: pointer;
+
+            &:hover {
+              color: ${({ theme }) =>
+                darkenHexColor(theme.themeColor.active, 10)};
+            }
+
+            svg {
+              font-size: 24px;
+            }
+          }
+
+          /* 暂停、播放按钮颜色保持不变 */
+
+          .anticon-pause,
+          .anticon-caret-right {
+            svg {
+              color: #666666 !important;
+            }
+          }
+
+          .like-img,
+          .iconfont.icon-liebiao {
+            cursor: pointer;
+          }
+
+          .iconfont.icon-guanbi {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 20px;
+            cursor: pointer;
           }
         }
       }
@@ -63,10 +126,34 @@ export const MiniPlayerStyles = styled.div`
       }
 
       .song-item {
+        display: flex;
+        justify-content: space-between;
         height: 47px;
         line-height: 47px;
         padding: 0 15px;
         background-color: ${({ theme }) => theme.bgcColor.light_gray_white};
+
+        /* 操作按钮 */
+        .song-item-btn-group {
+          display: flex;
+          align-items: center;
+          opacity: 0;
+
+          .iconfont.icon-bofang1 {
+            margin-right: 10px;
+            cursor: pointer;
+
+            &:hover {
+              color: ${({ theme }) =>
+                darkenHexColor(theme.themeColor.active, 10)};
+            }
+          }
+
+          .like-img {
+            width: 20px;
+            cursor: pointer;
+          }
+        }
       }
     }
   }

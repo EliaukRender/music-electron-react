@@ -7,11 +7,11 @@ import {
 import { WindowPositionType } from '@/types/commonTypes';
 
 /**
- *  【主窗口】事件监听中心
+ *  主窗口 事件监听
  *  监听主窗口UI相关的一些事件：最小化、最小化、全屏、mini播放器
  */
-
-export const mainWindowListener = (mainWin: BrowserWindow) => {
+export const mainWindowListener = (mainWin: BrowserWindow | null) => {
+  if (!mainWin) return;
   /**
    *  全屏、退出全屏事件
    */
@@ -164,14 +164,15 @@ export const mainWindowListener = (mainWin: BrowserWindow) => {
   /**
    *  窗口移动到新位置时触发
    */
-  // @ts-ignore
-  mainWin.on('move', handleMove(mainWin));
+  mainWin.on('move', () => {
+    handleMove(mainWin);
+  });
 };
 
 // ====================================
 
 // 窗口move时暂存窗口位置信息
-function handleMove(mainWin: BrowserWindow): void {
+function handleMove(mainWin: BrowserWindow) {
   const bounds = mainWin.getBounds();
   setMainWindowData({ bounds });
 }

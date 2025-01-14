@@ -37,7 +37,7 @@ export function resolveHtmlPath(routePath?: string) {
  * @description: 创建窗口
  * @param options 配置参数
  */
-export const createBrowserWindow = (options: any) => {
+export const createBrowserWindow = (options: Object) => {
   const RESOURCES_PATH = app.isPackaged
     ? path.join(process.resourcesPath, 'assets')
     : path.join(__dirname, '../../assets');
