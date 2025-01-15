@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { SongItemForActiveStyles } from '@/renderer/views/components/SongItem/styles/SongItemForActiveStyles';
 import classNames from 'classnames';
 import LikeSong from '@/renderer/views/PlayerControlBar/components/LikeSong';
@@ -34,6 +34,11 @@ const SongItemForActive = ({ songInfo, index, activeSongId }: PropsType) => {
     showAnimation,
   } = useSongItem({ songInfo, activeSongId, classList });
 
+  const onMouseLeave = useCallback(() => {
+    if (isActiveSong) return;
+    hiddenAnimation();
+  }, [hiddenAnimation, isActiveSong]);
+
   return (
     <SongItemForActiveStyles>
       <div
@@ -43,13 +48,9 @@ const SongItemForActive = ({ songInfo, index, activeSongId }: PropsType) => {
           index % 2 === 0 ? 'odd' : '',
           isActiveSong ? 'active' : '',
         )}
-        onMouseEnter={() => {
-          showAnimation();
-        }}
-        onMouseLeave={() => {
-          if (isActiveSong) return;
-          hiddenAnimation();
-        }}
+        onMouseEnter={() => showAnimation()}
+        onMouseLeave={() => onMouseLeave()}
+        onBlur={() => onMouseLeave()}
       >
         {/* 歌曲信息 */}
         <div className={`music-info music-info-${index}-for-active`}>

@@ -46,6 +46,11 @@ const SongItemForSheet = ({
     showAnimation,
   } = useSongItem({ songInfo, activeSongId, classList });
 
+  const onMouseLeave = useCallback(() => {
+    if (isActiveSong) return;
+    hiddenAnimation();
+  }, [hiddenAnimation, isActiveSong]);
+
   const playHandler = useCallback(() => {
     playSong(songInfo);
   }, [songInfo]);
@@ -95,13 +100,9 @@ const SongItemForSheet = ({
           index % 2 === 0 ? 'odd' : '',
           isActiveSong ? 'active' : '',
         )}
-        onMouseEnter={() => {
-          showAnimation();
-        }}
-        onMouseLeave={() => {
-          if (isActiveSong) return;
-          hiddenAnimation();
-        }}
+        onMouseEnter={() => showAnimation()}
+        onMouseLeave={() => onMouseLeave()}
+        onBlur={() => onMouseLeave()}
       >
         {/* 歌曲信息 */}
         <div className={`music-info music-info-${index}-for-sheet`}>
