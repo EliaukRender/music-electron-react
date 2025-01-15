@@ -7,7 +7,7 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import { mainWindowListener } from '@/main/mainWindow/handler';
 import { mainWinKeyboardListener } from '@/main/mainWindow/handler/keyboard';
 import {
@@ -15,7 +15,7 @@ import {
   miniPlayerWinListener,
 } from '@/main/miniPlayer/handler';
 import path from 'path';
-import { createBrowserWindow, resolveHtmlPath } from '@/main/util';
+import { resolveHtmlPath } from '@/main/util';
 import { setMainWindowData } from '@/main/mainWindow/windowData';
 import {
   installExtension,
@@ -25,17 +25,14 @@ import {
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import { RouteEnum } from '@/renderer/constant/routeEnum';
-import MenuBuilder from '@/main/menu';
+import { isDebug } from '@/main/processEnv';
+import { miniPlayerWinKeyboardListener } from '@/main/miniPlayer/handler/keyboardListener';
 
 // 生产环境下安装并启用源映射支持
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
 }
-
-// debug模式
-const isDebug =
-  process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
 // 获取静态资源路径
 const getAssetPath = (...paths: string[]): string => {
@@ -59,14 +56,14 @@ class AppUpdater {
  */
 const installExtensions = async () => {
   try {
-    console.log('----installExtensions start----');
+    console.log('---installExtensions start---');
     await installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS], {
       loadExtensionOptions: {
         allowFileAccess: true,
       },
     });
   } catch (err) {
-    console.log('installExtensions-error', err);
+    console.log('---installExtensions-error---', err);
   }
 };
 
@@ -82,14 +79,13 @@ let miniPlayerWindow: BrowserWindow | null; // mini-player窗口
 const createWindow = async () => {
   // 安装拓展工具
   if (isDebug) {
-    console.log('===isDebug===');
     await installExtensions();
   }
 
   /**
    *  主窗口
    */
-  mainWindow = createBrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
     minWidth: 1100,
@@ -128,11 +124,11 @@ const createWindow = async () => {
   /**
    * mini-player窗口
    */
-  miniPlayerWindow = createBrowserWindow({
+  miniPlayerWindow = new BrowserWindow({
     width: 330,
     height: 290,
-    // width: 600,
-    // height: 600,
+    // width: 1000,
+    // height: 500,
     minWidth: 330,
     minHeight: 290,
     skipTaskbar: true, // 窗口不出现在任务栏上
@@ -169,17 +165,8 @@ const createWindow = async () => {
   });
 
   /**
-   * 其他操作
+   * 其他操作: APP自动更新
    */
-  // const menuBuilder = new MenuBuilder(mainWindow);
-  // menuBuilder.buildMenu();
-
-  // Open urls in the user's browser
-  // mainWindow.webContents.setWindowOpenHandler((edata) => {
-  //   shell.openExternal(edata.url);
-  //   return { action: 'deny' };
-  // });
-
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater(); // app自动更新
@@ -197,15 +184,16 @@ app
         mainWindowListener(mainWindow);
         mainWinKeyboardListener(mainWindow);
         miniPlayerWinListener(miniPlayerWindow);
+        miniPlayerWinKeyboardListener(miniPlayerWindow);
       })
       .catch(() => {});
 
     // App激活的时候
-    app.on('activate', () => {
-      if (mainWindow === null) createWindow();
+    app.on('activate', async () => {
+      if (mainWindow === null) await createWindow();
     });
   })
-  .catch(console.log);
+  .catch((err) => console.log('error app whenReady', err));
 
 /**
  *  app所有窗口被关闭

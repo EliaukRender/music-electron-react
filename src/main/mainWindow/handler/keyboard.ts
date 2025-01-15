@@ -1,10 +1,10 @@
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, globalShortcut } from 'electron';
 import {
   KeyboardEnum,
   KeyboardEventEnum,
 } from '@/main/mainWindow/eventEnum/keyboardEvent';
-
-const localshortcut = require('electron-localshortcut');
+import localshortcut from 'electron-localshortcut';
+import { openCloseDevTools, reloadWebContent } from '@/main/util';
 
 /**
  *  【主窗口】事件监听中心
@@ -13,9 +13,9 @@ const localshortcut = require('electron-localshortcut');
 export const mainWinKeyboardListener = (mainWin: BrowserWindow | null) => {
   if (!mainWin) return;
 
-  localshortcut.register(mainWin, KeyboardEnum.Enter, () => {
-    mainWin.webContents.send(KeyboardEventEnum.Keyboard, KeyboardEnum.Enter);
-  });
+  // localshortcut.register(mainWin, KeyboardEnum.Enter, () => {
+  //   mainWin.webContents.send(KeyboardEventEnum.Keyboard, KeyboardEnum.Enter);
+  // });
 
   localshortcut.register(mainWin, KeyboardEnum.Space, () => {
     mainWin.webContents.send(KeyboardEventEnum.Keyboard, KeyboardEnum.Space);
@@ -23,5 +23,13 @@ export const mainWinKeyboardListener = (mainWin: BrowserWindow | null) => {
 
   localshortcut.register(mainWin, KeyboardEnum.Esc, () => {
     mainWin.webContents.send(KeyboardEventEnum.Keyboard, KeyboardEnum.Esc);
+  });
+
+  localshortcut.register(mainWin, KeyboardEnum.F12, () => {
+    openCloseDevTools(mainWin);
+  });
+
+  localshortcut.register(mainWin, KeyboardEnum.F5, () => {
+    reloadWebContent(mainWin);
   });
 };

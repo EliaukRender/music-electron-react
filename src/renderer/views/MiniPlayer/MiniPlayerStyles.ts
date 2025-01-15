@@ -20,10 +20,12 @@ export const MiniPlayerStyles = styled.div`
       justify-content: flex-start;
       height: 70px;
       background-color: #fff;
-      border-radius: 6px 6px 0 0;
+      border-radius: 6px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+      z-index: 2;
 
       .left {
-        padding: 0 15px;
+        padding: 0 5px 0 15px;
 
         .img-pic {
           width: 72px;
@@ -102,46 +104,6 @@ export const MiniPlayerStyles = styled.div`
           .like-img,
           .iconfont.icon-liebiao {
             cursor: pointer;
-          }
-
-          .iconfont.icon-guanbi {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            font-size: 20px;
-            cursor: pointer;
-          }
-        }
-      }
-    }
-
-    .song-list {
-      width: 100%;
-      height: 188px;
-      overflow-y: auto;
-      border-radius: 0 0 6px 6px;
-
-      &::-webkit-scrollbar-track {
-        background-color: ${({ theme }) => theme.bgcColor.light_gray_white};
-      }
-
-      .song-item {
-        display: flex;
-        justify-content: space-between;
-        height: 47px;
-        line-height: 47px;
-        padding: 0 15px;
-        background-color: ${({ theme }) => theme.bgcColor.light_gray_white};
-
-        /* 操作按钮 */
-        .song-item-btn-group {
-          display: flex;
-          align-items: center;
-          opacity: 0;
-
-          .iconfont.icon-bofang1 {
-            margin-right: 10px;
-            cursor: pointer;
 
             &:hover {
               color: ${({ theme }) =>
@@ -149,9 +111,73 @@ export const MiniPlayerStyles = styled.div`
             }
           }
 
-          .like-img {
-            width: 20px;
+          .iconfont.icon-guanbi {
+            position: absolute;
+            top: 0;
+            right: 5px;
+            font-size: 14px;
             cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .bottom-body {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 0 0 6px 6px;
+      background-color: ${({ theme }) => theme.bgcColor.light_gray_white};
+      transform: translateY(-10px);
+      padding-top: 10px;
+
+      .song-list {
+        height: 100%;
+        overflow-y: auto;
+
+        ::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+          width: 6px;
+          background-color: ${({ theme }) => theme.bgcColor.light_gray_white};
+          border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          width: 6px;
+          background-color: #000000;
+          border-radius: 3px;
+        }
+
+        .song-item {
+          display: flex;
+          justify-content: space-between;
+          height: 47px;
+          line-height: 47px;
+          padding: 0 15px;
+          background-color: ${({ theme }) => theme.bgcColor.light_gray_white};
+
+          /* 操作按钮 */
+          .song-item-btn-group {
+            display: flex;
+            align-items: center;
+            opacity: 0;
+
+            .iconfont.icon-bofang1 {
+              margin-right: 10px;
+              cursor: pointer;
+
+              &:hover {
+                color: ${({ theme }) =>
+                  darkenHexColor(theme.themeColor.active, 10)};
+              }
+            }
+
+            .like-img {
+              width: 20px;
+              cursor: pointer;
+            }
           }
         }
       }

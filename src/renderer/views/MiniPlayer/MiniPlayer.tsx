@@ -9,7 +9,7 @@ import {
   StepBackwardOutlined,
   StepForwardOutlined,
 } from '@ant-design/icons';
-import { useEleFadeInOut } from '@/renderer/hooks/useEleFadeInOut';
+import gsap from 'gsap';
 
 interface IMiniPlayerData {
   activeSongId: number;
@@ -21,10 +21,10 @@ interface IMiniPlayerData {
  * mini播放器页面
  */
 const MiniPlayer = memo(() => {
-  const { fadeInAnimation, fadeOutAnimation, fadeInOutRef } = useEleFadeInOut();
   const { stopPropagationEleRef } = useStopPropagation();
   const { dragEleRef } = useUpdateWindowPosition({ isMiniPlayer: true }); // 拖拽
   const [isMouseEnterHeader, setIsMouseEnterHeader] = useState(false);
+  const [isExpand, setIsExpand] = useState(true); // 歌曲列表面板是否展开
   const [activeSongData, setActiveSongData] = useState<IMiniPlayerData>({
     activeSongId: -1,
     activeSongList: [],
@@ -37,6 +37,20 @@ const MiniPlayer = memo(() => {
       (item) => item.songId === activeSongData.activeSongId,
     );
   }, [activeSongData.activeSongId, activeSongData.activeSongList]);
+
+  const onMouseEnter = useCallback((index: number) => {
+    gsap.to(`.song-item-${index} .song-item-btn-group`, {
+      opacity: 1,
+      duration: 0.2,
+    });
+  }, []);
+
+  const onMouseLeave = useCallback((index: number) => {
+    gsap.to(`.song-item-${index} .song-item-btn-group`, {
+      opacity: 0,
+      duration: 0.2,
+    });
+  }, []);
 
   // 播放歌曲
   const handlePlaySong = useCallback(() => {
@@ -62,6 +76,18 @@ const MiniPlayer = memo(() => {
   const handleLikeSong = useCallback(() => {
     //
   }, []);
+
+  // 打开或折叠歌曲列表面板
+  const panelHeight = 198;
+  const showListPanel = useCallback(() => {
+    if (isExpand) {
+      gsap.to('.bottom-body', { height: 0, duration: 0.2 });
+      setIsExpand(false);
+    } else {
+      gsap.to('.bottom-body', { height: panelHeight, duration: 0.2 });
+      setIsExpand(true);
+    }
+  }, [isExpand]);
 
   // 关闭mini-player
   const handleCloseMiniPlayer = useCallback(() => {
@@ -91,8 +117,10 @@ const MiniPlayer = memo(() => {
           onMouseEnter={() => setIsMouseEnterHeader(true)}
           onMouseLeave={() => setIsMouseEnterHeader(false)}
         >
-          <div className="left" ref={stopPropagationEleRef}>
-            <img className="img-pic" src={activeSong?.songPic} alt="" />
+          <div className="left">
+            <div ref={stopPropagationEleRef}>
+              <img className="img-pic" src={activeSong?.songPic} alt="" />
+            </div>
           </div>
           <div className="right">
             {!isMouseEnterHeader ? (
@@ -124,7 +152,7 @@ const MiniPlayer = memo(() => {
                 {/* 下一首 */}
                 <StepForwardOutlined onClick={() => handleNextSong} />
                 {/* 折叠、收起 */}
-                <div>
+                <div onClick={showListPanel}>
                   <i className="iconfont icon-liebiao"></i>
                 </div>
                 {/* 关闭mini-player */}
@@ -138,34 +166,37 @@ const MiniPlayer = memo(() => {
             )}
           </div>
         </div>
-        {/* 播放队列的歌曲列表 */}
-        <div className="song-list">
-          {activeSongData.activeSongList.map((item) => {
-            return (
-              <div
-                className="song-item"
-                key={item.songId}
-                onMouseEnter={() => fadeInAnimation()}
-                onMouseLeave={() => fadeOutAnimation()}
-              >
-                <div className="name">{item.songName}</div>
-                {/* 操作按钮 */}
-                <div className="song-item-btn-group" ref={fadeInOutRef}>
-                  <div>
-                    <i className="iconfont icon-bofang1"></i>
-                  </div>
-                  {/* 喜欢 */}
-                  <div onClick={() => handleLikeSong}>
-                    <img
-                      className="like-img"
-                      src={require('@/renderer/assets/images/icons/heart.png')}
-                      alt=""
-                    />
+        <div className="bottom-body" style={{ height: `${panelHeight}px` }}>
+          {/* 播放队列的歌曲列表 */}
+          <div className="song-list">
+            {activeSongData.activeSongList.map((item, index) => {
+              return (
+                <div
+                  className={`song-item song-item-${index}`}
+                  key={item.songId}
+                  onMouseEnter={() => onMouseEnter(index)}
+                  onMouseLeave={() => onMouseLeave(index)}
+                  onBlur={() => onMouseLeave(index)}
+                >
+                  <div className="name">{item.songName}</div>
+                  {/* 操作按钮 */}
+                  <div className="song-item-btn-group">
+                    <div>
+                      <i className="iconfont icon-bofang1"></i>
+                    </div>
+                    {/* 喜欢 */}
+                    <div onClick={() => handleLikeSong}>
+                      <img
+                        className="like-img"
+                        src={require('@/renderer/assets/images/icons/heart.png')}
+                        alt=""
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </MiniPlayerStyles>

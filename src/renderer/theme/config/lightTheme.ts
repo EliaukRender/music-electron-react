@@ -24,5 +24,6 @@ export const lightTheme = {
     light_gray_white: '#f6f6f6', // 灰白色
     hover: '#e4e4e4', // hover态
     active: '#dddddd', // active激活态
+    deep_gray: '#c3c3c3', // 深灰
   },
 };

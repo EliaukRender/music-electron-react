@@ -10,4 +10,6 @@ export enum KeyboardEnum {
   Enter = 'Enter',
   Space = 'Space',
   Esc = 'Esc',
+  F12 = 'F12',
+  F5 = 'F5',
 }

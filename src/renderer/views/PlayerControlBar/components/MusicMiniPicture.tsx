@@ -38,17 +38,17 @@ const MusicMiniPicture = ({ showLyrics }: IProps) => {
     }
   }, [controls, showLyrics]);
 
-  const onMouseEnter = () => {
+  const onMouseEnter = useCallback(() => {
     if (!showLyrics) {
       controls.start({ opacity: 1, transition: { duration: 0.5 } });
     }
-  };
+  }, [controls, showLyrics]);
 
-  const onMouseLeave = () => {
+  const onMouseLeave = useCallback(() => {
     if (!showLyrics) {
       controls.start({ opacity: 0, transition: { duration: 0.5 } });
     }
-  };
+  }, [controls, showLyrics]);
 
   const handleClick = useCallback(() => {
     dispatch(setShowLyric(!showLyrics));
