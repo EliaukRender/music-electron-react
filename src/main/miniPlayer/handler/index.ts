@@ -4,6 +4,7 @@ import {
   getMiniPlayerWinData,
   setMiniPlayerWinData,
 } from '@/main/miniPlayer/windowData';
+import { MiniPlayerEnum } from '@/main/miniPlayer/constant';
 
 /**
  * @description: 监听miniPlayerWin窗口的事件消息
@@ -63,6 +64,17 @@ export function miniPlayerWinListener(miniPlayerWin: BrowserWindow | null) {
     }
     miniPlayerWin.close();
   });
+
+  /**
+   * 窗口更改高度(歌曲列表折叠时窗口高度变小)
+   */
+  ipcMain.handle(
+    MiniPlayerEventEnum.Change_Mini_Player_Height,
+    (event, data: number) => {
+      miniPlayerWin.setBounds({ height: data });
+      return true;
+    },
+  );
 }
 
 // =================================================
@@ -89,8 +101,8 @@ export function getMiniPlayerWinBounds(miniPlayerWindow: BrowserWindow | null) {
   });
   // 保存窗口位置数据
   return {
-    x: width - bounds.width - 100,
-    y: height - bounds.height - 100,
+    x: width - bounds.width - 200,
+    y: height - bounds.height - 20,
     width: bounds.width,
     height: bounds.height,
   };

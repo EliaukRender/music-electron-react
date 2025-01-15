@@ -8,115 +8,121 @@ export const MiniPlayerStyles = styled.div`
     justify-content: flex-end;
     align-items: center;
 
-    .transparent {
-      width: 100%;
-      height: 20px;
-      background-color: transparent;
-    }
-
     .header {
       width: 100%;
       display: flex;
-      justify-content: flex-start;
-      height: 70px;
-      background-color: #fff;
-      border-radius: 6px;
-      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+      flex-direction: column;
+      height: 90px;
       z-index: 2;
 
-      .left {
-        padding: 0 5px 0 15px;
-
-        .img-pic {
-          width: 72px;
-          height: 72px;
-          border-radius: 50%;
-          transform: translateY(-20px);
-        }
+      .transparent {
+        width: 100%;
+        height: 20px;
+        background-color: transparent;
       }
 
-      .right {
-        flex: 1;
+      .non-transparent {
+        width: 100%;
+        height: 70px;
         display: flex;
-        justify-content: center;
-        align-items: center;
+        background-color: #fff;
+        border-radius: 6px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
 
-        /* 歌曲信息 */
+        .left {
+          padding: 0 5px 0 15px;
 
-        .info-text {
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-
-          .name {
-            margin-bottom: 5px;
+          .img-pic {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            transform: translateY(-20px);
           }
         }
 
-        /* 操作按钮 */
-
-        .btn-group {
-          width: 100%;
-          height: 100%;
+        .right {
+          flex: 1;
           display: flex;
           justify-content: center;
           align-items: center;
-          z-index: 2;
-          position: relative;
 
-          .play-pause {
-            width: 40px;
-            height: 32px;
-            border-radius: 16px;
+          /* 歌曲信息 */
+
+          .info-text {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            .name {
+              margin-bottom: 5px;
+            }
+          }
+
+          /* 操作按钮 */
+
+          .btn-group {
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #00f268;
-          }
+            z-index: 2;
+            position: relative;
 
-          .anticon {
-            margin: 0 10px;
-            padding: 5px;
-            font-size: 26px !important;
-            cursor: pointer;
-
-            &:hover {
-              color: ${({ theme }) =>
-                darkenHexColor(theme.themeColor.active, 10)};
+            .play-pause {
+              width: 40px;
+              height: 32px;
+              border-radius: 16px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background-color: #00f268;
             }
 
-            svg {
-              font-size: 24px;
+            .anticon {
+              margin: 0 10px;
+              padding: 5px;
+              font-size: 26px !important;
+              cursor: pointer;
+
+              &:hover {
+                color: ${({ theme }) =>
+                  darkenHexColor(theme.themeColor.active, 10)};
+              }
+
+              svg {
+                font-size: 24px;
+              }
             }
-          }
 
-          /* 暂停、播放按钮颜色保持不变 */
+            /* 暂停、播放按钮颜色保持不变 */
 
-          .anticon-pause,
-          .anticon-caret-right {
-            svg {
-              color: #666666 !important;
+            .anticon-pause,
+            .anticon-caret-right {
+              svg {
+                color: #666666 !important;
+              }
             }
-          }
 
-          .like-img,
-          .iconfont.icon-liebiao {
-            cursor: pointer;
+            .like-img,
+            .iconfont.icon-liebiao {
+              cursor: pointer;
 
-            &:hover {
-              color: ${({ theme }) =>
-                darkenHexColor(theme.themeColor.active, 10)};
+              &:hover {
+                color: ${({ theme }) =>
+                  darkenHexColor(theme.themeColor.active, 10)};
+              }
             }
-          }
 
-          .iconfont.icon-guanbi {
-            position: absolute;
-            top: 0;
-            right: 5px;
-            font-size: 14px;
-            cursor: pointer;
+            .iconfont.icon-guanbi {
+              position: absolute;
+              top: 0;
+              right: 5px;
+              font-size: 14px;
+              cursor: pointer;
+            }
           }
         }
       }

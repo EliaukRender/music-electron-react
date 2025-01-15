@@ -23,3 +23,20 @@ export const updateMiniPlayerPosition = (data: WindowPositionType) => {
     data,
   );
 };
+
+/**
+ * @description: 改变窗口高度
+ * @param height 窗口高度
+ * @return
+ */
+export const changeWinHeight = async (height: number) => {
+  try {
+    const res = await window.electron.ipcRenderer.invoke(
+      MiniPlayerEventEnum.Change_Mini_Player_Height,
+      height,
+    );
+    return res as boolean;
+  } catch (e) {
+    console.log('error changeWinHeight', e);
+  }
+};

@@ -6,4 +6,5 @@ export enum MiniPlayerEventEnum {
   Update_Mini_Player_Data = 'Update_Mini_Player_Data', // 更新数据
   Update_Mini_Player_Position = 'Update_Mini_Player_Position', // 更新窗口位置
   Close_Mini_Player = 'Close_Mini_Player', // 关闭mini-player
+  Change_Mini_Player_Height = 'Change_Mini_Player_Height', // 切换窗口的高度
 }

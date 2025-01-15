@@ -50,8 +50,13 @@ yarn package
 
 ## 4、常用指令
 ```bash
+// 重置代理
 git config --global --unset http.proxy
 git config --global --unset https.proxy
+
+// 配置代理
+git config --global http.proxy 127.0.0.1:7890
+git config --global https.proxy 127.0.0.1:7890
 ```
 ## 5、模板官方文档
 https://electron-react-boilerplate.js.org/docs/installation

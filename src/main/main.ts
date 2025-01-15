@@ -27,6 +27,7 @@ import { autoUpdater } from 'electron-updater';
 import { RouteEnum } from '@/renderer/constant/routeEnum';
 import { isDebug } from '@/main/processEnv';
 import { miniPlayerWinKeyboardListener } from '@/main/miniPlayer/handler/keyboardListener';
+import { MiniPlayerEnum } from '@/main/miniPlayer/constant';
 
 // 生产环境下安装并启用源映射支持
 if (process.env.NODE_ENV === 'production') {
@@ -125,12 +126,10 @@ const createWindow = async () => {
    * mini-player窗口
    */
   miniPlayerWindow = new BrowserWindow({
-    width: 330,
-    height: 290,
+    width: MiniPlayerEnum.Win_Width,
+    height: MiniPlayerEnum.Win_Height,
     // width: 1000,
     // height: 500,
-    minWidth: 330,
-    minHeight: 290,
     skipTaskbar: true, // 窗口不出现在任务栏上
     frame: false, // 隐藏窗口的工具栏
     transparent: true, // 窗口是否透明

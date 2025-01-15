@@ -10,6 +10,8 @@ import {
   StepForwardOutlined,
 } from '@ant-design/icons';
 import gsap from 'gsap';
+import { changeWinHeight } from '@/renderer/ipcRenderer/miniPlayer/miniPlayerEmitter';
+import { MiniPlayerEnum } from '@/main/miniPlayer/constant';
 
 interface IMiniPlayerData {
   activeSongId: number;
@@ -24,7 +26,6 @@ const MiniPlayer = memo(() => {
   const { stopPropagationEleRef } = useStopPropagation();
   const { dragEleRef } = useUpdateWindowPosition({ isMiniPlayer: true }); // 拖拽
   const [isMouseEnterHeader, setIsMouseEnterHeader] = useState(false);
-  const [isExpand, setIsExpand] = useState(true); // 歌曲列表面板是否展开
   const [activeSongData, setActiveSongData] = useState<IMiniPlayerData>({
     activeSongId: -1,
     activeSongList: [],
@@ -77,15 +78,30 @@ const MiniPlayer = memo(() => {
     //
   }, []);
 
-  // 打开或折叠歌曲列表面板
-  const panelHeight = 198;
-  const showListPanel = useCallback(() => {
+  /**
+   * 打开或折叠歌曲列表面板
+   * 操作窗口的目的是为了看到动画效果，并且透明窗口不会阻止桌面鼠标事件
+   */
+  const [isExpand, setIsExpand] = useState(true); // 歌曲列表是否折叠，初始状态是未折叠
+  const showListPanel = useCallback(async () => {
+    // 当前是展开状态，先折叠页面，再将窗口变小
     if (isExpand) {
-      gsap.to('.bottom-body', { height: 0, duration: 0.2 });
-      setIsExpand(false);
+      gsap.to('.bottom-body', {
+        height: 0,
+        duration: 0.2,
+        onComplete: () => {
+          changeWinHeight(MiniPlayerEnum.Win_Header_Height);
+          setIsExpand(false);
+        },
+      });
     } else {
-      gsap.to('.bottom-body', { height: panelHeight, duration: 0.2 });
+      // 当前是折叠状态，先将窗口变大，再将页面展开
+      await changeWinHeight(MiniPlayerEnum.Win_Height);
       setIsExpand(true);
+      gsap.to('.bottom-body', {
+        height: MiniPlayerEnum.Win_Height - MiniPlayerEnum.Win_Header_Height,
+        duration: 0.2,
+      });
     }
   }, [isExpand]);
 
@@ -110,63 +126,70 @@ const MiniPlayer = memo(() => {
   return (
     <MiniPlayerStyles>
       <div className="mini-player">
-        <div className="transparent"></div>
         <div
           className="header"
           ref={dragEleRef}
           onMouseEnter={() => setIsMouseEnterHeader(true)}
           onMouseLeave={() => setIsMouseEnterHeader(false)}
         >
-          <div className="left">
-            <div ref={stopPropagationEleRef}>
-              <img className="img-pic" src={activeSong?.songPic} alt="" />
+          <div className="transparent"></div>
+          <div className="non-transparent">
+            <div className="left">
+              <div ref={stopPropagationEleRef}>
+                <img className="img-pic" src={activeSong?.songPic} alt="" />
+              </div>
+            </div>
+            <div className="right">
+              {!isMouseEnterHeader ? (
+                <div className="info-text">
+                  <div className="name">{activeSong?.songName}</div>
+                  <div className="singer">{activeSong?.singer}</div>
+                </div>
+              ) : (
+                <div className="btn-group">
+                  {/* 喜欢 */}
+                  <div onClick={() => handleLikeSong}>
+                    <img
+                      className="like-img"
+                      src={require('@/renderer/assets/images/icons/heart.png')}
+                      alt=""
+                    />
+                  </div>
+                  {/* 上一首 */}
+                  <StepBackwardOutlined onClick={() => handlePreSong} />
+                  {/* 播放暂停 */}
+                  <div className="play-pause">
+                    {!activeSongData.isPlaying && (
+                      <CaretRightOutlined onClick={() => handlePlaySong} />
+                    )}
+                    {activeSongData.isPlaying && (
+                      <PauseOutlined onClick={() => handlePauseSong} />
+                    )}
+                  </div>
+                  {/* 下一首 */}
+                  <StepForwardOutlined onClick={() => handleNextSong} />
+                  {/* 折叠、收起 */}
+                  <div onClick={showListPanel}>
+                    <i className="iconfont icon-liebiao"></i>
+                  </div>
+                  {/* 关闭mini-player */}
+                  <div>
+                    <i
+                      className="iconfont icon-guanbi"
+                      onClick={handleCloseMiniPlayer}
+                    ></i>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-          <div className="right">
-            {!isMouseEnterHeader ? (
-              <div className="info-text">
-                <div className="name">{activeSong?.songName}</div>
-                <div className="singer">{activeSong?.singer}</div>
-              </div>
-            ) : (
-              <div className="btn-group">
-                {/* 喜欢 */}
-                <div onClick={() => handleLikeSong}>
-                  <img
-                    className="like-img"
-                    src={require('@/renderer/assets/images/icons/heart.png')}
-                    alt=""
-                  />
-                </div>
-                {/* 上一首 */}
-                <StepBackwardOutlined onClick={() => handlePreSong} />
-                {/* 播放暂停 */}
-                <div className="play-pause">
-                  {!activeSongData.isPlaying && (
-                    <CaretRightOutlined onClick={() => handlePlaySong} />
-                  )}
-                  {activeSongData.isPlaying && (
-                    <PauseOutlined onClick={() => handlePauseSong} />
-                  )}
-                </div>
-                {/* 下一首 */}
-                <StepForwardOutlined onClick={() => handleNextSong} />
-                {/* 折叠、收起 */}
-                <div onClick={showListPanel}>
-                  <i className="iconfont icon-liebiao"></i>
-                </div>
-                {/* 关闭mini-player */}
-                <div>
-                  <i
-                    className="iconfont icon-guanbi"
-                    onClick={handleCloseMiniPlayer}
-                  ></i>
-                </div>
-              </div>
-            )}
-          </div>
         </div>
-        <div className="bottom-body" style={{ height: `${panelHeight}px` }}>
+        <div
+          className="bottom-body"
+          style={{
+            height: `${MiniPlayerEnum.Win_Height - MiniPlayerEnum.Win_Header_Height}px`,
+          }}
+        >
           {/* 播放队列的歌曲列表 */}
           <div className="song-list">
             {activeSongData.activeSongList.map((item, index) => {
