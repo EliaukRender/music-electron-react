@@ -5,31 +5,12 @@ import {
   setMiniPlayerWinData,
 } from '@/main/miniPlayer/windowData';
 import { getScreenWidthHeight } from '@/main/util';
-import { getMainWindowData } from '@/main/mainWindow/windowData';
 
 /**
  * @description: 监听miniPlayerWin窗口的事件消息
  */
 export function miniPlayerWinListener(miniPlayerWin: BrowserWindow | null) {
   if (!miniPlayerWin) return;
-  /**
-   * 显示 或者 隐藏 mini-player窗口
-   */
-  ipcMain.on(MiniPlayerEventEnum.Show_Hidden_Mini_Player, (event, data) => {
-    miniPlayerWin.webContents.send(
-      MiniPlayerEventEnum.Update_Mini_Player_Data,
-      data,
-    );
-    if (miniPlayerWin.isVisible()) {
-      miniPlayerWin.minimize();
-    } else {
-      miniPlayerWin.setPosition(
-        getMiniPlayerWinData().bounds.x,
-        getMiniPlayerWinData().bounds.y,
-      );
-      miniPlayerWin.restore();
-    }
-  });
 
   /**
    * 更新位置

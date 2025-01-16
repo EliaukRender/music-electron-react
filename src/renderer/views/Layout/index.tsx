@@ -11,12 +11,18 @@ import { RouteEnum } from '@/renderer/constant/routeEnum';
 import ContextMenu from '@/renderer/views/ContextMenu/ContextMenu';
 import { useContextMenu } from '@/renderer/hooks/useContextMenu';
 import { usePreDragImage } from '@/renderer/hooks/usePreDragImage';
+import { useUpdateMiniPlayerData } from '@/renderer/hooks/useUpdateMiniPlayerData';
 
 /**
- *  APP首页--框架入口
+ * @description: APP首页--框架入口
  */
 function Layout() {
-  usePreDragImage();
+  /**
+   * hooks
+   */
+  usePreDragImage(); // 禁止图片拖拽
+  useUpdateMiniPlayerData(); // 更新mini-player数据
+
   /**
    * 鼠标右键hooks
    */

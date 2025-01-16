@@ -49,6 +49,18 @@ export default {
       },
     );
   },
+
+  // 更新mini-player窗口中的数据
+  updateMiniPlayerData: () => {
+    window.electron.ipcRenderer.sendMessage(
+      MiniPlayerEventEnum.Update_Mini_Player_Data,
+      {
+        activeSongId: store.getState().playerControl.activeSongId,
+        activeSongList: store.getState().playerControl.activeSongList,
+        isPlaying: store.getState().audioPlayer.isPlaying,
+      },
+    );
+  },
 };
 
 /**

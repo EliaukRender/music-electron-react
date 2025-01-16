@@ -164,6 +164,12 @@ export const MiniPlayerStyles = styled.div`
           padding: 0 15px;
           background-color: ${({ theme }) => theme.bgcColor.light_gray_white};
 
+          .name {
+            &-active {
+              color: ${({ theme }) => theme.themeColor.hover};
+            }
+          }
+
           /* 操作按钮 */
           .song-item-btn-group {
             display: flex;

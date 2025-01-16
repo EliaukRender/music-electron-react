@@ -49,7 +49,7 @@ const ControlBtnGroup = ({ showLyrics }: IProps) => {
         <StepBackwardOutlined onClick={() => playPreSong} />
         {/* 播放暂停 */}
         <div className="play-pause">
-          {!isPlaying && <CaretRightOutlined onClick={() => playSong} />}
+          {!isPlaying && <CaretRightOutlined onClick={() => playSong()} />}
           {isPlaying && <PauseOutlined onClick={() => pauseAudio()} />}
         </div>
         {/* 下一首 */}

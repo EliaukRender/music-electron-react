@@ -187,7 +187,7 @@ app
     await createWindow();
 
     // 监听窗口中的事件
-    mainWindowListener(mainWindow);
+    mainWindowListener(mainWindow, miniPlayerWindow);
     mainWinKeyboardListener(mainWindow);
     miniPlayerWinListener(miniPlayerWindow);
     miniPlayerWinKeyboardListener(miniPlayerWindow);

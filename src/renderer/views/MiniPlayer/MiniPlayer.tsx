@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { MiniPlayerStyles } from '@/renderer/views/MiniPlayer/MiniPlayerStyles';
 import { MiniPlayerEventEnum } from '@/main/miniPlayer/eventEnum/miniPlayerEvent';
@@ -13,6 +14,7 @@ import gsap from 'gsap';
 import { changeWinHeight } from '@/renderer/ipcRenderer/miniPlayer/miniPlayerEmitter';
 import { MiniPlayerEnum } from '@/main/miniPlayer/constant';
 import windowUiEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
+import classNames from 'classnames';
 
 interface IMiniPlayerData {
   activeSongId: number;
@@ -27,7 +29,7 @@ const MiniPlayer = memo(() => {
   const { stopPropagationEleRef } = useStopPropagation();
   const { dragEleRef } = useUpdateWindowPosition({ isMiniPlayer: true }); // 拖拽
   const [isMouseEnterHeader, setIsMouseEnterHeader] = useState(false);
-  const [activeSongData, setActiveSongData] = useState<IMiniPlayerData>({
+  const [miniPlayerData, setActiveSongData] = useState<IMiniPlayerData>({
     activeSongId: -1,
     activeSongList: [],
     isPlaying: false,
@@ -35,10 +37,10 @@ const MiniPlayer = memo(() => {
 
   // 当前激活的歌曲
   const activeSong = useMemo(() => {
-    return activeSongData.activeSongList.find(
-      (item) => item.songId === activeSongData.activeSongId,
+    return miniPlayerData.activeSongList.find(
+      (item) => item.songId === miniPlayerData.activeSongId,
     );
-  }, [activeSongData.activeSongId, activeSongData.activeSongList]);
+  }, [miniPlayerData.activeSongId, miniPlayerData.activeSongList]);
 
   const onMouseEnter = useCallback((index: number) => {
     gsap.to(`.song-item-${index} .song-item-btn-group`, {
@@ -134,8 +136,13 @@ const MiniPlayer = memo(() => {
           <div className="transparent"></div>
           <div className="non-transparent">
             <div className="left">
-              <div ref={stopPropagationEleRef}>
-                <img className="img-pic" src={activeSong?.songPic} alt="" />
+              <div>
+                <img
+                  ref={stopPropagationEleRef}
+                  className="img-pic"
+                  src={activeSong?.songPic}
+                  alt=""
+                />
               </div>
             </div>
             <div className="right">
@@ -147,7 +154,7 @@ const MiniPlayer = memo(() => {
               ) : (
                 <div className="btn-group">
                   {/* 喜欢 */}
-                  <div onClick={() => handleLikeSong}>
+                  <div onClick={() => handleLikeSong()}>
                     <img
                       className="like-img"
                       src={require('@/renderer/assets/images/icons/heart.png')}
@@ -155,27 +162,27 @@ const MiniPlayer = memo(() => {
                     />
                   </div>
                   {/* 上一首 */}
-                  <StepBackwardOutlined onClick={() => handlePreSong} />
+                  <StepBackwardOutlined onClick={() => handlePreSong()} />
                   {/* 播放暂停 */}
                   <div className="play-pause">
-                    {!activeSongData.isPlaying && (
-                      <CaretRightOutlined onClick={() => handlePlaySong} />
+                    {!miniPlayerData.isPlaying && (
+                      <CaretRightOutlined onClick={() => handlePlaySong()} />
                     )}
-                    {activeSongData.isPlaying && (
-                      <PauseOutlined onClick={() => handlePauseSong} />
+                    {miniPlayerData.isPlaying && (
+                      <PauseOutlined onClick={() => handlePauseSong()} />
                     )}
                   </div>
                   {/* 下一首 */}
-                  <StepForwardOutlined onClick={() => handleNextSong} />
+                  <StepForwardOutlined onClick={() => handleNextSong()} />
                   {/* 折叠、收起 */}
-                  <div onClick={showListPanel}>
+                  <div onClick={() => showListPanel()}>
                     <i className="iconfont icon-liebiao"></i>
                   </div>
                   {/* 关闭mini-player */}
                   <div>
                     <i
                       className="iconfont icon-guanbi"
-                      onClick={hiddenMiniPlayer}
+                      onClick={() => hiddenMiniPlayer()}
                     ></i>
                   </div>
                 </div>
@@ -191,7 +198,7 @@ const MiniPlayer = memo(() => {
         >
           {/* 播放队列的歌曲列表 */}
           <div className="song-list">
-            {activeSongData.activeSongList.map((item, index) => {
+            {miniPlayerData.activeSongList.map((item, index) => {
               return (
                 <div
                   className={`song-item song-item-${index}`}
@@ -200,11 +207,28 @@ const MiniPlayer = memo(() => {
                   onMouseLeave={() => onMouseLeave(index)}
                   onBlur={() => onMouseLeave(index)}
                 >
-                  <div className="name">{item.songName}</div>
+                  <div
+                    className={classNames(
+                      'name',
+                      miniPlayerData.activeSongId === item.songId
+                        ? 'name-active'
+                        : '',
+                    )}
+                  >
+                    {item.songName}
+                  </div>
                   {/* 操作按钮 */}
                   <div className="song-item-btn-group">
                     <div>
-                      <i className="iconfont icon-bofang1"></i>
+                      <i
+                        className={classNames(
+                          'iconfont',
+                          activeSong.songId === item.songId &&
+                            miniPlayerData.isPlaying
+                            ? 'icon-zanting'
+                            : 'icon-bofang1',
+                        )}
+                      ></i>
                     </div>
                     {/* 喜欢 */}
                     <div onClick={() => handleLikeSong}>

@@ -6,12 +6,17 @@ import {
 } from '@/main/mainWindow/windowData';
 import { WindowPositionType } from '@/types/commonTypes';
 import { getScreenWidthHeight } from '@/main/util';
+import { MiniPlayerEventEnum } from '@/main/miniPlayer/eventEnum/miniPlayerEvent';
+import { getMiniPlayerWinData } from '@/main/miniPlayer/windowData';
 
 /**
  *  主窗口 事件监听
  *  监听主窗口UI相关的一些事件：最小化、最小化、全屏、mini播放器
  */
-export const mainWindowListener = (mainWin: BrowserWindow | null) => {
+export const mainWindowListener = (
+  mainWin: BrowserWindow | null,
+  miniPlayerWin: BrowserWindow | null,
+) => {
   if (!mainWin) return;
   /**
    *  全屏、退出全屏事件
@@ -177,6 +182,33 @@ export const mainWindowListener = (mainWin: BrowserWindow | null) => {
    */
   mainWin.on('move', () => {
     handleMove(mainWin);
+  });
+
+  /**
+   *  显示或隐藏 mini-player窗口
+   */
+  ipcMain.on(MiniPlayerEventEnum.Show_Hidden_Mini_Player, (event, data) => {
+    if (!miniPlayerWin) return;
+    if (miniPlayerWin.isVisible()) {
+      miniPlayerWin.minimize();
+    } else {
+      miniPlayerWin.setPosition(
+        getMiniPlayerWinData().bounds.x,
+        getMiniPlayerWinData().bounds.y,
+      );
+      miniPlayerWin.restore();
+    }
+  });
+
+  /**
+   *   更新mini-player窗口中的数据
+   */
+  ipcMain.on(MiniPlayerEventEnum.Update_Mini_Player_Data, (event, data) => {
+    if (!miniPlayerWin) return;
+    miniPlayerWin.webContents.send(
+      MiniPlayerEventEnum.Update_Mini_Player_Data,
+      data,
+    );
   });
 };
 

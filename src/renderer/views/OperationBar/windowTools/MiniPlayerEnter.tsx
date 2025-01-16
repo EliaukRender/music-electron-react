@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
 import windowUiEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
 
@@ -8,11 +8,13 @@ import windowUiEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
 const MiniPlayerEnter = memo(() => {
   const { stopPropagationEleRef } = useStopPropagation();
 
+  const clickMini = useCallback(() => {
+    windowUiEmitter.updateMiniPlayerData();
+    windowUiEmitter.showHiddenMiniPlayer();
+  }, []);
+
   return (
-    <div
-      onClick={() => windowUiEmitter.showHiddenMiniPlayer()}
-      ref={stopPropagationEleRef}
-    >
+    <div onClick={() => clickMini()} ref={stopPropagationEleRef}>
       <i className="iconfont icon-mini-app"></i>
     </div>
   );
