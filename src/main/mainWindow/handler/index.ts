@@ -38,14 +38,12 @@ export const mainWindowListener = (mainWin: BrowserWindow | null) => {
     console.log('最大化', mainWin.isMaximized());
     if (mainWin.isMaximized()) {
       mainWin.unmaximize();
-      // @ts-ignore
       mainWin.on('move', () => {
         handleMove(mainWin);
       });
     } else {
       setMainWindowData({ bounds: mainWin.getBounds() }); // 最大化之前，记录窗口信息
       // 最大化之前，移除move监听
-      // @ts-ignore
       mainWin.off('move', () => {
         handleMove(mainWin);
       });
@@ -161,7 +159,6 @@ export const mainWindowListener = (mainWin: BrowserWindow | null) => {
    *  调整窗口大小后触发
    */
   mainWin.on('resized', () => {
-    // console.log('resized');
     const bounds = mainWin.getBounds();
     setMainWindowData({ bounds });
   });
@@ -169,14 +166,7 @@ export const mainWindowListener = (mainWin: BrowserWindow | null) => {
   /**
    *  窗口移动到新位置时触发
    */
-  // @ts-ignore
   mainWin.on('move', () => {
-    console.log('move');
-    handleMove(mainWin);
-  });
-
-  mainWin.on('moved', () => {
-    console.log('moved');
     handleMove(mainWin);
   });
 };
@@ -186,7 +176,6 @@ export const mainWindowListener = (mainWin: BrowserWindow | null) => {
 // 窗口move时保存窗口信息
 function handleMove(mainWin: BrowserWindow) {
   const bounds = mainWin.getBounds();
-  console.log(bounds);
   setMainWindowData({ bounds });
 }
 
