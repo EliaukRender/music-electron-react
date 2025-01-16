@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
+import windowUIEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
 import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
 
 /**

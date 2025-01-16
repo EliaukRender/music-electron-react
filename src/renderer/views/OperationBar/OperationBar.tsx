@@ -9,11 +9,11 @@ import MaxScreen from '@/renderer/views/OperationBar/windowTools/MaxScreen';
 import CloseApp from '@/renderer/views/OperationBar/windowTools/CloseApp';
 import { useUpdateWindowPosition } from '@/renderer/hooks/useUpdateWindowPosition';
 import { useDoubleClick } from '@/renderer/hooks/useDoubleClick';
-import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
+import windowUIEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
 import { setIsMaximize } from '@/renderer/store/modules/globalReducer';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
-import MiniPlayer from '@/renderer/views/OperationBar/windowTools/MiniPlayer';
+import MiniPlayerEnter from '@/renderer/views/OperationBar/windowTools/MiniPlayerEnter';
 
 /**
  * @description: 顶部操作栏区域
@@ -46,7 +46,7 @@ const OperationBar: React.FC = () => {
         {/* 主题切换 */}
         <ChangeTheme></ChangeTheme>
         {/* mini播放器 */}
-        <MiniPlayer></MiniPlayer>
+        <MiniPlayerEnter></MiniPlayerEnter>
         {/* 最小化 */}
         <MinScreen></MinScreen>
         {/* 最大化 */}

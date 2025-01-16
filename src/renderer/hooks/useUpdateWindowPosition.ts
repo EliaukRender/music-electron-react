@@ -1,4 +1,4 @@
-import updatePositionEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
+import updatePositionEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import store from '@/renderer/store';
 import { throttle } from 'lodash';
@@ -30,7 +30,7 @@ export function useUpdateWindowPosition({
       !isMiniPlayer && updatePositionEmitter.setPosition({ x, y });
       isMiniPlayer && updateMiniPlayerPosition({ x, y });
     },
-    [clientX, clientY, isMouseDown],
+    [clientX, clientY, isMiniPlayer, isMouseDown],
   );
 
   const throttleMove = throttle(handleMouseMove, 10, {

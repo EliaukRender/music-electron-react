@@ -6,11 +6,12 @@ import {
 } from '@/renderer/store/modules/globalReducer';
 import store from '@/renderer/store';
 import { WindowPositionType } from '@/types/commonTypes';
+import { MiniPlayerEventEnum } from '@/main/miniPlayer/eventEnum/miniPlayerEvent';
 
 const { dispatch } = store;
 
 /**
- * 给主线程的窗口事件消息
+ *  渲染进程 ===> 主线程 : 发送窗口UI相关的事件
  */
 export default {
   // 最大化app窗口
@@ -37,10 +38,21 @@ export default {
   setPosition: (data: WindowPositionType) => {
     window.electron.ipcRenderer.sendMessage(WindowUIEvent.Set_Position, data);
   },
+
+  // 显示或隐藏mini-player窗口
+  showHiddenMiniPlayer: () => {
+    window.electron.ipcRenderer.sendMessage(
+      MiniPlayerEventEnum.Show_Hidden_Mini_Player,
+      {
+        activeSongId: store.getState().playerControl.activeSongId,
+        activeSongList: store.getState().playerControl.activeSongList,
+      },
+    );
+  },
 };
 
 /**
- *  监听主线程的窗口事件消息
+ *  主线程 ===> 渲染进程 : 监听窗口事件的消息，更新渲染进程的窗口数据
  */
 export const windowUiHandler = () => {
   window.electron.ipcRenderer.on(WindowUIEvent.Maximize, (data) => {

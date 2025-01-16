@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { setShowLyric } from '@/renderer/store/modules/playerControlReducer';
-import windowUi from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
+import windowUi from '@/renderer/ipcRenderer/mainWindow/windowUi';
 
 interface IProps {
   showLyrics: boolean;

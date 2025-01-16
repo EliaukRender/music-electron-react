@@ -12,6 +12,7 @@ import {
 import gsap from 'gsap';
 import { changeWinHeight } from '@/renderer/ipcRenderer/miniPlayer/miniPlayerEmitter';
 import { MiniPlayerEnum } from '@/main/miniPlayer/constant';
+import windowUiEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
 
 interface IMiniPlayerData {
   activeSongId: number;
@@ -105,11 +106,9 @@ const MiniPlayer = memo(() => {
     }
   }, [isExpand]);
 
-  // 关闭mini-player
-  const handleCloseMiniPlayer = useCallback(() => {
-    window.electron.ipcRenderer.sendMessage(
-      MiniPlayerEventEnum.Close_Mini_Player,
-    );
+  // 隐藏mini-player
+  const hiddenMiniPlayer = useCallback(() => {
+    windowUiEmitter.showHiddenMiniPlayer();
   }, []);
 
   useEffect(() => {
@@ -176,7 +175,7 @@ const MiniPlayer = memo(() => {
                   <div>
                     <i
                       className="iconfont icon-guanbi"
-                      onClick={handleCloseMiniPlayer}
+                      onClick={hiddenMiniPlayer}
                     ></i>
                   </div>
                 </div>

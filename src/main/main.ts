@@ -35,6 +35,15 @@ if (process.env.NODE_ENV === 'production') {
   sourceMapSupport.install();
 }
 
+// 获取静态资源路径
+const RESOURCES_PATH = app.isPackaged
+  ? path.join(process.resourcesPath, 'assets')
+  : path.join(__dirname, '../../assets');
+
+const getAssetPath = (...paths: string[]): string => {
+  return path.join(RESOURCES_PATH, ...paths);
+};
+
 // APP更新
 class AppUpdater {
   constructor() {
@@ -75,15 +84,6 @@ const createWindow = async () => {
     await installExtensions();
   }
 
-  // 获取静态资源路径
-  const RESOURCES_PATH = app.isPackaged
-    ? path.join(process.resourcesPath, 'assets')
-    : path.join(__dirname, '../../assets');
-
-  const getAssetPath = (...paths: string[]): string => {
-    return path.join(RESOURCES_PATH, ...paths);
-  };
-
   /**
    *  主窗口
    */
@@ -119,8 +119,12 @@ const createWindow = async () => {
     }
   });
 
+  // 主窗口销毁时，所有窗口全部被销毁
   mainWindow.once('closed', () => {
     mainWindow = null;
+    BrowserWindow.getAllWindows()?.forEach((window) => {
+      window?.close();
+    });
   });
 
   /**
@@ -135,6 +139,7 @@ const createWindow = async () => {
     frame: false, // 隐藏窗口的工具栏
     transparent: true, // 窗口是否透明
     alwaysOnTop: true, // 设置窗口始终置顶
+    resizable: isDebug, // 是否可以设置窗口大小
     icon: getAssetPath('icon.png'),
     fullscreen: false,
     webPreferences: {

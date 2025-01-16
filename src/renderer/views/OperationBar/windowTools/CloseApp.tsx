@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
+import windowUIEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
 import { Modal } from 'antd';
 import { CloseAppStyles } from '@/renderer/views/OperationBar/styles/CloseAppStyles';
 import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';

@@ -3,7 +3,7 @@ import {
   KeyboardEnum,
 } from '@/main/mainWindow/eventEnum/keyboardEvent';
 import store from '@/renderer/store';
-import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
+import windowUIEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
 import {
   pauseAudio,
   playSong,
@@ -13,7 +13,7 @@ import { setShowLyric } from '@/renderer/store/modules/playerControlReducer';
 const { dispatch } = store;
 
 /**
- * @description: 监听主线程的键盘事件
+ * @description: 主线程 ===> 渲染进程 : 监听键盘事件
  */
 export const KeyboardHandler = () => {
   window.electron.ipcRenderer.on(KeyboardEventEnum.Keyboard, (data) => {

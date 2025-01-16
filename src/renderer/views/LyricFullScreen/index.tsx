@@ -12,7 +12,7 @@ import JukeBox from '@/renderer/views/LyricFullScreen/components/JukeBox';
 import MinScreen from '@/renderer/views/OperationBar/windowTools/MinScreen';
 import AnalyzeCanvas from '@/renderer/views/LyricFullScreen/components/AnalyzeCanvas';
 import { useDoubleClick } from '@/renderer/hooks/useDoubleClick';
-import windowUIEmitter from '@/renderer/ipcRenderer/rendererInteraction/windowUi';
+import windowUIEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
 import { setIsMaximize } from '@/renderer/store/modules/globalReducer';
 
 /**

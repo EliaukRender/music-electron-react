@@ -4,7 +4,6 @@ import {
   getMiniPlayerWinData,
   setMiniPlayerWinData,
 } from '@/main/miniPlayer/windowData';
-import { MiniPlayerEnum } from '@/main/miniPlayer/constant';
 
 /**
  * @description: 监听miniPlayerWin窗口的事件消息
@@ -20,14 +19,8 @@ export function miniPlayerWinListener(miniPlayerWin: BrowserWindow | null) {
       data,
     );
     if (miniPlayerWin.isVisible()) {
-      console.log('******打开mini111111111111');
       miniPlayerWin.minimize();
     } else {
-      console.log(
-        '******打开mini222222222',
-        getMiniPlayerWinData().bounds.x,
-        getMiniPlayerWinData().bounds.y,
-      );
       miniPlayerWin.setPosition(
         getMiniPlayerWinData().bounds.x,
         getMiniPlayerWinData().bounds.y,
@@ -55,17 +48,6 @@ export function miniPlayerWinListener(miniPlayerWin: BrowserWindow | null) {
   });
 
   /**
-   *  关闭mini-player
-   */
-  ipcMain.on(MiniPlayerEventEnum.Close_Mini_Player, (event, data) => {
-    if (!miniPlayerWin) {
-      console.error('mini-player窗口不存在');
-      return;
-    }
-    miniPlayerWin.close();
-  });
-
-  /**
    * 窗口更改高度(歌曲列表折叠时窗口高度变小)
    */
   ipcMain.handle(
@@ -82,7 +64,6 @@ export function miniPlayerWinListener(miniPlayerWin: BrowserWindow | null) {
 // 窗口move时暂存窗口位置信息
 function handleMove(miniPlayerWin: BrowserWindow): void {
   const bounds = miniPlayerWin.getBounds();
-  if (bounds.x === -9999) return;
   setMiniPlayerWinData({ bounds });
 }
 
@@ -93,12 +74,6 @@ export function getMiniPlayerWinBounds(miniPlayerWindow: BrowserWindow | null) {
   if (!bounds?.width) return;
   const { screen } = require('electron');
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
-  console.log('初始化默认数据', {
-    x: width - bounds.width - 100,
-    y: height - bounds.height - 100,
-    width: bounds.width,
-    height: bounds.height,
-  });
   // 保存窗口位置数据
   return {
     x: width - bounds.width - 200,
