@@ -35,14 +35,6 @@ if (process.env.NODE_ENV === 'production') {
   sourceMapSupport.install();
 }
 
-// 获取静态资源路径
-const getAssetPath = (...paths: string[]): string => {
-  const RESOURCES_PATH = app.isPackaged
-    ? path.join(process.resourcesPath, 'assets')
-    : path.join(__dirname, '../../assets');
-  return path.join(RESOURCES_PATH, ...paths);
-};
-
 // APP更新
 class AppUpdater {
   constructor() {
@@ -82,6 +74,15 @@ const createWindow = async () => {
   if (isDebug) {
     await installExtensions();
   }
+
+  // 获取静态资源路径
+  const RESOURCES_PATH = app.isPackaged
+    ? path.join(process.resourcesPath, 'assets')
+    : path.join(__dirname, '../../assets');
+
+  const getAssetPath = (...paths: string[]): string => {
+    return path.join(RESOURCES_PATH, ...paths);
+  };
 
   /**
    *  主窗口
@@ -176,16 +177,15 @@ const createWindow = async () => {
  */
 app
   .whenReady()
-  .then(() => {
-    createWindow()
-      .then(() => {
-        // 监听窗口中的事件
-        mainWindowListener(mainWindow);
-        mainWinKeyboardListener(mainWindow);
-        miniPlayerWinListener(miniPlayerWindow);
-        miniPlayerWinKeyboardListener(miniPlayerWindow);
-      })
-      .catch(() => {});
+  .then(async () => {
+    // 创建窗口
+    await createWindow();
+
+    // 监听窗口中的事件
+    mainWindowListener(mainWindow);
+    mainWinKeyboardListener(mainWindow);
+    miniPlayerWinListener(miniPlayerWindow);
+    miniPlayerWinKeyboardListener(miniPlayerWindow);
 
     // App激活的时候
     app.on('activate', async () => {

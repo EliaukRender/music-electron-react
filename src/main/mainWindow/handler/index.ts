@@ -15,7 +15,7 @@ export const mainWindowListener = (mainWin: BrowserWindow | null) => {
   /**
    *  全屏、退出全屏事件
    */
-  ipcMain.on(WindowUIEvent.Full_Screen, (event, data) => {
+  ipcMain.on(WindowUIEvent.Full_Screen, () => {
     if (!mainWin) {
       console.error('窗口不存在');
       return;
@@ -30,21 +30,26 @@ export const mainWindowListener = (mainWin: BrowserWindow | null) => {
   /**
    *   窗口最大化、退出最大化
    */
-  ipcMain.on(WindowUIEvent.Maximize, (event, data) => {
+  ipcMain.on(WindowUIEvent.Maximize, () => {
     if (!mainWin) {
       console.error('窗口不存在');
       return;
     }
+    console.log('最大化', mainWin.isMaximized());
     if (mainWin.isMaximized()) {
       mainWin.unmaximize();
       // @ts-ignore
-      mainWin.on('move', handleMove(mainWin));
+      mainWin.on('move', () => {
+        handleMove(mainWin);
+      });
     } else {
-      // 最大化之前记录位置信息
-      setMainWindowData({ bounds: mainWin.getBounds() });
-      // 移除move监听，最大化时会触发move
+      setMainWindowData({ bounds: mainWin.getBounds() }); // 最大化之前，记录窗口信息
+      // 最大化之前，移除move监听
       // @ts-ignore
-      mainWin.off('move', handleMove(mainWin));
+      mainWin.off('move', () => {
+        handleMove(mainWin);
+      });
+      mainWin.maximize();
       mainWin.webContents.send(
         WindowUIEvent.Maximize,
         getMainWindowData().isMaximized,
@@ -55,7 +60,7 @@ export const mainWindowListener = (mainWin: BrowserWindow | null) => {
   /**
    *  最小化
    */
-  ipcMain.on(WindowUIEvent.Minimize, (event, data) => {
+  ipcMain.on(WindowUIEvent.Minimize, () => {
     if (!mainWin) {
       console.error('窗口不存在');
       return;
@@ -66,7 +71,7 @@ export const mainWindowListener = (mainWin: BrowserWindow | null) => {
   /**
    *  销毁窗口
    */
-  ipcMain.on(WindowUIEvent.Close, (event, data) => {
+  ipcMain.on(WindowUIEvent.Close, () => {
     if (!mainWin) {
       console.error('窗口不存在');
       return;
@@ -164,16 +169,24 @@ export const mainWindowListener = (mainWin: BrowserWindow | null) => {
   /**
    *  窗口移动到新位置时触发
    */
+  // @ts-ignore
   mainWin.on('move', () => {
+    console.log('move');
+    handleMove(mainWin);
+  });
+
+  mainWin.on('moved', () => {
+    console.log('moved');
     handleMove(mainWin);
   });
 };
 
 // ====================================
 
-// 窗口move时暂存窗口位置信息
+// 窗口move时保存窗口信息
 function handleMove(mainWin: BrowserWindow) {
   const bounds = mainWin.getBounds();
+  console.log(bounds);
   setMainWindowData({ bounds });
 }
 
