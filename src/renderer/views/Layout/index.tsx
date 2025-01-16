@@ -10,11 +10,13 @@ import { useNavigate } from 'react-router-dom';
 import { RouteEnum } from '@/renderer/constant/routeEnum';
 import ContextMenu from '@/renderer/views/ContextMenu/ContextMenu';
 import { useContextMenu } from '@/renderer/hooks/useContextMenu';
+import { usePreDragImage } from '@/renderer/hooks/usePreDragImage';
 
 /**
  *  APP首页--框架入口
  */
 function Layout() {
+  usePreDragImage();
   /**
    * 鼠标右键hooks
    */

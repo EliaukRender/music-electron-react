@@ -5,6 +5,7 @@ import {
   getMainWindowData,
 } from '@/main/mainWindow/windowData';
 import { WindowPositionType } from '@/types/commonTypes';
+import { getScreenWidthHeight } from '@/main/util';
 
 /**
  *  主窗口 事件监听
@@ -85,7 +86,15 @@ export const mainWindowListener = (mainWin: BrowserWindow | null) => {
       console.error('窗口不存在');
       return;
     }
+    const { screenWidth, screenHeight } = getScreenWidthHeight();
+    // todo 考虑多显示器场景
+    const { bounds } = getMainWindowData();
+    if (data.y < -10) return; // 上
+    if (screenHeight - data.y <= 90) return; // 下
+    if (data.x < -(bounds!.width * 0.7)) return; // 左
+    if (screenWidth - data.x < bounds!.width * 0.3) return; // 右
     mainWin.setPosition(data.x, data.y);
+    // console.log(data.x, data.y);
   });
 
   /**

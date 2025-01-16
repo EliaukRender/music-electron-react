@@ -4,6 +4,8 @@ import {
   getMiniPlayerWinData,
   setMiniPlayerWinData,
 } from '@/main/miniPlayer/windowData';
+import { getScreenWidthHeight } from '@/main/util';
+import { getMainWindowData } from '@/main/mainWindow/windowData';
 
 /**
  * @description: 监听miniPlayerWin窗口的事件消息
@@ -37,7 +39,15 @@ export function miniPlayerWinListener(miniPlayerWin: BrowserWindow | null) {
       console.error('窗口不存在');
       return;
     }
+    const { screenWidth, screenHeight } = getScreenWidthHeight();
+    // todo 考虑多显示器场景
+    const { bounds } = getMiniPlayerWinData();
+    if (data.y < -10) return; // 上
+    if (screenHeight - data.y <= 50) return; // 下
+    if (data.x < -(bounds!.width * 0.7)) return; // 左
+    if (screenWidth - data.x < bounds!.width * 0.3) return; // 右
     miniPlayerWin.setPosition(data.x, data.y);
+    // console.log(data.x, data.y);
   });
 
   /**
@@ -72,12 +82,11 @@ export function getMiniPlayerWinBounds(miniPlayerWindow: BrowserWindow | null) {
   if (!miniPlayerWindow) return;
   const bounds = miniPlayerWindow?.getBounds();
   if (!bounds?.width) return;
-  const { screen } = require('electron');
-  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+  const { screenWidth, screenHeight } = getScreenWidthHeight();
   // 保存窗口位置数据
   return {
-    x: width - bounds.width - 200,
-    y: height - bounds.height - 20,
+    x: screenWidth - bounds.width - 50,
+    y: screenHeight - bounds.height - 2,
     width: bounds.width,
     height: bounds.height,
   };

@@ -1,7 +1,8 @@
 import { URL, format } from 'url';
 import path from 'path';
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, screen } from 'electron';
 import { isDebug } from '@/main/processEnv';
+import { IScreen } from '@/main/interface/window';
 
 /**
  * @description: 窗口获取当前加载的页面资源的路径
@@ -53,4 +54,16 @@ export function reloadWebContent(win: BrowserWindow | null) {
   if (isDebug) {
     win.webContents.reload();
   }
+}
+
+/**
+ * @description: 获取电脑屏幕的宽高
+ * @return
+ */
+export function getScreenWidthHeight(): IScreen {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+  return {
+    screenWidth: width,
+    screenHeight: height,
+  };
 }

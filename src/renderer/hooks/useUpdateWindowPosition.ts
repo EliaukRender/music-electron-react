@@ -1,4 +1,4 @@
-import updatePositionEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
+import windowUiEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import store from '@/renderer/store';
 import { throttle } from 'lodash';
@@ -27,7 +27,7 @@ export function useUpdateWindowPosition({
       if (isFullScreen || isMaximize) return;
       const x = e.screenX - clientX;
       const y = e.screenY - clientY;
-      !isMiniPlayer && updatePositionEmitter.setPosition({ x, y });
+      !isMiniPlayer && windowUiEmitter.setPosition({ x, y });
       isMiniPlayer && updateMiniPlayerPosition({ x, y });
     },
     [clientX, clientY, isMiniPlayer, isMouseDown],

@@ -1,6 +1,6 @@
 import React, { memo, useEffect } from 'react';
 import { IContextMenuItem } from '@/renderer/types/contextMenu';
-import { ContextMenuStyles } from '@/renderer/types/ContextMenuStyles';
+import { ContextMenuStyles } from '@/renderer/views/ContextMenu/ContextMenuStyles';
 import { useClickOutside } from '@/renderer/hooks/useClickOutside';
 
 interface IProps {

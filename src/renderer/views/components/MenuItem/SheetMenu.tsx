@@ -127,7 +127,7 @@ const SheetMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
           menuItemInfo?.sheetId === activeSheet?.sheetId ? 'item-active' : '',
         )}
       >
-        <img className="song-pic" src={firstSongPic} alt="" />
+        <img className="song-pic" src={firstSongPic} alt="" draggable={false} />
         {!isCollapseMenu && (
           <span className="name">{menuItemInfo.sheetName}</span>
         )}
