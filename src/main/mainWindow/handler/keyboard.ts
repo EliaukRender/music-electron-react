@@ -1,4 +1,4 @@
-import { BrowserWindow, globalShortcut } from 'electron';
+import { BrowserWindow } from 'electron';
 import {
   KeyboardEnum,
   KeyboardEventEnum,
@@ -13,9 +13,9 @@ import { openCloseDevTools, reloadWebContent } from '@/main/util';
 export const mainWinKeyboardListener = (mainWin: BrowserWindow | null) => {
   if (!mainWin) return;
 
-  // localshortcut.register(mainWin, KeyboardEnum.Enter, () => {
-  //   mainWin.webContents.send(KeyboardEventEnum.Keyboard, KeyboardEnum.Enter);
-  // });
+  localshortcut.register(mainWin, KeyboardEnum.Enter, () => {
+    mainWin.webContents.send(KeyboardEventEnum.Keyboard, KeyboardEnum.Enter);
+  });
 
   localshortcut.register(mainWin, KeyboardEnum.Space, () => {
     mainWin.webContents.send(KeyboardEventEnum.Keyboard, KeyboardEnum.Space);
