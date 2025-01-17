@@ -12,7 +12,7 @@ import JukeBox from '@/renderer/views/LyricFullScreen/components/JukeBox';
 import MinScreen from '@/renderer/views/OperationBar/windowTools/MinScreen';
 import AnalyzeCanvas from '@/renderer/views/LyricFullScreen/components/AnalyzeCanvas';
 import { useDoubleClick } from '@/renderer/hooks/useDoubleClick';
-import windowUIEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
+import winUiEmitter from '@/renderer/ipcRenderer/mainWindow/winUiEmitter';
 import { setIsMaximize } from '@/renderer/store/modules/globalReducer';
 
 /**
@@ -38,7 +38,7 @@ const LyricFullScreen = () => {
   // 双击后最大窗口
   const handleDoubleClick = useCallback(() => {
     if (isFullScreen) return;
-    windowUIEmitter.maximize();
+    winUiEmitter.maximize();
     setIsMaximize(!isMaximize);
   }, [isFullScreen, isMaximize]);
 

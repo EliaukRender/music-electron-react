@@ -11,16 +11,9 @@ import {
   StepForwardOutlined,
 } from '@ant-design/icons';
 import gsap from 'gsap';
-import {
-  changeWinHeight,
-  likeSong,
-  nextPlay,
-  pausePlay,
-  prePlay,
-  startPlay,
-} from '@/renderer/ipcRenderer/miniPlayer/miniPlayerEmitter';
+import miniPlayerEmitter from '@/renderer/ipcRenderer/miniPlayer/miniPlayerEmitter';
 import { MiniPlayerEnum } from '@/main/ipcMain/constant';
-import windowUiEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
+import winUiEmitter from '@/renderer/ipcRenderer/mainWindow/winUiEmitter';
 import MiniSongItem from '@/renderer/views/MiniPlayer/components/MiniSongItem';
 import { IMiniPlayerData } from '@/renderer/types/IMiniPlayer';
 
@@ -56,13 +49,13 @@ const MiniPlayer = memo(() => {
         height: 0,
         duration: 0.2,
         onComplete: () => {
-          changeWinHeight(MiniPlayerEnum.Win_Header_Height);
+          miniPlayerEmitter.changeWinHeight(MiniPlayerEnum.Win_Header_Height);
           setIsExpand(false);
         },
       });
     } else {
       // 当前是折叠状态，先将窗口变大，再将页面展开
-      await changeWinHeight(MiniPlayerEnum.Win_Height);
+      await miniPlayerEmitter.changeWinHeight(MiniPlayerEnum.Win_Height);
       setIsExpand(true);
       gsap.to('.bottom-body', {
         height: MiniPlayerEnum.Win_Height - MiniPlayerEnum.Win_Header_Height,
@@ -73,7 +66,7 @@ const MiniPlayer = memo(() => {
 
   // 隐藏mini-player
   const hiddenMiniPlayer = useCallback(() => {
-    windowUiEmitter.showHiddenMiniPlayer();
+    winUiEmitter.showHiddenMiniPlayer();
   }, []);
 
   useEffect(() => {
@@ -117,7 +110,11 @@ const MiniPlayer = memo(() => {
               ) : (
                 <div className="btn-group">
                   {/* 喜欢 */}
-                  <div onClick={() => likeSong(miniPlayerData.activeSongId)}>
+                  <div
+                    onClick={() =>
+                      miniPlayerEmitter.likeSong(miniPlayerData.activeSongId)
+                    }
+                  >
                     <img
                       className="like-img"
                       src={require('@/renderer/assets/images/icons/heart.png')}
@@ -125,18 +122,26 @@ const MiniPlayer = memo(() => {
                     />
                   </div>
                   {/* 上一首 */}
-                  <StepBackwardOutlined onClick={() => prePlay()} />
+                  <StepBackwardOutlined
+                    onClick={() => miniPlayerEmitter.prePlay()}
+                  />
                   {/* 播放暂停 */}
                   <div className="play-pause">
                     {!miniPlayerData.isPlaying && (
-                      <CaretRightOutlined onClick={() => startPlay()} />
+                      <CaretRightOutlined
+                        onClick={() => miniPlayerEmitter.startPlay()}
+                      />
                     )}
                     {miniPlayerData.isPlaying && (
-                      <PauseOutlined onClick={() => pausePlay()} />
+                      <PauseOutlined
+                        onClick={() => miniPlayerEmitter.pausePlay()}
+                      />
                     )}
                   </div>
                   {/* 下一首 */}
-                  <StepForwardOutlined onClick={() => nextPlay()} />
+                  <StepForwardOutlined
+                    onClick={() => miniPlayerEmitter.nextPlay()}
+                  />
                   {/* 折叠、收起 */}
                   <div onClick={() => showListPanel()}>
                     <i className="iconfont icon-liebiao"></i>

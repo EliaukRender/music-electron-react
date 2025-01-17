@@ -4,18 +4,18 @@ import React, { memo, useEffect } from 'react';
 import { initAppData } from '@/renderer/store/actions/mainMenuActions';
 import { LayoutStyles } from '@/renderer/views/Layout/styles/LayoutStyles';
 import LyricFullScreen from '@/renderer/views/LyricFullScreen';
-import { windowUiHandler } from '@/renderer/ipcRenderer/mainWindow/windowUi';
-import { KeyboardHandler } from '@/renderer/ipcRenderer/mainWindow/keyboard';
+import keyboardListener from '@/renderer/ipcRenderer/mainWindow/keyboardListener';
 import { useNavigate } from 'react-router-dom';
 import { RouteEnum } from '@/renderer/constant/routeEnum';
 import ContextMenu from '@/renderer/views/ContextMenu/ContextMenu';
 import { useContextMenu } from '@/renderer/hooks/useContextMenu';
 import { usePreDragImage } from '@/renderer/hooks/usePreDragImage';
 import { useUpdateMiniPlayerData } from '@/renderer/hooks/useUpdateMiniPlayerData';
-import { musicControlHandler } from '@/renderer/ipcRenderer/mainWindow/musicControl';
+import musicControlListener from '@/renderer/ipcRenderer/mainWindow/musicControlListener';
+import winUiListener from '@/renderer/ipcRenderer/mainWindow/winUiListener';
 
 /**
- * @description: APP首页--框架入口
+ * @description: 首页---APP入口
  */
 function Layout() {
   /**
@@ -33,9 +33,15 @@ function Layout() {
    *  监听主线程消息
    */
   useEffect(() => {
-    windowUiHandler(); // 窗口事件
-    KeyboardHandler(); // 键盘事件
-    musicControlHandler(); // 音乐控制事件
+    winUiListener(); // 窗口事件
+    keyboardListener(); // 键盘事件
+    musicControlListener(); // 音乐控制事件
+  }, []);
+
+  /**
+   * 初始化app数据
+   */
+  useEffect(() => {
     initAppData(); // 初始化app的菜单数据
   }, []);
 

@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import windowUIEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
+import winUiEmitter from '@/renderer/ipcRenderer/mainWindow/winUiEmitter';
 import classNames from 'classnames';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
@@ -18,7 +18,7 @@ const MaxScreen = memo(() => {
   );
 
   const maximize = () => {
-    windowUIEmitter.maximize();
+    winUiEmitter.maximize();
   };
 
   return (

@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import windowUIEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
+import winUiEmitter from '@/renderer/ipcRenderer/mainWindow/winUiEmitter';
 import { Modal } from 'antd';
 import { CloseAppStyles } from '@/renderer/views/OperationBar/styles/CloseAppStyles';
 import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
@@ -12,7 +12,7 @@ const CloseApp: React.FC = memo(() => {
   const [open, setOpen] = useState(false);
 
   const onOk = () => {
-    windowUIEmitter.closeApp();
+    winUiEmitter.closeApp();
     setOpen(false);
   };
 

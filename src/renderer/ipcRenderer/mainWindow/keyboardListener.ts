@@ -3,7 +3,7 @@ import {
   KeyboardEnum,
 } from '@/main/ipcMain/ipcEventEnum/keyboard';
 import store from '@/renderer/store';
-import windowUIEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
+import winUiEmitter from '@/renderer/ipcRenderer/mainWindow/winUiEmitter';
 import {
   pauseAudio,
   playSong,
@@ -13,9 +13,9 @@ import { setShowLyric } from '@/renderer/store/modules/playerControlReducer';
 const { dispatch } = store;
 
 /**
- * @description: 主线程 ===> 渲染进程 : 监听键盘事件
+ * @description: 主线程 ===> 主窗口的渲染进程 : 监听键盘事件
  */
-export const KeyboardHandler = () => {
+const keyboardListener = () => {
   window.electron.ipcRenderer.on(KeyboardEventEnum.Keyboard, (data) => {
     switch (data) {
       case KeyboardEnum.Enter:
@@ -33,6 +33,8 @@ export const KeyboardHandler = () => {
   });
 };
 
+export default keyboardListener;
+
 /**
  * Enter
  */
@@ -41,11 +43,11 @@ function handleEnter() {
   if (isMinimize) return;
   if (isFullScreen) {
     // 退出全屏
-    windowUIEmitter.fullScreen();
+    winUiEmitter.fullScreen();
     return;
   }
   // 最大化/退出最大化
-  windowUIEmitter.maximize();
+  winUiEmitter.maximize();
 }
 
 /**
@@ -72,7 +74,7 @@ function handleSpace() {
 function handleEsc() {
   const { isFullScreen } = store.getState().global;
   if (isFullScreen) {
-    windowUIEmitter.fullScreen(); // 退出全屏
+    winUiEmitter.fullScreen(); // 退出全屏
     return;
   }
   const { showLyrics } = store.getState().playerControl;

@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import windowUIEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
+import winUiEmitter from '@/renderer/ipcRenderer/mainWindow/winUiEmitter';
 import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
 
 /**
@@ -9,7 +9,7 @@ const FullScreen = memo(() => {
   const { stopPropagationEleRef } = useStopPropagation();
 
   return (
-    <div onClick={windowUIEmitter.minimize} ref={stopPropagationEleRef}>
+    <div onClick={winUiEmitter.minimize} ref={stopPropagationEleRef}>
       <i className="iconfont icon-zuixiaohua"></i>
     </div>
   );

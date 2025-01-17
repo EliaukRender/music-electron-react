@@ -1,8 +1,8 @@
-import windowUiEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
+import winUiEmitter from '@/renderer/ipcRenderer/mainWindow/winUiEmitter';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import store from '@/renderer/store';
 import { throttle } from 'lodash';
-import { updateMiniPlayerPosition } from '@/renderer/ipcRenderer/miniPlayer/miniPlayerEmitter';
+import miniPlayerEmitter from '@/renderer/ipcRenderer/miniPlayer/miniPlayerEmitter';
 
 /**
  * @description: 窗口被拖拽时 更新窗口位置信息
@@ -27,8 +27,8 @@ export function useUpdateWindowPosition({
       if (isFullScreen || isMaximize) return;
       const x = e.screenX - clientX;
       const y = e.screenY - clientY;
-      !isMiniPlayer && windowUiEmitter.setPosition({ x, y });
-      isMiniPlayer && updateMiniPlayerPosition({ x, y });
+      !isMiniPlayer && winUiEmitter.setPosition({ x, y });
+      isMiniPlayer && miniPlayerEmitter.updateMiniPlayerPosition({ x, y });
     },
     [clientX, clientY, isMiniPlayer, isMouseDown],
   );

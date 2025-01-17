@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import windowUIEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
+import winUiEmitter from '@/renderer/ipcRenderer/mainWindow/winUiEmitter';
 
 interface IProps {
   isFullScreen: boolean;
@@ -14,7 +14,7 @@ const FullScreen = memo(({ isFullScreen }: IProps) => {
       <i
         title="全屏"
         className={`iconfont icon-${isFullScreen ? 'tuichuquanping' : 'quanping'}`}
-        onClick={windowUIEmitter.fullScreen}
+        onClick={winUiEmitter.fullScreen}
       ></i>
     </div>
   );

@@ -9,7 +9,7 @@ import MaxScreen from '@/renderer/views/OperationBar/windowTools/MaxScreen';
 import CloseApp from '@/renderer/views/OperationBar/windowTools/CloseApp';
 import { useUpdateWindowPosition } from '@/renderer/hooks/useUpdateWindowPosition';
 import { useDoubleClick } from '@/renderer/hooks/useDoubleClick';
-import windowUIEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
+import winUiEmitter from '@/renderer/ipcRenderer/mainWindow/winUiEmitter';
 import { setIsMaximize } from '@/renderer/store/modules/globalReducer';
 import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
@@ -29,7 +29,7 @@ const OperationBar: React.FC = () => {
 
   // 双击后最大窗口
   const handleDoubleClick = useCallback(() => {
-    windowUIEmitter.maximize();
+    winUiEmitter.maximize();
     setIsMaximize(!isMaximize);
   }, [isMaximize]);
   useDoubleClick(dragEleRef, handleDoubleClick);

@@ -9,7 +9,7 @@ import {
 /**
  * @description: 处理来自于  mini-player窗口 ==> 主线程 ===> 主窗口  的音乐控制事件
  */
-export const musicControlHandler = () => {
+const musicControlListener = () => {
   /**
    * 开始播放
    */
@@ -45,3 +45,5 @@ export const musicControlHandler = () => {
     playSong(songInfo);
   });
 };
+
+export default musicControlListener;

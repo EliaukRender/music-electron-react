@@ -2,12 +2,7 @@ import React, { memo, useCallback, useEffect, useRef } from 'react';
 import { MiniSongItemStyles } from '@/renderer/views/MiniPlayer/styles/MiniSongItemStyles';
 import classNames from 'classnames';
 import gsap from 'gsap';
-import {
-  likeSong,
-  pausePlay,
-  playNew,
-  startPlay,
-} from '@/renderer/ipcRenderer/miniPlayer/miniPlayerEmitter';
+import miniPlayerEmitter from '@/renderer/ipcRenderer/miniPlayer/miniPlayerEmitter';
 import { useDoubleClick } from '@/renderer/hooks/useDoubleClick';
 import { IMiniPlayerData } from '@/renderer/types/IMiniPlayer';
 
@@ -40,22 +35,24 @@ const MiniSongItem = memo(
 
     // 喜欢
     const handleLikeSong = useCallback((songId: number) => {
-      likeSong(songId);
+      miniPlayerEmitter.likeSong(songId);
     }, []);
 
     // 双击播放
     const songItemRef = useRef<HTMLDivElement | null>(null);
     const dbClickCallback = useCallback(() => {
-      playNew(songInfo);
+      miniPlayerEmitter.playNew(songInfo);
     }, [songInfo]);
     useDoubleClick(songItemRef, dbClickCallback);
 
     // 播放或暂停
     const handlePlay = useCallback(() => {
       if (songInfo.songId === miniPlayerData.activeSongId) {
-        miniPlayerData.isPlaying ? pausePlay() : startPlay();
+        miniPlayerData.isPlaying
+          ? miniPlayerEmitter.pausePlay()
+          : miniPlayerEmitter.startPlay();
       } else {
-        playNew(songInfo);
+        miniPlayerEmitter.playNew(songInfo);
       }
     }, [miniPlayerData.activeSongId, miniPlayerData.isPlaying, songInfo]);
 

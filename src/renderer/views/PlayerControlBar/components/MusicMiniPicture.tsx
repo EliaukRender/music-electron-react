@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { setShowLyric } from '@/renderer/store/modules/playerControlReducer';
-import windowUi from '@/renderer/ipcRenderer/mainWindow/windowUi';
+import winUiEmitter from '@/renderer/ipcRenderer/mainWindow/winUiEmitter';
 
 interface IProps {
   showLyrics: boolean;
@@ -53,7 +53,7 @@ const MusicMiniPicture = ({ showLyrics }: IProps) => {
   const handleClick = useCallback(() => {
     dispatch(setShowLyric(!showLyrics));
     if (isFullScreen) {
-      windowUi.fullScreen();
+      winUiEmitter.fullScreen();
     }
   }, [dispatch, isFullScreen, showLyrics]);
 
