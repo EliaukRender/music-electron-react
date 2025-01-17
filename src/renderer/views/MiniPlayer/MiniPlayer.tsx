@@ -69,12 +69,14 @@ const MiniPlayer = memo(() => {
     winUiEmitter.showHiddenMiniPlayer();
   }, []);
 
+  /**
+   *  监听主线程消息，更新mini-player窗口中的数据
+   */
   useEffect(() => {
-    // 监听主线程消息
     window.electron.ipcRenderer.on(
       MiniPlayerEventEnum.Update_Mini_Player_Data,
       (data) => {
-        console.log('render-mini-player', data);
+        console.log('mini-player-data', data);
         setActiveSongData(data as IMiniPlayerData);
       },
     );
@@ -118,6 +120,7 @@ const MiniPlayer = memo(() => {
                     <img
                       className="like-img"
                       src={require('@/renderer/assets/images/icons/heart.png')}
+                      draggable={false}
                       alt=""
                     />
                   </div>
@@ -166,17 +169,18 @@ const MiniPlayer = memo(() => {
         >
           {/* 播放队列的歌曲列表 */}
           <div className="song-list">
-            {miniPlayerData.activeSongList.map((item, index) => {
-              return (
-                <MiniSongItem
-                  key={item.songId}
-                  index={index}
-                  songInfo={item}
-                  activeSong={activeSong}
-                  miniPlayerData={miniPlayerData}
-                ></MiniSongItem>
-              );
-            })}
+            {miniPlayerData.activeSongList.length &&
+              miniPlayerData.activeSongList?.map((item, index) => {
+                return (
+                  <MiniSongItem
+                    key={item.songId}
+                    index={index}
+                    songInfo={item}
+                    activeSong={activeSong}
+                    miniPlayerData={miniPlayerData}
+                  ></MiniSongItem>
+                );
+              })}
           </div>
         </div>
       </div>

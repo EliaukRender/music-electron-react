@@ -90,7 +90,7 @@ const MiniSongItem = memo(
               <i
                 className={classNames(
                   'iconfont',
-                  activeSong.songId === songInfo.songId &&
+                  activeSong?.songId === songInfo?.songId &&
                     miniPlayerData.isPlaying
                     ? 'icon-zanting'
                     : 'icon-bofang1',
