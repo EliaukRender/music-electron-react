@@ -28,6 +28,7 @@ import { RouteEnum } from '@/renderer/constant/routeEnum';
 import { isDebug } from '@/main/processEnv';
 import { miniPlayerWinKeyboardListener } from '@/main/miniPlayer/handler/keyboardListener';
 import { MiniPlayerEnum } from '@/main/miniPlayer/constant';
+import { musicControlListener } from '@/main/mainWindow/handler/musicControlListener';
 
 // 生产环境下安装并启用源映射支持
 if (process.env.NODE_ENV === 'production') {
@@ -206,6 +207,8 @@ app
     // 监听窗口中的事件
     mainWindowListener(mainWindow, miniPlayerWindow);
     mainWinKeyboardListener(mainWindow);
+    musicControlListener(mainWindow);
+
     miniPlayerWinListener(miniPlayerWindow);
     miniPlayerWinKeyboardListener(miniPlayerWindow);
 

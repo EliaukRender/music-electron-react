@@ -12,6 +12,7 @@ import ContextMenu from '@/renderer/views/ContextMenu/ContextMenu';
 import { useContextMenu } from '@/renderer/hooks/useContextMenu';
 import { usePreDragImage } from '@/renderer/hooks/usePreDragImage';
 import { useUpdateMiniPlayerData } from '@/renderer/hooks/useUpdateMiniPlayerData';
+import { musicControlHandler } from '@/renderer/ipcRenderer/mainWindow/musicControl';
 
 /**
  * @description: APP首页--框架入口
@@ -32,8 +33,9 @@ function Layout() {
    *  监听主线程消息
    */
   useEffect(() => {
-    windowUiHandler();
-    KeyboardHandler();
+    windowUiHandler(); // 窗口事件
+    KeyboardHandler(); // 键盘事件
+    musicControlHandler(); // 音乐控制事件
     initAppData(); // 初始化app的菜单数据
   }, []);
 

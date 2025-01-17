@@ -28,3 +28,49 @@ export const changeWinHeight = async (height: number) => {
     console.log('error changeWinHeight', e);
   }
 };
+
+/**
+ * 开始播放
+ */
+export const startPlay = () => {
+  window.electron.ipcRenderer.sendMessage(MiniPlayerEventEnum.StartPlay);
+};
+
+/**
+ *  暂停播放
+ */
+export const pausePlay = () => {
+  window.electron.ipcRenderer.sendMessage(MiniPlayerEventEnum.PausePlay);
+};
+
+/**
+ *  播放上一首
+ */
+export const prePlay = () => {
+  window.electron.ipcRenderer.sendMessage(MiniPlayerEventEnum.PrePlay);
+};
+
+/**
+ *  播放下一首
+ */
+export const nextPlay = () => {
+  window.electron.ipcRenderer.sendMessage(MiniPlayerEventEnum.NextPlay);
+};
+
+/**
+ *  播放指定歌曲
+ */
+export const playNew = (songInfo: any) => {
+  window.electron.ipcRenderer.sendMessage(
+    MiniPlayerEventEnum.PlayNew,
+    songInfo,
+  );
+};
+
+/**
+ *  喜欢某首歌
+ */
+export const likeSong = (songId: number) => {
+  console.log('likeSong', songId);
+  window.electron.ipcRenderer.sendMessage(MiniPlayerEventEnum.PlayNew, songId);
+};

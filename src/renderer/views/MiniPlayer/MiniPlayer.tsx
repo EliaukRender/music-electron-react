@@ -11,22 +11,24 @@ import {
   StepForwardOutlined,
 } from '@ant-design/icons';
 import gsap from 'gsap';
-import { changeWinHeight } from '@/renderer/ipcRenderer/miniPlayer/miniPlayerEmitter';
+import {
+  changeWinHeight,
+  likeSong,
+  nextPlay,
+  pausePlay,
+  prePlay,
+  startPlay,
+} from '@/renderer/ipcRenderer/miniPlayer/miniPlayerEmitter';
 import { MiniPlayerEnum } from '@/main/miniPlayer/constant';
 import windowUiEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
-import classNames from 'classnames';
-
-interface IMiniPlayerData {
-  activeSongId: number;
-  activeSongList: any[];
-  isPlaying: boolean;
-}
+import MiniSongItem from '@/renderer/views/MiniPlayer/components/MiniSongItem';
+import { IMiniPlayerData } from '@/renderer/types/IMiniPlayer';
 
 /**
  * mini播放器页面
  */
 const MiniPlayer = memo(() => {
-  const { stopPropagationEleRef } = useStopPropagation();
+  const { stopPropagationEleRef } = useStopPropagation(); // 阻止冒泡
   const { dragEleRef } = useUpdateWindowPosition({ isMiniPlayer: true }); // 拖拽
   const [isMouseEnterHeader, setIsMouseEnterHeader] = useState(false);
   const [miniPlayerData, setActiveSongData] = useState<IMiniPlayerData>({
@@ -41,45 +43,6 @@ const MiniPlayer = memo(() => {
       (item) => item.songId === miniPlayerData.activeSongId,
     );
   }, [miniPlayerData.activeSongId, miniPlayerData.activeSongList]);
-
-  const onMouseEnter = useCallback((index: number) => {
-    gsap.to(`.song-item-${index} .song-item-btn-group`, {
-      opacity: 1,
-      duration: 0.2,
-    });
-  }, []);
-
-  const onMouseLeave = useCallback((index: number) => {
-    gsap.to(`.song-item-${index} .song-item-btn-group`, {
-      opacity: 0,
-      duration: 0.2,
-    });
-  }, []);
-
-  // 播放歌曲
-  const handlePlaySong = useCallback(() => {
-    //
-  }, []);
-
-  // 暂停歌曲
-  const handlePauseSong = useCallback(() => {
-    //
-  }, []);
-
-  // 上一首
-  const handlePreSong = useCallback(() => {
-    //
-  }, []);
-
-  // 下一首
-  const handleNextSong = useCallback(() => {
-    //
-  }, []);
-
-  // 喜欢
-  const handleLikeSong = useCallback(() => {
-    //
-  }, []);
 
   /**
    * 打开或折叠歌曲列表面板
@@ -154,7 +117,7 @@ const MiniPlayer = memo(() => {
               ) : (
                 <div className="btn-group">
                   {/* 喜欢 */}
-                  <div onClick={() => handleLikeSong()}>
+                  <div onClick={() => likeSong(miniPlayerData.activeSongId)}>
                     <img
                       className="like-img"
                       src={require('@/renderer/assets/images/icons/heart.png')}
@@ -162,18 +125,18 @@ const MiniPlayer = memo(() => {
                     />
                   </div>
                   {/* 上一首 */}
-                  <StepBackwardOutlined onClick={() => handlePreSong()} />
+                  <StepBackwardOutlined onClick={() => prePlay()} />
                   {/* 播放暂停 */}
                   <div className="play-pause">
                     {!miniPlayerData.isPlaying && (
-                      <CaretRightOutlined onClick={() => handlePlaySong()} />
+                      <CaretRightOutlined onClick={() => startPlay()} />
                     )}
                     {miniPlayerData.isPlaying && (
-                      <PauseOutlined onClick={() => handlePauseSong()} />
+                      <PauseOutlined onClick={() => pausePlay()} />
                     )}
                   </div>
                   {/* 下一首 */}
-                  <StepForwardOutlined onClick={() => handleNextSong()} />
+                  <StepForwardOutlined onClick={() => nextPlay()} />
                   {/* 折叠、收起 */}
                   <div onClick={() => showListPanel()}>
                     <i className="iconfont icon-liebiao"></i>
@@ -200,46 +163,13 @@ const MiniPlayer = memo(() => {
           <div className="song-list">
             {miniPlayerData.activeSongList.map((item, index) => {
               return (
-                <div
-                  className={`song-item song-item-${index}`}
+                <MiniSongItem
                   key={item.songId}
-                  onMouseEnter={() => onMouseEnter(index)}
-                  onMouseLeave={() => onMouseLeave(index)}
-                  onBlur={() => onMouseLeave(index)}
-                >
-                  <div
-                    className={classNames(
-                      'name',
-                      miniPlayerData.activeSongId === item.songId
-                        ? 'name-active'
-                        : '',
-                    )}
-                  >
-                    {item.songName}
-                  </div>
-                  {/* 操作按钮 */}
-                  <div className="song-item-btn-group">
-                    <div>
-                      <i
-                        className={classNames(
-                          'iconfont',
-                          activeSong.songId === item.songId &&
-                            miniPlayerData.isPlaying
-                            ? 'icon-zanting'
-                            : 'icon-bofang1',
-                        )}
-                      ></i>
-                    </div>
-                    {/* 喜欢 */}
-                    <div onClick={() => handleLikeSong}>
-                      <img
-                        className="like-img"
-                        src={require('@/renderer/assets/images/icons/heart.png')}
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </div>
+                  index={index}
+                  songInfo={item}
+                  activeSong={activeSong}
+                  miniPlayerData={miniPlayerData}
+                ></MiniSongItem>
               );
             })}
           </div>
