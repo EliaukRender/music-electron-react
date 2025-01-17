@@ -1,7 +1,7 @@
 import {
   KeyboardEventEnum,
   KeyboardEnum,
-} from '@/main/mainWindow/eventEnum/keyboardEvent';
+} from '@/main/ipcMain/ipcEventEnum/keyboard';
 import store from '@/renderer/store';
 import windowUIEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
 import {
@@ -17,26 +17,21 @@ const { dispatch } = store;
  */
 export const KeyboardHandler = () => {
   window.electron.ipcRenderer.on(KeyboardEventEnum.Keyboard, (data) => {
-    handleKeyboard(data as KeyboardEnum);
+    switch (data) {
+      case KeyboardEnum.Enter:
+        handleEnter();
+        break;
+      case KeyboardEnum.Space:
+        handleSpace();
+        break;
+      case KeyboardEnum.Esc:
+        handleEsc();
+        break;
+      default:
+        break;
+    }
   });
 };
-
-// 处理键盘事件
-function handleKeyboard(data: KeyboardEnum) {
-  switch (data) {
-    case KeyboardEnum.Enter:
-      handleEnter();
-      break;
-    case KeyboardEnum.Space:
-      handleSpace();
-      break;
-    case KeyboardEnum.Esc:
-      handleEsc();
-      break;
-    default:
-      break;
-  }
-}
 
 /**
  * Enter

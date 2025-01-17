@@ -1,10 +1,10 @@
 import { BrowserWindow, ipcMain } from 'electron';
-import { MiniPlayerEventEnum } from '@/main/miniPlayer/eventEnum/miniPlayerEvent';
+import { MiniPlayerEventEnum } from '@/main/ipcMain/ipcEventEnum/mini_events';
 
 /**
  * @description: 监听mini-player窗口中的音乐控制事件
  */
-export const musicControlListener = (mainWin: BrowserWindow | null) => {
+export const mainWinMusicControlHandler = (mainWin: BrowserWindow | null) => {
   if (!mainWin) return;
 
   /**

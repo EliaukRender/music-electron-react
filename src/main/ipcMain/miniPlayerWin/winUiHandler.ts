@@ -1,15 +1,15 @@
 import { BrowserWindow, ipcMain } from 'electron';
-import { MiniPlayerEventEnum } from '@/main/miniPlayer/eventEnum/miniPlayerEvent';
+import { MiniPlayerEventEnum } from '@/main/ipcMain/ipcEventEnum/mini_events';
 import {
   getMiniPlayerWinData,
   setMiniPlayerWinData,
-} from '@/main/miniPlayer/windowData';
+} from '@/main/ipcMain/appData/miniWinData';
 import { getScreenWidthHeight } from '@/main/util';
 
 /**
  * @description: 监听miniPlayerWin窗口的事件消息
  */
-export function miniPlayerWinListener(miniPlayerWin: BrowserWindow | null) {
+export function miniWinListener(miniPlayerWin: BrowserWindow | null) {
   if (!miniPlayerWin) return;
 
   /**

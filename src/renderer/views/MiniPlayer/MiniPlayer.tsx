@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { MiniPlayerStyles } from '@/renderer/views/MiniPlayer/MiniPlayerStyles';
-import { MiniPlayerEventEnum } from '@/main/miniPlayer/eventEnum/miniPlayerEvent';
+import { MiniPlayerEventEnum } from '@/main/ipcMain/ipcEventEnum/mini_events';
 import { useUpdateWindowPosition } from '@/renderer/hooks/useUpdateWindowPosition';
 import { useStopPropagation } from '@/renderer/hooks/useStopPropagation';
 import {
@@ -19,7 +19,7 @@ import {
   prePlay,
   startPlay,
 } from '@/renderer/ipcRenderer/miniPlayer/miniPlayerEmitter';
-import { MiniPlayerEnum } from '@/main/miniPlayer/constant';
+import { MiniPlayerEnum } from '@/main/ipcMain/constant';
 import windowUiEmitter from '@/renderer/ipcRenderer/mainWindow/windowUi';
 import MiniSongItem from '@/renderer/views/MiniPlayer/components/MiniSongItem';
 import { IMiniPlayerData } from '@/renderer/types/IMiniPlayer';

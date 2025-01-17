@@ -1,19 +1,19 @@
 import { BrowserWindow, ipcMain } from 'electron';
-import WindowUIEvent from '@/main/mainWindow/eventEnum/windowUIEvent';
+import MainWinUi from '@/main/ipcMain/ipcEventEnum/main_winUi';
 import {
   setMainWindowData,
   getMainWindowData,
-} from '@/main/mainWindow/windowData';
+} from '@/main/ipcMain/appData/mainWinData';
 import { WindowPositionType } from '@/types/commonTypes';
 import { getScreenWidthHeight } from '@/main/util';
-import { MiniPlayerEventEnum } from '@/main/miniPlayer/eventEnum/miniPlayerEvent';
-import { getMiniPlayerWinData } from '@/main/miniPlayer/windowData';
+import { MiniPlayerEventEnum } from '@/main/ipcMain/ipcEventEnum/mini_events';
+import { getMiniPlayerWinData } from '@/main/ipcMain/appData/miniWinData';
 
 /**
  *  主窗口 事件监听
  *  监听主窗口UI相关的一些事件：最小化、最小化、全屏、mini播放器
  */
-export const mainWindowListener = (
+export const mainWinUiHandler = (
   mainWin: BrowserWindow | null,
   miniPlayerWin: BrowserWindow | null,
 ) => {
@@ -21,7 +21,7 @@ export const mainWindowListener = (
   /**
    *  全屏、退出全屏事件
    */
-  ipcMain.on(WindowUIEvent.Full_Screen, () => {
+  ipcMain.on(MainWinUi.Full_Screen, () => {
     if (!mainWin) {
       console.error('窗口不存在');
       return;
@@ -36,7 +36,7 @@ export const mainWindowListener = (
   /**
    *   窗口最大化、退出最大化
    */
-  ipcMain.on(WindowUIEvent.Maximize, () => {
+  ipcMain.on(MainWinUi.Maximize, () => {
     if (!mainWin) {
       console.error('窗口不存在');
       return;
@@ -55,7 +55,7 @@ export const mainWindowListener = (
       });
       mainWin.maximize();
       mainWin.webContents.send(
-        WindowUIEvent.Maximize,
+        MainWinUi.Maximize,
         getMainWindowData().isMaximized,
       );
     }
@@ -64,7 +64,7 @@ export const mainWindowListener = (
   /**
    *  最小化
    */
-  ipcMain.on(WindowUIEvent.Minimize, () => {
+  ipcMain.on(MainWinUi.Minimize, () => {
     if (!mainWin) {
       console.error('窗口不存在');
       return;
@@ -75,7 +75,7 @@ export const mainWindowListener = (
   /**
    *  销毁窗口
    */
-  ipcMain.on(WindowUIEvent.Close, () => {
+  ipcMain.on(MainWinUi.Close, () => {
     if (!mainWin) {
       console.error('窗口不存在');
       return;
@@ -86,7 +86,7 @@ export const mainWindowListener = (
   /**
    *  更新窗口位置信息
    */
-  ipcMain.on(WindowUIEvent.Set_Position, (event, data: WindowPositionType) => {
+  ipcMain.on(MainWinUi.Set_Position, (event, data: WindowPositionType) => {
     if (!mainWin) {
       console.error('窗口不存在');
       return;
@@ -222,23 +222,17 @@ function handleMove(mainWin: BrowserWindow) {
 
 function fullScreen(mainWin: BrowserWindow) {
   mainWin.webContents.send(
-    WindowUIEvent.Full_Screen,
+    MainWinUi.Full_Screen,
     getMainWindowData().isFullScreen,
   );
 }
 
 // 是否最大化
 function maximize(mainWin: BrowserWindow) {
-  mainWin.webContents.send(
-    WindowUIEvent.Maximize,
-    getMainWindowData().isMaximized,
-  );
+  mainWin.webContents.send(MainWinUi.Maximize, getMainWindowData().isMaximized);
 }
 
 // 是否最小化
 function minimize(mainWin: BrowserWindow) {
-  mainWin.webContents.send(
-    WindowUIEvent.Minimize,
-    getMainWindowData().isMinimized,
-  );
+  mainWin.webContents.send(MainWinUi.Minimize, getMainWindowData().isMinimized);
 }

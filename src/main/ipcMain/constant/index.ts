@@ -1,3 +1,6 @@
+/**
+ * mini-player窗口尺寸信息
+ */
 export enum MiniPlayerEnum {
   Win_Width = 330, // 总宽度
   Win_Height = 290, // 总高度

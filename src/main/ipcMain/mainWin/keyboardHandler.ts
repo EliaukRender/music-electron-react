@@ -2,7 +2,7 @@ import { BrowserWindow } from 'electron';
 import {
   KeyboardEnum,
   KeyboardEventEnum,
-} from '@/main/mainWindow/eventEnum/keyboardEvent';
+} from '@/main/ipcMain/ipcEventEnum/keyboard';
 import localshortcut from 'electron-localshortcut';
 import { openCloseDevTools, reloadWebContent } from '@/main/util';
 
@@ -10,7 +10,7 @@ import { openCloseDevTools, reloadWebContent } from '@/main/util';
  *  【主窗口】事件监听中心
  *  该文件主要监听主窗口的快捷键操作
  */
-export const mainWinKeyboardListener = (mainWin: BrowserWindow | null) => {
+export const mainWinKeyboardHandler = (mainWin: BrowserWindow | null) => {
   if (!mainWin) return;
 
   localshortcut.register(mainWin, KeyboardEnum.Enter, () => {

@@ -8,15 +8,12 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import { app, BrowserWindow } from 'electron';
-import { mainWindowListener } from '@/main/mainWindow/handler';
-import { mainWinKeyboardListener } from '@/main/mainWindow/handler/keyboard';
-import {
-  getMiniPlayerWinBounds,
-  miniPlayerWinListener,
-} from '@/main/miniPlayer/handler';
+import { mainWinKeyboardHandler } from '@/main/ipcMain/mainWin/keyboardHandler';
+import { mainWinMusicControlHandler } from '@/main/ipcMain/mainWin/musicControlHandler';
+import { mainWinUiHandler } from '@/main/ipcMain/mainWin/winUihandler';
 import path from 'path';
 import { resolveHtmlPath } from '@/main/util';
-import { setMainWindowData } from '@/main/mainWindow/windowData';
+import { setMainWindowData } from '@/main/ipcMain/appData/mainWinData';
 import {
   installExtension,
   REACT_DEVELOPER_TOOLS,
@@ -26,9 +23,12 @@ import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import { RouteEnum } from '@/renderer/constant/routeEnum';
 import { isDebug } from '@/main/processEnv';
-import { miniPlayerWinKeyboardListener } from '@/main/miniPlayer/handler/keyboardListener';
-import { MiniPlayerEnum } from '@/main/miniPlayer/constant';
-import { musicControlListener } from '@/main/mainWindow/handler/musicControlListener';
+import {
+  getMiniPlayerWinBounds,
+  miniWinListener,
+} from '@/main/ipcMain/miniPlayerWin/winUiHandler';
+import { miniWinKeyboardListener } from '@/main/ipcMain/miniPlayerWin/keyboardHandler';
+import { MiniPlayerEnum } from '@/main/ipcMain/constant';
 
 // 生产环境下安装并启用源映射支持
 if (process.env.NODE_ENV === 'production') {
@@ -204,13 +204,14 @@ app
     // 创建窗口
     await createWindow();
 
-    // 监听窗口中的事件
-    mainWindowListener(mainWindow, miniPlayerWindow);
-    mainWinKeyboardListener(mainWindow);
-    musicControlListener(mainWindow);
+    // 监听main窗口事件
+    mainWinKeyboardHandler(mainWindow);
+    mainWinMusicControlHandler(mainWindow);
+    mainWinUiHandler(mainWindow, miniPlayerWindow);
 
-    miniPlayerWinListener(miniPlayerWindow);
-    miniPlayerWinKeyboardListener(miniPlayerWindow);
+    // 监听mini窗口事件
+    miniWinListener(miniPlayerWindow);
+    miniWinKeyboardListener(miniPlayerWindow);
 
     // App激活的时候
     app.on('activate', async () => {

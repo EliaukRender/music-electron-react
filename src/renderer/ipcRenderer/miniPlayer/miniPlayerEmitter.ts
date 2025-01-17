@@ -1,4 +1,4 @@
-import { MiniPlayerEventEnum } from '@/main/miniPlayer/eventEnum/miniPlayerEvent';
+import { MiniPlayerEventEnum } from '@/main/ipcMain/ipcEventEnum/mini_events';
 import { WindowPositionType } from '@/types/commonTypes';
 
 /**

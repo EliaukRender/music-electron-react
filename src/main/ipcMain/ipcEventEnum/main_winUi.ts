@@ -1,7 +1,7 @@
 /**
  * @description: 窗口通信事件枚举
  */
-enum WindowUIEvent {
+enum MainWinUi {
   Maximize = 'Maximize', // 最大化
   Minimize = 'Minimize', // 最小化
   Full_Screen = 'Full_Screen', // 全屏
@@ -10,4 +10,4 @@ enum WindowUIEvent {
   Mini_Player = 'Mini_Player', // 打开mini播放器窗口
 }
 
-export default WindowUIEvent;
+export default MainWinUi;
