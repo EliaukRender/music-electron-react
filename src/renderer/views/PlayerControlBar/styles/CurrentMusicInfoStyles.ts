@@ -11,11 +11,13 @@ export const CurrentMusicInfoStyles = styled.div`
     margin-right: 15px;
 
     .singer {
+      max-width: 100px;
       color: #000000;
       margin-bottom: 5px;
     }
 
     .song-name {
+      max-width: 100px;
       color: #626262;
     }
   }

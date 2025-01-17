@@ -38,8 +38,8 @@ if (process.env.NODE_ENV === 'production') {
 
 // 获取静态资源路径
 const RESOURCES_PATH = app.isPackaged
-  ? path.join(process.resourcesPath, 'assets')
-  : path.join(__dirname, '../../assets');
+  ? path.join(process.resourcesPath, 'assets/icons')
+  : path.join(__dirname, '../../assets/icons');
 
 const getAssetPath = (...paths: string[]): string => {
   return path.join(RESOURCES_PATH, ...paths);
@@ -95,7 +95,7 @@ const createWindow = async () => {
     minHeight: 700,
     frame: false, // 隐藏窗口的工具栏
     transparent: true, // 窗口是否透明
-    icon: getAssetPath('icon.png'),
+    icon: getAssetPath('logo_36.png'),
     fullscreen: false,
     webPreferences: {
       nodeIntegration: true,
@@ -242,7 +242,7 @@ app.on('window-all-closed', () => {
 let tray: Tray | null = null;
 function setTray() {
   // 创建系统托盘图标
-  tray = new Tray(getAssetPath('icon.png')); // 托盘图标
+  tray = new Tray(getAssetPath('logo_36.png')); // 托盘图标
   const contextMenu = Menu.buildFromTemplate([
     {
       label: '打开',

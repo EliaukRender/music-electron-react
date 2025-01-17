@@ -30,7 +30,7 @@ export const OperationBarStyles = styled.div`
     }
 
     .iconfont {
-      margin-left: 10px;
+      margin-left: 15px;
 
       &:hover {
         color: ${({ theme }) => darkenHexColor(theme.themeColor.active, 10)};

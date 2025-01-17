@@ -3,7 +3,6 @@ import { OperationBarStyles } from '@/renderer/views/OperationBar/styles/Operati
 import Search from '@/renderer/views/OperationBar/components/Search';
 import UserInfo from '@/renderer/views/OperationBar/components/UserInfo';
 import Navigation from '@/renderer/views/OperationBar/components/Navigation';
-import ChangeTheme from '@/renderer/views/OperationBar/windowTools/ChangeTheme';
 import MinScreen from '@/renderer/views/OperationBar/windowTools/MinScreen';
 import MaxScreen from '@/renderer/views/OperationBar/windowTools/MaxScreen';
 import CloseApp from '@/renderer/views/OperationBar/windowTools/CloseApp';
@@ -43,8 +42,6 @@ const OperationBar: React.FC = () => {
       <div className="bar-right">
         {/* 用户信息 */}
         <UserInfo></UserInfo>
-        {/* 主题切换 */}
-        <ChangeTheme></ChangeTheme>
         {/* mini播放器 */}
         <MiniPlayerEnter></MiniPlayerEnter>
         {/* 最小化 */}

@@ -246,7 +246,7 @@
       "shortcutName": "Eliauk音乐"
     },
     "win": {
-      "icon": "./assets/logo/eliauk_music_logo_256.png",
+      "icon": "./assets/icons/logo_256.png",
       "target": [
         "nsis"
       ]
