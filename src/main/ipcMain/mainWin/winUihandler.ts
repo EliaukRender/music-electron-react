@@ -184,6 +184,10 @@ export const mainWinUiHandler = (
     handleMove(mainWin);
   });
 
+  mainWin.on('focus', () => {
+    console.log('focus');
+  });
+
   /**
    *  显示或隐藏 mini-player窗口
    */

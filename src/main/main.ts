@@ -7,7 +7,7 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Tray, Menu } from 'electron';
 import { mainWinKeyboardHandler } from '@/main/ipcMain/mainWin/keyboardHandler';
 import { mainWinMusicControlHandler } from '@/main/ipcMain/mainWin/musicControlHandler';
 import { mainWinUiHandler } from '@/main/ipcMain/mainWin/winUihandler';
@@ -171,6 +171,10 @@ const createWindow = async () => {
   });
 
   /**
+   *
+   */
+
+  /**
    * 其他操作: APP自动更新
    */
   // Remove this if your app does not use auto updates
@@ -213,6 +217,8 @@ app
     miniWinListener(miniPlayerWindow);
     miniWinKeyboardListener(miniPlayerWindow);
 
+    setTray();
+
     // App激活的时候
     app.on('activate', async () => {
       if (mainWindow === null) await createWindow();
@@ -225,6 +231,43 @@ app
  */
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    tray?.destroy();
     app.quit();
   }
 });
+
+/**
+ * 系统托盘
+ */
+let tray: Tray | null = null;
+function setTray() {
+  // 创建系统托盘图标
+  tray = new Tray(getAssetPath('icon.png')); // 托盘图标
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: '打开',
+      click: () => {
+        mainWindow?.show();
+      },
+    },
+    {
+      label: '退出',
+      click: () => {
+        app.quit();
+      },
+    },
+  ]);
+  tray.setToolTip('Eliauk音乐');
+  tray.setContextMenu(contextMenu);
+
+  tray.on('click', () => {
+    if (!mainWindow) return;
+    if (mainWindow.isMinimized()) {
+      mainWindow?.restore();
+      mainWindow.setSkipTaskbar(false); // 任务栏显示图标
+    } else {
+      mainWindow.minimize();
+      mainWindow.setSkipTaskbar(true); // 任务栏隐藏图标
+    }
+  });
+}
