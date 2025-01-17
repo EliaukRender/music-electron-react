@@ -18,6 +18,7 @@ export const mainWinUiHandler = (
   miniPlayerWin: BrowserWindow | null,
 ) => {
   if (!mainWin) return;
+
   /**
    *  全屏、退出全屏事件
    */
@@ -41,23 +42,10 @@ export const mainWinUiHandler = (
       console.error('窗口不存在');
       return;
     }
-    console.log('最大化', mainWin.isMaximized());
     if (mainWin.isMaximized()) {
       mainWin.unmaximize();
-      mainWin.on('move', () => {
-        handleMove(mainWin);
-      });
     } else {
-      setMainWindowData({ bounds: mainWin.getBounds() }); // 最大化之前，记录窗口信息
-      // 最大化之前，移除move监听
-      mainWin.off('move', () => {
-        handleMove(mainWin);
-      });
       mainWin.maximize();
-      mainWin.webContents.send(
-        MainWinUi.Maximize,
-        getMainWindowData().isMaximized,
-      );
     }
   });
 
@@ -103,22 +91,22 @@ export const mainWinUiHandler = (
   });
 
   /**
-   *  进入全屏时触发
+   *  进入全屏
    */
   mainWin.on('enter-full-screen', () => {
-    // console.log('全屏');
+    // console.log('enter-full-screen:');
     setMainWindowData({ isFullScreen: true });
     mainWin.setResizable(false);
-    fullScreen(mainWin);
+    mainWin.webContents.send(MainWinUi.Full_Screen, true);
   });
 
   /**
-   *  退出全屏时触发
+   *  退出全屏
    */
   mainWin.on('leave-full-screen', () => {
-    // console.log('退出全屏');
+    // console.log('leave-full-screen:', getMainWindowData().bounds);
     setMainWindowData({ isFullScreen: false });
-    fullScreen(mainWin);
+    mainWin.webContents.send(MainWinUi.Full_Screen, false);
     mainWin.setResizable(true);
     // 退出全屏时，如果在最大化则先退出最大化，然后恢复到最大化之前的界面大小
     setTimeout(() => {
@@ -132,60 +120,58 @@ export const mainWinUiHandler = (
   });
 
   /**
-   *  窗口最大化时触发
+   *  最大化
    */
   mainWin.on('maximize', () => {
-    // console.log('最大化');
+    // console.log('最大化', getMainWindowData().bounds);
     setMainWindowData({ isMaximized: true });
     mainWin.setResizable(false);
-    maximize(mainWin);
+    mainWin.webContents.send(MainWinUi.Maximize, true);
   });
 
   /**
-   *  当窗口从最大化状态退出时触发
+   *  退出最大化
    */
   mainWin.on('unmaximize', () => {
     // console.log('退出最大化');
     setMainWindowData({ isMaximized: false });
     mainWin.setResizable(true);
-    maximize(mainWin);
+    mainWin.webContents.send(MainWinUi.Maximize, false);
   });
 
   /**
-   *  窗口最小化时触发
+   *  最小化
    */
   mainWin.on('minimize', () => {
     // console.log('最小化');
     setMainWindowData({ isMinimized: true });
-    minimize(mainWin);
+    mainWin.webContents.send(MainWinUi.Minimize, true);
   });
 
   /**
-   *  当窗口从最小化状态恢复时触发
+   *  取消最小化
    */
   mainWin.on('restore', () => {
     // console.log('退出最小化');
     setMainWindowData({ isMinimized: false });
-    minimize(mainWin);
+    mainWin.webContents.send(MainWinUi.Minimize, false);
   });
 
   /**
-   *  调整窗口大小后触发
+   *  窗口大小调整
    */
   mainWin.on('resized', () => {
-    const bounds = mainWin.getBounds();
-    setMainWindowData({ bounds });
+    console.log('resized');
+    if (mainWin.isMaximized() || mainWin.isFullScreen()) return;
+    updateBounds(mainWin);
   });
 
   /**
-   *  窗口移动到新位置时触发
+   *  窗口位置调整
    */
   mainWin.on('move', () => {
-    handleMove(mainWin);
-  });
-
-  mainWin.on('focus', () => {
-    console.log('focus');
+    if (mainWin.isMaximized() || mainWin.isFullScreen()) return;
+    updateBounds(mainWin);
   });
 
   /**
@@ -219,24 +205,7 @@ export const mainWinUiHandler = (
 // ====================================
 
 // 窗口move时保存窗口信息
-function handleMove(mainWin: BrowserWindow) {
+function updateBounds(mainWin: BrowserWindow) {
   const bounds = mainWin.getBounds();
   setMainWindowData({ bounds });
-}
-
-function fullScreen(mainWin: BrowserWindow) {
-  mainWin.webContents.send(
-    MainWinUi.Full_Screen,
-    getMainWindowData().isFullScreen,
-  );
-}
-
-// 是否最大化
-function maximize(mainWin: BrowserWindow) {
-  mainWin.webContents.send(MainWinUi.Maximize, getMainWindowData().isMaximized);
-}
-
-// 是否最小化
-function minimize(mainWin: BrowserWindow) {
-  mainWin.webContents.send(MainWinUi.Minimize, getMainWindowData().isMinimized);
 }
