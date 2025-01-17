@@ -37,10 +37,12 @@ const LyricFullScreen = () => {
 
   // 双击后最大窗口
   const handleDoubleClick = useCallback(() => {
+    if (isFullScreen) return;
     windowUIEmitter.maximize();
     setIsMaximize(!isMaximize);
-  }, [isMaximize]);
-  useDoubleClick(dragEleRef, handleDoubleClick);
+  }, [isFullScreen, isMaximize]);
+
+  useDoubleClick(dragEleRef, handleDoubleClick); // 操作栏区域鼠标双击事件
 
   /**
    *  监听页面视图尺寸变化

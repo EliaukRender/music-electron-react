@@ -178,6 +178,23 @@ const createWindow = async () => {
 };
 
 /**
+ * 单实例运行
+ */
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+  app.quit(); // 停止新实例
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore();
+        mainWindow.focus();
+      }
+    }
+  });
+}
+
+/**
  * app准备就绪
  */
 app
