@@ -28,16 +28,17 @@ const MusicInfo = memo(({ songInfo, isPlaying, isActiveSong }: IMusicInfo) => {
   const [isEnter, setIsEnter] = useState(false);
 
   return (
-    <MusicInfoStyles
-      onMouseEnter={() => setIsEnter(true)}
-      onMouseLeave={() => setIsEnter(false)}
-    >
+    <MusicInfoStyles>
       <img className="img" src={songInfo?.songPic} alt="" />
       <div className="text">
         <div className="ellipsis">{songInfo?.songName || '--'}</div>
         <div className="singer ellipsis">{songInfo?.singer || '--'}</div>
       </div>
-      <div className="img-mask">
+      <div
+        className="img-mask"
+        onMouseEnter={() => setIsEnter(true)}
+        onMouseLeave={() => setIsEnter(false)}
+      >
         {isPlaying && isActiveSong && !isEnter && <DynamicsBars></DynamicsBars>}
         {isActiveSong && (
           <i
