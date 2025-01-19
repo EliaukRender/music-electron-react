@@ -1,64 +1,48 @@
-import { memo, useEffect, useMemo, useRef, useState } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
-import { RootState } from '@/renderer/store';
+import { memo, useEffect, useMemo, useRef } from 'react';
 
-// 每个bar的配置
-const barsList = [
-  {
-    width: 2,
-    height: 6,
-    increasing: true,
-  },
-  {
-    width: 2,
-    height: 3,
-    increasing: false,
-  },
-  {
-    width: 2,
-    height: 1,
-    increasing: true,
-  },
-  {
-    width: 2,
-    height: 5,
-    increasing: false,
-  },
-];
+const barWidth = 2;
 const barGap = 3; // 每一个bar之间的间隔距离
+const canvasHeight = 10;
 
 /**
  * @description: 音乐播放时的动态图标
  */
 const DynamicsBars = memo(() => {
-  const { isPlaying } = useSelector(
-    (state: RootState) => ({
-      isPlaying: state.audioPlayer.isPlaying,
-    }),
-    shallowEqual,
-  );
+  // 配置
+  const barsList = [
+    {
+      height: 6,
+      increasing: true,
+    },
+    {
+      height: 3,
+      increasing: false,
+    },
+    {
+      height: 1,
+      increasing: true,
+    },
+    {
+      height: 5,
+      increasing: false,
+    },
+  ];
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [id, setId] = useState<number | null>(null);
+  const timerId = useRef<NodeJS.Timeout | null>(null);
   const canvasWidth = useMemo(() => {
     if (!barsList.length) return 0;
-    return barsList.length * barsList[0].width + (barsList.length - 1) * barGap;
+    return barsList.length * barWidth + (barsList.length - 1) * barGap;
   }, [barsList]);
 
   /**
    * 音乐在播放时开始绘制canvas
    */
   useEffect(() => {
-    if (isPlaying) {
-      const tempId = setInterval(() => {
-        drawBars();
-      }, 10);
-      // @ts-ignore
-      setId(tempId);
-    } else {
-      id && clearInterval(id);
-      setId(null);
-    }
+    timerId.current = setInterval(() => {
+      drawBars();
+    }, 10);
 
+    // 绘制canvas
     function drawBars() {
       const canvas = canvasRef.current;
       if (!canvas) return;
@@ -70,9 +54,9 @@ const DynamicsBars = memo(() => {
       barsList.forEach((bar, index: number) => {
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(
-          index * (bar.width + barGap),
+          index * (barWidth + barGap),
           cavHeight - bar.height,
-          bar.width,
+          barWidth,
           bar.height,
         );
 
@@ -89,20 +73,19 @@ const DynamicsBars = memo(() => {
         }
       });
     }
-  }, [isPlaying]);
 
-  /**
-   * 销毁定时器
-   */
-  useEffect(() => {
     return () => {
-      id && clearInterval(id);
+      timerId.current && clearInterval(timerId.current); // 销毁定时器
     };
   }, []);
 
   return (
     <div>
-      <canvas ref={canvasRef} width={canvasWidth} height={10}></canvas>
+      <canvas
+        ref={canvasRef}
+        width={canvasWidth}
+        height={canvasHeight}
+      ></canvas>
     </div>
   );
 });
