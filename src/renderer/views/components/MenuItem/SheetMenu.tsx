@@ -17,6 +17,7 @@ import defaultPic from '@/renderer/assets/images/default-sheet-pic.png';
 import Emitter from '@/renderer/eventBus/event-emitter';
 import EventBusEnum from '@/renderer/eventBus/modules/eventBusEnum';
 import { playSong } from '@/renderer/store/actions/audioPlayerActions';
+import DynamicsBars from '@/renderer/views/components/DynamicsBars/DynamicsBars';
 
 interface PropsType {
   menuItemInfo: SheetMenuItemType; // 歌单
@@ -28,14 +29,16 @@ interface PropsType {
  */
 const SheetMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
   const dispatch = useDispatch();
-  const { activeSheet, sheetSongListMap } = useSelector(
-    (state: RootState) => ({
-      activeSheet: state.mainMenu.activeSheet,
-      sheetSongListMap: state.mainMenu.sheetSongListMap,
-      activeSongId: state.playerControl.activeSongId,
-    }),
-    shallowEqual,
-  );
+  const { activeSheet, sheetSongListMap, isPlaying, activeSongId } =
+    useSelector(
+      (state: RootState) => ({
+        activeSheet: state.mainMenu.activeSheet,
+        sheetSongListMap: state.mainMenu.sheetSongListMap,
+        activeSongId: state.playerControl.activeSongId,
+        isPlaying: state.audioPlayer.isPlaying,
+      }),
+      shallowEqual,
+    );
 
   // 当前歌单对应的歌曲列表
   const curSongList = useMemo(() => {
@@ -48,24 +51,39 @@ const SheetMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
     return song?.songPic || defaultPic;
   }, [curSongList]);
 
-  // 鼠标右键--播放
+  // 当前歌单正在播放歌曲
+  const isPlayingSheet = useMemo(() => {
+    return (
+      isPlaying && curSongList.find((item) => item.songId === activeSongId)
+    );
+  }, [activeSongId, curSongList, isPlaying]);
+
+  /**
+   *  鼠标右键--播放
+   */
   const playHandler = useCallback(() => {
     if (!curSongList?.length) return;
     const song = curSongList[Math.floor(Math.random() * curSongList.length)];
     playSong(song);
   }, [curSongList]);
 
-  // 鼠标右键--删除
+  /**
+   *  鼠标右键--删除
+   */
   const deleteHandler = useCallback(async () => {
     await handleDeleteSheet(menuItemInfo.sheetId);
   }, [menuItemInfo]);
 
-  // 鼠标右键--重命名
+  /**
+   *  鼠标右键--重命名
+   */
   const renameHandler = useCallback(() => {
     console.log('重命名');
   }, []);
 
-  // 鼠标右键菜单
+  /**
+   *  鼠标右键菜单
+   */
   const menu = useMemo(() => {
     return [
       {
@@ -128,6 +146,15 @@ const SheetMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
         )}
       >
         <img className="song-pic" src={firstSongPic} alt="" draggable={false} />
+
+        {/*  todo 需要区分激活的歌单id  */}
+        {/* {isPlayingSheet && ( */}
+        {/*  <div className="img-mask"> */}
+        {/*    <DynamicsBars></DynamicsBars> */}
+        {/*  </div> */}
+        {/* )} */}
+
+        {/* 折叠时不显示 */}
         {!isCollapseMenu && (
           <span className="name">{menuItemInfo.sheetName}</span>
         )}

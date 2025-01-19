@@ -39,7 +39,7 @@ const MusicInfo = memo(({ songInfo, isPlaying, isActiveSong }: IMusicInfo) => {
         onMouseEnter={() => setIsEnter(true)}
         onMouseLeave={() => setIsEnter(false)}
       >
-        {isPlaying && isActiveSong && !isEnter && <DynamicsBars></DynamicsBars>}
+        {isPlaying && isActiveSong && !isEnter && <DynamicsBars />}
         {isActiveSong && (
           <i
             className={classNames(
@@ -51,7 +51,7 @@ const MusicInfo = memo(({ songInfo, isPlaying, isActiveSong }: IMusicInfo) => {
             onClick={() => {
               pauseOrPlay();
             }}
-          ></i>
+          />
         )}
       </div>
     </MusicInfoStyles>

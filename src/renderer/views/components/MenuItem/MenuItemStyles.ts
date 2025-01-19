@@ -3,8 +3,9 @@ import { hexToRgba } from '@/renderer/utils/color/transformColor';
 
 export const MenuItemStyles = styled.div`
   .item {
+    position: relative;
     width: 100%;
-    height: 45px;
+    height: 46px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -17,6 +18,26 @@ export const MenuItemStyles = styled.div`
       width: 28px;
       height: 28px;
       border-radius: 4px;
+    }
+
+    .img-mask {
+      position: absolute;
+      top: 9px;
+      left: 9px;
+      width: 28px;
+      height: 28px;
+      background-color: rgba(0, 0, 0, 0.4);
+      border-radius: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 2;
+
+      .icon-bofang:hover,
+      .icon-zanting:hover {
+        color: #00cc65 !important;
+      }
     }
 
     .name {
