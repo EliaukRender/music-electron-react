@@ -17,6 +17,8 @@ import defaultPic from '@/renderer/assets/images/default-sheet-pic.png';
 import Emitter from '@/renderer/eventBus/event-emitter';
 import EventBusEnum from '@/renderer/eventBus/modules/eventBusEnum';
 import { playSong } from '@/renderer/store/actions/audioPlayerActions';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { RouteEnum } from '@/renderer/constant/routeEnum';
 
 interface PropsType {
   menuItemInfo: SheetMenuItemType; // 歌单
@@ -116,6 +118,8 @@ const SheetMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
   };
 
   // 点击歌单
+  const location = useLocation();
+  const navigate = useNavigate();
   const clickSheet = useCallback(async () => {
     if (menuItemInfo?.sheetId === activeSheet?.sheetId) return;
     dispatch(setActiveSheet(menuItemInfo));
