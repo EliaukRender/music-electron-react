@@ -1,5 +1,5 @@
 import { MenuItemStyles } from '@/renderer/views/components/MenuItem/MenuItemStyles';
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import classNames from 'classnames';
 import { OnlineMenuItemType } from '@/renderer/types/menuTypes';
 import {
@@ -8,6 +8,7 @@ import {
 } from '@/renderer/store/modules/mainMenuReducer';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/renderer/store';
+import { useNavigate } from 'react-router-dom';
 
 interface PropsType {
   menuItemInfo: OnlineMenuItemType; // 在线菜单
@@ -19,6 +20,7 @@ interface PropsType {
  */
 const OnlineMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { activeMenu } = useSelector(
     (state: RootState) => ({
       activeMenu: state.mainMenu.activeMenu,
@@ -27,11 +29,13 @@ const OnlineMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
   );
 
   // 点击菜单
-  const clickMenu = () => {
+  const clickMenu = useCallback(() => {
     if (menuItemInfo.menuId === activeMenu?.menuId) return;
     dispatch(setActiveMenu(menuItemInfo));
     dispatch(setActiveSheet({}));
-  };
+    console.log('clickMenu', menuItemInfo.routePath);
+    navigate(menuItemInfo.routePath);
+  }, [activeMenu?.menuId, dispatch, menuItemInfo, navigate]);
 
   return (
     <MenuItemStyles

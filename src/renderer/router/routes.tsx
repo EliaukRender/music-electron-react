@@ -8,6 +8,15 @@ const SheetCommon = React.lazy(
 const MiniPlayer = React.lazy(
   () => import('@/renderer/views/MiniPlayer/MiniPlayer'),
 );
+const MusicHome = React.lazy(
+  () => import('@/renderer/views/MusicHome/MusicHome'),
+);
+const MusicVideo = React.lazy(
+  () => import('@/renderer/views/MusicVideo/MusicVideo'),
+);
+const MusicWorld = React.lazy(
+  () => import('@/renderer/views/MusicWorld/MusicWorld'),
+);
 
 const routes: RouteObject[] = [
   {
@@ -19,8 +28,32 @@ const routes: RouteObject[] = [
     ),
     children: [
       {
-        path: 'sheet',
+        path: 'like',
         element: <SheetCommon></SheetCommon>,
+      },
+      {
+        path: 'home',
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <MusicHome></MusicHome>{' '}
+          </Suspense>
+        ),
+      },
+      {
+        path: 'video',
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <MusicVideo></MusicVideo>
+          </Suspense>
+        ),
+      },
+      {
+        path: 'world',
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <MusicWorld></MusicWorld>
+          </Suspense>
+        ),
       },
     ],
   },

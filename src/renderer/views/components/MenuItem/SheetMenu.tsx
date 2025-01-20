@@ -17,6 +17,8 @@ import defaultPic from '@/renderer/assets/images/default-sheet-pic.png';
 import Emitter from '@/renderer/eventBus/event-emitter';
 import EventBusEnum from '@/renderer/eventBus/modules/eventBusEnum';
 import { playSong } from '@/renderer/store/actions/audioPlayerActions';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { RouteEnum } from '@/renderer/constant/routeEnum';
 
 interface PropsType {
   menuItemInfo: SheetMenuItemType; // 歌单
@@ -99,11 +101,14 @@ const SheetMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
   };
 
   // 点击歌单
+  const navigate = useNavigate();
+  const location = useLocation();
   const clickSheet = useCallback(async () => {
     if (menuItemInfo?.sheetId === activeSheet?.sheetId) return;
     dispatch(setActiveSheet(menuItemInfo));
     dispatch(setActiveMenu({}));
     dispatch(setCurSheetSongList([])); // 清空当前歌单的歌曲列表
+    location.pathname !== RouteEnum.Like && navigate(menuItemInfo.routePath); // 路由跳转
     // 获取歌单对应的歌曲列表
     let songList: any[] | undefined;
     if (!curSongList.length) {
@@ -116,10 +121,20 @@ const SheetMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
       songList = curSongList;
     }
     dispatch(setCurSheetSongList(songList));
-  }, [activeSheet?.sheetId, curSongList, dispatch, menuItemInfo]);
+  }, [
+    activeSheet?.sheetId,
+    curSongList,
+    dispatch,
+    location,
+    menuItemInfo,
+    navigate,
+  ]);
 
   return (
-    <MenuItemStyles onClick={clickSheet} onContextMenu={onContextMenuHandler}>
+    <MenuItemStyles
+      onClick={() => clickSheet()}
+      onContextMenu={(event) => onContextMenuHandler(event)}
+    >
       <div
         className={classNames(
           'item',

@@ -1,11 +1,11 @@
 import LeftAside from './components/LeftAside';
 import RightContainer from './components/RightContainer';
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { initAppData } from '@/renderer/store/actions/mainMenuActions';
 import { LayoutStyles } from '@/renderer/views/Layout/styles/LayoutStyles';
 import LyricFullScreen from '@/renderer/views/LyricFullScreen';
 import keyboardListener from '@/renderer/ipcRenderer/mainWindow/keyboardListener';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { RouteEnum } from '@/renderer/constant/routeEnum';
 import ContextMenu from '@/renderer/views/ContextMenu/ContextMenu';
 import { useContextMenu } from '@/renderer/hooks/useContextMenu';
@@ -49,9 +49,14 @@ function Layout() {
    * 默认路由跳转到我的歌单
    */
   const navigate = useNavigate();
+  const [firstOpen, setFirstOpen] = useState(true);
   useEffect(() => {
-    navigate(RouteEnum.Sheet);
-  }, [navigate]);
+    // 是否是首次打开页面
+    if (firstOpen) {
+      setFirstOpen(false);
+      navigate(RouteEnum.Like);
+    }
+  }, [firstOpen, navigate]);
 
   return (
     <LayoutStyles onContextMenu={(event) => event.preventDefault()}>
