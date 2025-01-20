@@ -33,8 +33,12 @@ const CurrentMusicInfo = ({ showLyrics }: IProps) => {
           showLyrics ? 'info-text-show-lyrics' : '',
         )}
       >
-        <div className="singer">{currentSong?.singer || 'Eliauk'}</div>
-        <div className="song-name">{currentSong?.songName || '音乐一下'}</div>
+        <div className="singer ellipsis" title={currentSong?.singer}>
+          {currentSong?.singer || 'Eliauk'}
+        </div>
+        <div className="song-name ellipsis" title={currentSong?.songName}>
+          {currentSong?.songName || '音乐一下'}
+        </div>
       </div>
     </CurrentMusicInfoStyles>
   );

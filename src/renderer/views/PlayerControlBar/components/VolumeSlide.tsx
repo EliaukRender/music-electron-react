@@ -4,7 +4,6 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { changeVolume } from '@/renderer/store/actions/audioPlayerActions';
 import { Divider } from 'antd';
-import { throttle } from 'lodash';
 
 interface IProps {
   visible: boolean;
@@ -28,7 +27,7 @@ const VolumeSlide = memo(({ visible }: IProps) => {
   // 改变音量
   const handleChange = useCallback(
     (value: number) => {
-      console.log(value, volume);
+      // console.log(value, volume);
       if (volume === 100 && value >= 100) return;
       if (volume === 0 && value <= 0) return;
       let val = value;
@@ -69,7 +68,7 @@ const VolumeSlide = memo(({ visible }: IProps) => {
 
   // 鼠标按下
   const handleMouseDown = useCallback((e: MouseEvent) => {
-    console.log('down', e.clientY);
+    // console.log('down', e.clientY);
     setIsMouseDown((prevState) => true);
     setStartY(e.clientY);
   }, []);
@@ -91,11 +90,6 @@ const VolumeSlide = memo(({ visible }: IProps) => {
     [handleChange, isMouseDown, startY, volume],
   );
 
-  const throttleHandleMouseMove = throttle(handleMouseMove, 50, {
-    trailing: true,
-    leading: true,
-  });
-
   // 鼠标松开
   const handleMouseUp = useCallback(() => {
     setIsMouseDown((prevState) => false);
@@ -108,17 +102,17 @@ const VolumeSlide = memo(({ visible }: IProps) => {
     const dotEle = dotRef.current;
     if (dotEle) {
       dotEle.addEventListener('mousedown', handleMouseDown);
-      document.addEventListener('mousemove', throttleHandleMouseMove);
+      document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
     }
     return () => {
       if (dotEle) {
         dotEle.removeEventListener('mousedown', handleMouseDown);
-        document.removeEventListener('mousemove', throttleHandleMouseMove);
+        document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
       }
     };
-  }, [handleMouseDown, handleMouseUp, throttleHandleMouseMove]);
+  }, [handleMouseDown, handleMouseUp, handleMouseMove]);
 
   return (
     visible && (

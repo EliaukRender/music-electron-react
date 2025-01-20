@@ -38,7 +38,7 @@ const ActiveSongEntry = ({ showLyrics }: IProps) => {
   return (
     <ActiveSongEntryStyles>
       <i
-        className={`iconfont icon-zhankai ${showLyrics ? 'icon-zhankai-show-lyrics' : ''}`}
+        className={`iconfont icon-gedan ${showLyrics ? 'icon-zhankai-show-lyrics' : ''}`}
         style={
           visible
             ? {

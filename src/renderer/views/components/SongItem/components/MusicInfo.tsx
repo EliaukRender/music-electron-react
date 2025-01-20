@@ -1,10 +1,11 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { MusicInfoStyles } from '@/renderer/views/components/SongItem/components/MusicInfoStyles';
 import classNames from 'classnames';
 import {
   playSong,
   pauseAudio,
 } from '@/renderer/store/actions/audioPlayerActions';
+import DynamicsBars from '@/renderer/views/components/DynamicsBars/DynamicsBars';
 
 interface IMusicInfo {
   songInfo: any;
@@ -24,6 +25,7 @@ const MusicInfo = memo(({ songInfo, isPlaying, isActiveSong }: IMusicInfo) => {
       playSong(songInfo);
     }
   };
+  const [isEnter, setIsEnter] = useState(false);
 
   return (
     <MusicInfoStyles>
@@ -32,17 +34,25 @@ const MusicInfo = memo(({ songInfo, isPlaying, isActiveSong }: IMusicInfo) => {
         <div className="ellipsis">{songInfo?.songName || '--'}</div>
         <div className="singer ellipsis">{songInfo?.singer || '--'}</div>
       </div>
-      <div className="img-mask">
-        <i
-          className={classNames(
-            'iconfont',
-            isPlaying && isActiveSong ? 'icon-zanting' : 'icon-bofang',
-          )}
-          style={{ color: '#ffffff' }}
-          onClick={() => {
-            pauseOrPlay();
-          }}
-        ></i>
+      <div
+        className="img-mask"
+        onMouseEnter={() => setIsEnter(true)}
+        onMouseLeave={() => setIsEnter(false)}
+      >
+        {isPlaying && isActiveSong && !isEnter && <DynamicsBars />}
+        {isActiveSong && (
+          <i
+            className={classNames(
+              'iconfont',
+              isPlaying && isEnter ? 'icon-zanting' : '',
+              !isPlaying ? 'icon-bofang' : '',
+            )}
+            style={{ color: '#ffffff' }}
+            onClick={() => {
+              pauseOrPlay();
+            }}
+          />
+        )}
       </div>
     </MusicInfoStyles>
   );

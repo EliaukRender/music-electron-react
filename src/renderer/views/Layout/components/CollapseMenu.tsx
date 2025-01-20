@@ -23,9 +23,11 @@ const CollapseMenu = memo((props) => {
   return (
     <CollapseMenuStyles>
       <i
-        className={`iconfont icon-${isCollapseMenu ? 'zhankai' : 'zhediecaidan'}`}
+        className={`iconfont icon-${isCollapseMenu ? 'zhankaicaidan' : 'zhediecaidan'}`}
         onClick={handleCollapseMenu}
       ></i>
+      {!isCollapseMenu && <i className="iconfont icon-shezhi"></i>}
+      {!isCollapseMenu && <i className="iconfont icon-pifu"></i>}
     </CollapseMenuStyles>
   );
 });

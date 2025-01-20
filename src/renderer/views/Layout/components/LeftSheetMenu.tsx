@@ -32,7 +32,6 @@ function LeftSheetMenu() {
       {!isCollapseMenu && (
         <div className="title-box">
           <div className="title">我的歌单</div>
-          {/* 创建歌单 */}
           <i
             className="iconfont icon-jia"
             onClick={() => setShowCreateInput(true)}
@@ -41,6 +40,7 @@ function LeftSheetMenu() {
       )}
 
       <div className="sheet-menu-list">
+        {/* 创建歌单入口 */}
         {showCreateInput && (
           <CreateSheet
             sheetMenuList={sheetMenuList}
@@ -48,6 +48,8 @@ function LeftSheetMenu() {
             finishCreate={finishCreate}
           ></CreateSheet>
         )}
+
+        {/* 歌单列表 */}
         {sheetMenuList.map((item) => {
           return (
             <SheetMenu
