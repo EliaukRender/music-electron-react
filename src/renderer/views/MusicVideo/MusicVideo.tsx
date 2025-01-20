@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { MusicVideoStyles } from '@/renderer/views/MusicVideo/styles/MusicVideoStyles';
+import RemindCmp from '@/renderer/views/components/RemindCmp/RemindCmp';
 
 /**
  * @description: 音乐视频入口
@@ -7,7 +8,9 @@ import { MusicVideoStyles } from '@/renderer/views/MusicVideo/styles/MusicVideoS
 const MusicVideo = memo((props) => {
   return (
     <MusicVideoStyles>
-      <div className="music-video">video</div>
+      <div className="music-video">
+        <RemindCmp></RemindCmp>
+      </div>
     </MusicVideoStyles>
   );
 });
