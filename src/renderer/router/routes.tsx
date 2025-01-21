@@ -17,6 +17,15 @@ const MusicVideo = React.lazy(
 const MusicWorld = React.lazy(
   () => import('@/renderer/views/MusicWorld/MusicWorld'),
 );
+const CherryPick = React.lazy(
+  () => import('@/renderer/views/MusicHome/views/CherryPick'),
+);
+const HomeRank = React.lazy(
+  () => import('@/renderer/views/MusicHome/views/HomeRank'),
+);
+const HomeSinger = React.lazy(
+  () => import('@/renderer/views/MusicHome/views/HomeSinger'),
+);
 
 const routes: RouteObject[] = [
   {
@@ -27,18 +36,50 @@ const routes: RouteObject[] = [
       </Suspense>
     ),
     children: [
+      // 我的歌单
       {
         path: 'like',
         element: <SheetCommon></SheetCommon>,
       },
+      // 音乐馆
       {
-        path: 'home',
+        path: 'home/*',
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <MusicHome></MusicHome>{' '}
           </Suspense>
         ),
+        children: [
+          // 音乐馆-精选
+          {
+            path: 'cherryPickCmp',
+            element: (
+              <Suspense>
+                <CherryPick></CherryPick>
+              </Suspense>
+            ),
+          },
+          // 音乐馆-排行
+          {
+            path: 'rank',
+            element: (
+              <Suspense>
+                <HomeRank></HomeRank>
+              </Suspense>
+            ),
+          },
+          // 音乐馆-歌手
+          {
+            path: 'singer',
+            element: (
+              <Suspense>
+                <HomeSinger></HomeSinger>
+              </Suspense>
+            ),
+          },
+        ],
       },
+      // 视频
       {
         path: 'video',
         element: (
@@ -47,6 +88,7 @@ const routes: RouteObject[] = [
           </Suspense>
         ),
       },
+      // 世界
       {
         path: 'world',
         element: (

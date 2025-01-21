@@ -4,6 +4,7 @@ export const RightContainerStyles = styled.div`
   flex: 1;
   height: 100%;
   padding: 10px 10px 10px 0;
+  overflow: hidden;
 
   .container {
     width: 100%;

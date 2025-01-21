@@ -58,10 +58,9 @@ export const MENU_ID_ENUM = {
  * @description: 音乐馆页面标题列表
  */
 export const MusicHomeSortList = [
-  { id: 1, name: '精选', routePath: '/musicRecommend' },
-  { id: 2, name: '排行', routePath: '/musicRecommend' },
-  { id: 3, name: '分类', routePath: '/musicRecommend' },
-  { id: 4, name: '歌手', routePath: '/musicRecommend' },
+  { id: 1, name: '精选', routePath: 'cherryPickCmp' },
+  { id: 2, name: '排行', routePath: 'rank' },
+  { id: 3, name: '歌手', routePath: 'singer' },
 ];
 
 /**
