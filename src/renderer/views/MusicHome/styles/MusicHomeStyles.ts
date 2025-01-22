@@ -11,7 +11,7 @@ export const MusicHomeStyles = styled.div`
 
     .main-title {
       height: 45px;
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 600;
     }
 

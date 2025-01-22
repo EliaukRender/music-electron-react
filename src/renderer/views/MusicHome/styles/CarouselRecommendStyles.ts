@@ -3,13 +3,15 @@ import { hexToRgba } from '@/renderer/utils/color/transformColor';
 
 export const CarouselRecommendStyles = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   overflow: hidden;
   position: relative;
   padding-top: 10px;
 
   .carouse-recommend {
     width: 100%;
-    height: 200px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -22,7 +24,6 @@ export const CarouselRecommendStyles = styled.div`
 
     .sheet-item {
       flex: 0 0 33.33%;
-      height: 200px;
       padding-right: 20px;
 
       &:nth-child(3n) {
@@ -70,5 +71,30 @@ export const CarouselRecommendStyles = styled.div`
 
   .anticon-left {
     transform: translateX(-3px);
+  }
+
+  .pointer-list {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .pointer {
+      width: 6px;
+      height: 6px;
+      background-color: #adadad;
+      margin-right: 5px;
+      border-radius: 50%;
+
+      &-active {
+        background-color: ${({ theme }) =>
+          hexToRgba(theme.themeColor.hover, 0.8)};
+      }
+    }
+
+    .pointer:last-child {
+      margin-right: 0;
+    }
   }
 `;

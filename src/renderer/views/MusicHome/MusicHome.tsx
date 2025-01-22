@@ -12,7 +12,13 @@ const MusicHome = memo(() => {
   const [isNavigated, setIsNavigated] = useState(false);
   const navigate = useNavigate();
 
-  // 切换分类
+  /**
+   * todo 播放器宽度达到屏幕宽度的70%时开始动态更新padding值
+   */
+
+  /**
+   * 切换分类
+   */
   const changeCategory = useCallback(
     (item: any) => {
       setCurCategoryId(item.id);
