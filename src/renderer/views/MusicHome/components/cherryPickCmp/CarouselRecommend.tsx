@@ -5,6 +5,7 @@ import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 import gsap from 'gsap';
 import ScrollToPlugin from 'gsap/ScrollToPlugin';
 import classNames from 'classnames';
+import { useResizeObserve } from '@/renderer/hooks/useResizeObserve';
 
 interface IProps {
   sheetList: any[];
@@ -24,17 +25,18 @@ const CarouselRecommend = memo(({ sheetList = [] }: IProps) => {
   /**
    * 计算图片的高度
    */
-  const WIDTH_HEIGHT_RADIO = 1.35; // 宽高比
+  const WIDTH_HEIGHT_RADIO = 1.4; // 宽高比
   const [imageHeight, setImageHeight] = useState(180);
-
   const computeImageHeight = useCallback(() => {
     if (!carouseRef.current) return;
     const imageWidth = Math.ceil(
       carouseRef.current.clientWidth / EVERY_GROUP_COUNT,
     );
-    console.log('imageWidth', imageWidth);
+    // console.log('imageWidth', imageWidth);
     setImageHeight((imageWidth - 20) / WIDTH_HEIGHT_RADIO); // 20是padding-right
   }, []);
+
+  useResizeObserve(carouseRef, computeImageHeight);
 
   /**
    * 鼠标进入轮播区域
@@ -141,15 +143,10 @@ const CarouselRecommend = memo(({ sheetList = [] }: IProps) => {
   }, [currentIndex, handleScroll, isScrolling, pointerList.length]);
 
   /**
-   * 动态计算图片尺寸
+   * 初次渲染时计算一次
    */
   useEffect(() => {
     computeImageHeight();
-    window.addEventListener('resize', computeImageHeight);
-
-    return () => {
-      window.removeEventListener('resize', computeImageHeight);
-    };
   }, [computeImageHeight]);
 
   return (

@@ -3,18 +3,16 @@ import { MusicHomeStyles } from '@/renderer/views/MusicHome/styles/MusicHomeStyl
 import { MusicHomeSortList } from '@/renderer/constant';
 import classNames from 'classnames';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { useResizeContainer } from '@/renderer/hooks/useResizeContainer';
 
 /**
  * @description: 音乐馆入口
  */
 const MusicHome = memo(() => {
+  const { containerRef } = useResizeContainer();
   const [curCategoryId, setCurCategoryId] = useState(1); // 当前选中的分类
   const [isNavigated, setIsNavigated] = useState(false);
   const navigate = useNavigate();
-
-  /**
-   * todo 播放器宽度达到屏幕宽度的70%时开始动态更新padding值
-   */
 
   /**
    * 切换分类
@@ -37,7 +35,7 @@ const MusicHome = memo(() => {
   }, [isNavigated, navigate]);
 
   return (
-    <MusicHomeStyles>
+    <MusicHomeStyles ref={containerRef}>
       <div className="music-home">
         <div className="main-title">音乐馆</div>
         <div className="body">

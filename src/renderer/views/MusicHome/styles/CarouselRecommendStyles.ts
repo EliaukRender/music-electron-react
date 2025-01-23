@@ -41,8 +41,8 @@ export const CarouselRecommendStyles = styled.div`
   .prev {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
+    transform: translateY(-55%);
+    z-index: 2;
     padding: 10px;
     background-color: ${({ theme }) => hexToRgba(theme.themeColor.hover, 0.5)};
     font-size: 20px;

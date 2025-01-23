@@ -13,7 +13,6 @@ const CherryPick = memo((props) => {
   const getCherryPickSheet = useCallback(async () => {
     const data: any[] | undefined = await handleQueryMusicHomeSheet();
     data?.length && setTotalSheetData(data);
-    console.log('data', data);
   }, []);
 
   /**

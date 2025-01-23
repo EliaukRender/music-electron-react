@@ -33,7 +33,6 @@ const OnlineMenu: React.FC<PropsType> = ({ menuItemInfo, isCollapseMenu }) => {
     if (menuItemInfo.menuId === activeMenu?.menuId) return;
     dispatch(setActiveMenu(menuItemInfo));
     dispatch(setActiveSheet({}));
-    console.log('clickMenu', menuItemInfo.routePath);
     navigate(menuItemInfo.routePath);
   }, [activeMenu?.menuId, dispatch, menuItemInfo, navigate]);
 

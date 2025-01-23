@@ -2,12 +2,12 @@ import styled from 'styled-components';
 
 export const MusicHomeStyles = styled.div`
   height: 100%;
+  padding: 10px 30px 0 30px;
 
   .music-home {
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 10px 30px 0 30px;
 
     .main-title {
       height: 45px;

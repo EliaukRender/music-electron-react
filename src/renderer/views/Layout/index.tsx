@@ -5,7 +5,7 @@ import { initAppData } from '@/renderer/store/actions/mainMenuActions';
 import { LayoutStyles } from '@/renderer/views/Layout/styles/LayoutStyles';
 import LyricFullScreen from '@/renderer/views/LyricFullScreen';
 import keyboardListener from '@/renderer/ipcRenderer/mainWindow/keyboardListener';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { RouteEnum } from '@/renderer/constant/routeEnum';
 import ContextMenu from '@/renderer/views/ContextMenu/ContextMenu';
 import { useContextMenu } from '@/renderer/hooks/useContextMenu';
