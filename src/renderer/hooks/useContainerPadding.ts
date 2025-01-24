@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 
 /**
  * @description: 控制页面的左右padding值，防止页面尺寸过大时引起的页面中布局问题
  */
-export const useResizeContainer = () => {
+export const useContainerPadding = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [paddingValue, setPaddingValue] = useState(30); // 初始值30px
-  const location = useLocation();
 
   /**
    * 计算padding的方法

@@ -2,30 +2,29 @@ import styled from 'styled-components';
 
 export const MusicHomeStyles = styled.div`
   height: 100%;
-  padding: 10px 30px 0 30px;
+  overflow-y: auto;
 
   .music-home {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    overflow-y: auto;
 
     .main-title {
-      height: 45px;
       font-size: 24px;
       font-weight: 600;
     }
 
     .body {
-      flex: 1;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
 
       .category-list {
         display: flex;
         justify-content: flex-start;
         align-items: center;
         padding-bottom: 15px;
-        height: 25px;
+        height: 40px;
 
         .item {
           margin-left: 2px;
@@ -59,8 +58,6 @@ export const MusicHomeStyles = styled.div`
       }
 
       .content {
-        flex: 1;
-        overflow: hidden;
       }
     }
   }

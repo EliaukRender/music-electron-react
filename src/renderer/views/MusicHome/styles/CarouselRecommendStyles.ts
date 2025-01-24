@@ -8,7 +8,6 @@ export const CarouselRecommendStyles = styled.div`
   align-items: center;
   overflow: hidden;
   position: relative;
-  padding-top: 10px;
 
   .carouse-recommend {
     width: 100%;

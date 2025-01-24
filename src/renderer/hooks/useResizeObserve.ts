@@ -11,7 +11,6 @@ export const useResizeObserve = (targetRef: any, callBack: () => void) => {
 
     const resizeObserver = new ResizeObserver(() => {
       if (targetEle) {
-        console.log('resizeObserver');
         callBack();
         setResizeCount((prevState) => prevState + 1);
       }
