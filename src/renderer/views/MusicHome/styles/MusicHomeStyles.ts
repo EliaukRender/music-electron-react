@@ -15,6 +15,7 @@ export const MusicHomeStyles = styled.div`
     }
 
     .body {
+      position: relative;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -55,9 +56,6 @@ export const MusicHomeStyles = styled.div`
             background-color: ${(props) => props.theme.themeColor.hover};
           }
         }
-      }
-
-      .content {
       }
     }
   }
