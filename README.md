@@ -1,25 +1,29 @@
 ## APP功能说明与效果展示
 ### 已支持功能：
-* 支持歌曲播放、暂停、上一曲、下一曲、快进、快退、歌曲循环模式、音量调节、双击切歌
-* 支持新建歌单并添加歌曲；支持删除歌单
-* 支持自定义频谱图颜色、形状
-* 支持窗口最大、最小、全屏、双击最大、双击恢复
+* 歌曲播放、暂停、上一曲、下一曲、快进、快退、歌曲循环模式、音量调节、双击切歌
+* 新建歌单、添加歌曲、删除歌单
+* 自定义频谱图颜色、形状
+* 窗口最大、最小、全屏、双击最大、双击恢复
 ### 正在开发的功能：
-* mini窗口的音乐控制
-* mini窗口的歌词
-* 在线音乐板块
-### fix list
-* bars在同时显示多个时有定时器问题
+* 全屏歌词
+* 音乐馆板块
+### 修复列表
+* 开发环境中音频播放无声音
 
 
 ### 主页面
-![img_5.png](public/image/img_5.png)
+![img_5.png](public/image/img.png)
 ### 歌词页面
 ![img_1.png](public/image/img_1.png)
 ### 频谱图调节弹窗
 ![img_3.png](public/image/img_3.png)
 ### 歌曲播放队列弹窗
-![img_4.png](public/image/img_4.png)
+![img_4.png](public/image/img_2.png)
+### mini控制窗
+![img.png](public/image/img_4.png)
+### 音乐馆-精选页
+![img.png](public/image/img_5.png)
+
 
 ## 1、安装依赖
 ```
@@ -51,12 +55,12 @@ yarn package
 ```
 
 ## 4、常用指令
-```bash
-// 重置代理
+```
+# 重置代理
 git config --global --unset http.proxy
 git config --global --unset https.proxy
 
-// 配置代理
+# 配置代理
 git config --global http.proxy 127.0.0.1:7890
 git config --global https.proxy 127.0.0.1:7890
 ```
