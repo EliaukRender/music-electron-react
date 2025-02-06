@@ -39,13 +39,13 @@ export const useScrollSongVisible = (
       );
       songRefs.current[curIndexForSheet]?.scrollIntoView({
         behavior: 'instant',
-        block: 'center',
+        block: 'nearest',
       });
     }
     if (curIndexForActive !== -1 && isActiveVisible) {
       songRefs.current[curIndexForActive]?.scrollIntoView({
         behavior: 'instant',
-        block: 'center',
+        block: 'nearest',
       });
     }
   }, [
