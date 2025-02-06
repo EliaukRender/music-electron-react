@@ -115,6 +115,13 @@ const Lyric = ({ initWidthHeight }: IProps) => {
   }, [activeIndex]);
 
   /**
+   * 歌曲id重置时 还原歌词的偏移
+   */
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [activeSongId]);
+
+  /**
    *  歌词滚动动画
    */
   const startScrollIndex = 3; // 从第3句歌词开始滚动
