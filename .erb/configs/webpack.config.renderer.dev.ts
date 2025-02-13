@@ -217,21 +217,23 @@ const configuration: webpack.Configuration = {
       // 接口请求代理
       '/blog': {
         target: 'http://47.113.177.51',
-        // target: 'http://localhost:50000',
+        // target: 'http://localhost:1212',
         pathRewrite: { '^/blog': '/blog' },
+        changeOrigin: true,
       },
       // 音、视频代理
-      // '/media': {
-      //   target: 'http://47.113.177.51',
-      //   // target: 'http://localhost:50000',
-      //   pathRewrite: { '^/media': '/media' },
-      // },
+      '/media': {
+        // target: 'http://47.113.177.51',
+        target: 'http://localhost:1212',
+        pathRewrite: { '^/media': '/media' },
+        changeOrigin: true,
+      },
       // 图片代理
-      // '/image': {
-      //   target: 'http://47.113.177.51',
-      //   // target: 'http://localhost:50000',
-      //   pathRewrite: { '^/image': '/image' },
-      // },
+      '/image': {
+        target: 'http://47.113.177.51',
+        // target: 'http://localhost:1212',
+        pathRewrite: { '^/image': '/image' },
+      },
     },
   },
 };
